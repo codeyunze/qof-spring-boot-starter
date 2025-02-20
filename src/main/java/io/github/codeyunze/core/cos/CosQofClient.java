@@ -29,17 +29,17 @@ import java.io.InputStream;
  */
 @Slf4j
 @Service
-public class QofCosClient implements QofClient {
+public class CosQofClient implements QofClient {
 
     @Resource
-    private QofCosProperties fileProperties;
+    private CosQofProperties fileProperties;
 
     @Resource
     private COSClient cosClient;
 
     private final QofExtService qofExtService;
 
-    public QofCosClient(QofExtService qofExtService) {
+    public CosQofClient(QofExtService qofExtService) {
         this.qofExtService = qofExtService;
     }
 

@@ -1,6 +1,6 @@
 package io.github.codeyunze.bo;
 
-import io.github.codeyunze.core.cos.QofCosProperties;
+import io.github.codeyunze.core.cos.CosQofProperties;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -34,7 +34,7 @@ public class QofFileInfoBo {
     /**
      * 文件存储路径
      * <br>
-     * 文件存储路径组成为{@link QofCosProperties#getFilepath()}
+     * 文件存储路径组成为{@link CosQofProperties#getFilepath()}
      * + {@link io.github.codeyunze.dto.QofFileInfoDto#getDirectoryAddress()}
      * + '/'
      * + {@link QofFileInfoBo#getId()}

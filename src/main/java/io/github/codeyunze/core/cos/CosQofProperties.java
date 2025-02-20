@@ -18,7 +18,7 @@ import java.util.Map;
         // qof.cos
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.COS
 )
-public class QofCosProperties extends QofCosModel {
+public class CosQofProperties extends CosQofModel {
 
     /**
      * 是否启用腾讯云COS对象存储
@@ -29,7 +29,7 @@ public class QofCosProperties extends QofCosModel {
      * 多个COS配置信息
      * Map<Bean名称, COS配置信息>
      */
-    Map<String, QofCosModel> multiple;
+    Map<String, CosQofModel> multiple;
 
     public boolean isEnable() {
         return enable;
@@ -39,11 +39,11 @@ public class QofCosProperties extends QofCosModel {
         this.enable = enable;
     }
 
-    public Map<String, QofCosModel> getMultiple() {
+    public Map<String, CosQofModel> getMultiple() {
         return multiple;
     }
 
-    public void setMultiple(Map<String, QofCosModel> multiple) {
+    public void setMultiple(Map<String, CosQofModel> multiple) {
         this.multiple = multiple;
     }
 }

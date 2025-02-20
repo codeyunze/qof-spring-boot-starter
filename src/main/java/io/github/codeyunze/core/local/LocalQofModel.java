@@ -9,7 +9,7 @@ import lombok.Data;
  * @since 2025/2/16 20:39
  */
 @Data
-public class QofLocalModel {
+public class LocalQofModel {
 
     /**
      * 文件存储路径

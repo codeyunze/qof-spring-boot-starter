@@ -20,7 +20,7 @@ import java.util.Map;
         // qof.local
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.LOCAL
 )
-public class QofLocalProperties extends QofLocalModel {
+public class LocalQofProperties extends LocalQofModel {
 
     /**
      * 是否启用腾讯云COS对象存储
@@ -31,7 +31,7 @@ public class QofLocalProperties extends QofLocalModel {
      * 多个文件存储路径配置信息
      * Map<Bean名称, 本地文件存储的属性配置信息>
      */
-    Map<String, QofLocalModel> multiple;
+    Map<String, LocalQofModel> multiple;
 
 }
 

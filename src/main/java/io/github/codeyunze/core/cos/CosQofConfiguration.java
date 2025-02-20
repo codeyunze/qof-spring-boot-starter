@@ -23,16 +23,16 @@ import javax.annotation.Resource;
  */
 @ConditionalOnClass(COSClient.class)    // 当项目中存在COSClient.class类时才会使当前配置类生效
 @SpringBootConfiguration
-@EnableConfigurationProperties({QofCosProperties.class})
+@EnableConfigurationProperties({CosQofProperties.class})
 // 只有当qof.cos.enable=true时，QofCosConfiguration配置类才会被加载
 @ConditionalOnProperty(
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.COS,
         name = QofConstant.ENABLE,
         havingValue = QofConstant.ENABLE_VALUE)
-public class QofCosConfiguration {
+public class CosQofConfiguration {
 
     @Resource
-    private QofCosProperties cosProperties;
+    private CosQofProperties cosProperties;
 
     @Bean
     public COSClient cosClient() {

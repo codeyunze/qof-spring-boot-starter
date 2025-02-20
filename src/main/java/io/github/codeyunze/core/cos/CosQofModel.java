@@ -5,7 +5,7 @@ package io.github.codeyunze.core.cos;
  * @author yunze
  * @since 2025/2/16 20:39
  */
-public class QofCosModel {
+public class CosQofModel {
 
     /**
      * 文件存储路径

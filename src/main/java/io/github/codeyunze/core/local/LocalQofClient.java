@@ -26,14 +26,14 @@ import java.nio.file.StandardCopyOption;
  * @since 2025/2/17 16:53
  */
 @Service
-public class QofLocalClient implements QofClient {
+public class LocalQofClient implements QofClient {
 
     @Resource
-    private QofLocalProperties fileProperties;
+    private LocalQofProperties fileProperties;
 
     private final QofExtService qofExtService;
 
-    public QofLocalClient(QofExtService qofExtService) {
+    public LocalQofClient(QofExtService qofExtService) {
         this.qofExtService = qofExtService;
     }
 

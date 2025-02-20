@@ -45,8 +45,8 @@ public class FileController {
     private final QofClient qofCosClient;
 
     @Autowired
-    public FileController(@Qualifier("qofLocalClient") QofClient qofLocalClient
-            , @Qualifier("qofCosClient") QofClient qofCosClient) {
+    public FileController(@Qualifier("localQofClient") QofClient qofLocalClient
+            , @Qualifier("cosQofClient") QofClient qofCosClient) {
         this.qofLocalClient = qofLocalClient;
         this.qofCosClient = qofCosClient;
     }

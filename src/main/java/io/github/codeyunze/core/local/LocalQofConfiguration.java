@@ -13,12 +13,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @since 2025/2/16 18:26
  */
 @SpringBootConfiguration
-@EnableConfigurationProperties({QofLocalProperties.class})
+@EnableConfigurationProperties({LocalQofProperties.class})
 // 只有当qof.cos.enable=true时，QofLocalConfiguration配置类才会被加载
 @ConditionalOnProperty(
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.LOCAL,
         name = QofConstant.ENABLE,
         havingValue = QofConstant.ENABLE_VALUE)
-public class QofLocalConfiguration {
+public class LocalQofConfiguration {
 
 }
