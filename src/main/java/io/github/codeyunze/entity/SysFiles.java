@@ -4,8 +4,6 @@ import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -17,8 +15,6 @@ import java.time.LocalDateTime;
  * @author yunze
  * @since 2025-02-16 15:43:41
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class SysFiles extends Model<SysFiles> {
 
     /**
@@ -91,6 +87,94 @@ public class SysFiles extends Model<SysFiles> {
     @Override
     public Serializable pkVal() {
         return this.id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Long getInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(Long invalid) {
+        this.invalid = invalid;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    public String getFileLabel() {
+        return fileLabel;
+    }
+
+    public void setFileLabel(String fileLabel) {
+        this.fileLabel = fileLabel;
+    }
+
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public String getFileStorageMode() {
+        return fileStorageMode;
+    }
+
+    public void setFileStorageMode(String fileStorageMode) {
+        this.fileStorageMode = fileStorageMode;
+    }
+
+    public String getFileStorageBucket() {
+        return fileStorageBucket;
+    }
+
+    public void setFileStorageBucket(String fileStorageBucket) {
+        this.fileStorageBucket = fileStorageBucket;
     }
 }
 

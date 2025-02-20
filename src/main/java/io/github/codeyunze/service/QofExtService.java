@@ -15,6 +15,7 @@ public interface QofExtService {
      * 根据文件Id查询文件信息
      *
      * @param fileId 文件Id
+     * @return QofFileInfoBo 文件信息
      */
     QofFileInfoBo getFileInfoByFileId(Long fileId);
 
@@ -50,7 +51,9 @@ public interface QofExtService {
 
     /**
      * 文件删除前执行操作
+     *
      * @param fileId 删除
+     * @return true: 文件删除前执行操作成功；   false: 文件删除前执行操作失败；
      */
     boolean beforeDelete(Long fileId);
 }

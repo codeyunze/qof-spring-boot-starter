@@ -1,7 +1,6 @@
 package io.github.codeyunze.bo;
 
 import io.github.codeyunze.core.cos.CosQofProperties;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +10,6 @@ import java.time.LocalDateTime;
  * @author yunze
  * @since 2025-02-16 15:43:41
  */
-@Data
 public class QofFileInfoBo {
 
     /**
@@ -69,6 +67,60 @@ public class QofFileInfoBo {
      */
     private Long fileSize = 0L;
 
-    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    public String getFileLabel() {
+        return fileLabel;
+    }
+
+    public void setFileLabel(String fileLabel) {
+        this.fileLabel = fileLabel;
+    }
+
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
+    }
 }
 

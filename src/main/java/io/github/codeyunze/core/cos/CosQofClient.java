@@ -1,6 +1,5 @@
 package io.github.codeyunze.core.cos;
 
-import cn.hutool.core.util.IdUtil;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.exception.CosClientException;
 import com.qcloud.cos.exception.CosServiceException;
@@ -10,10 +9,12 @@ import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.PutObjectRequest;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
+import io.github.codeyunze.core.AbstractQofClient;
 import io.github.codeyunze.core.QofClient;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.service.QofExtService;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +28,10 @@ import java.io.InputStream;
  * @author yunze
  * @since 2025/2/17 16:53
  */
-@Slf4j
 @Service
-public class CosQofClient implements QofClient {
+public class CosQofClient extends AbstractQofClient implements QofClient {
+
+    private static final Logger log = LoggerFactory.getLogger(CosQofClient.class);
 
     @Resource
     private CosQofProperties fileProperties;
@@ -37,29 +39,17 @@ public class CosQofClient implements QofClient {
     @Resource
     private COSClient cosClient;
 
-    private final QofExtService qofExtService;
-
     public CosQofClient(QofExtService qofExtService) {
-        this.qofExtService = qofExtService;
+        super(qofExtService);
     }
 
     @Override
-    public Long upload(InputStream fis, QofFileInfoDto info) {
-        if (info.getFileId() == null) {
-            info.setFileId(IdUtil.getSnowflakeNextId());
-        }
-        // 执行文件上传前操作
-        qofExtService.beforeUpload(info);
-
-        String suffix = info.getFileName().substring(info.getFileName().lastIndexOf(".")).toLowerCase();
-        String key = info.getDirectoryAddress() + "/" + info.getFileId() + suffix;
-        info.setFilePath(key);
-
+    protected Long doUpload(InputStream fis, QofFileInfoDto info) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         // 上传的流如果能够获取准确的流长度，则推荐一定填写 content-length
         // 如果确实没办法获取到，则下面这行可以省略，但同时高级接口也没办法使用分块上传了
         objectMetadata.setContentLength(info.getFileSize());
-        PutObjectRequest putObjectRequest = new PutObjectRequest(fileProperties.getBucketName(), fileProperties.getFilepath() + key, fis, objectMetadata);
+        PutObjectRequest putObjectRequest = new PutObjectRequest(fileProperties.getBucketName(), fileProperties.getFilepath() + info.getFilePath(), fis, objectMetadata);
         // 设置单链接限速（如有需要），不需要可忽略
         putObjectRequest.setTrafficLimit(8 * 1024 * 1024);
         try {
@@ -77,39 +67,22 @@ public class CosQofClient implements QofClient {
                 e.printStackTrace();
             }
         }
-
-        // 执行文件上传后操作
-        qofExtService.afterUpload(info);
         return info.getFileId();
     }
 
     @Override
-    public QofFileDownloadBo download(Long fileId) {
-        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
-        qofExtService.beforeDownload(fileId);
-
+    protected QofFileDownloadBo doDownload(QofFileInfoBo fileBo) {
         GetObjectRequest getObjectRequest = new GetObjectRequest(fileProperties.getBucketName(), fileProperties.getFilepath() + fileBo.getFilePath());
         COSObject cosObject = cosClient.getObject(getObjectRequest);
 
         QofFileDownloadBo fileDownloadBo = new QofFileDownloadBo();
         BeanUtils.copyProperties(fileBo, fileDownloadBo);
         fileDownloadBo.setInputStream(cosObject.getObjectContent());
-
-        qofExtService.afterDownload(fileId);
         return fileDownloadBo;
     }
 
     @Override
-    public boolean delete(Long fileId) {
-        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
-        if (fileBo == null) {
-            return true;
-        }
-        // 有文件信息，但是没有删除成功
-        if (!qofExtService.beforeDelete(fileId)) {
-            return false;
-        }
-
+    protected boolean doDelete(QofFileInfoBo fileBo) {
         String filePath = fileProperties.getFilepath() + fileBo.getFilePath();
         cosClient.deleteObject(fileProperties.getBucketName(), filePath);
         return true;

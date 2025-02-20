@@ -1,7 +1,5 @@
 package io.github.codeyunze.bo;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.InputStream;
 
@@ -11,12 +9,18 @@ import java.io.InputStream;
  * @author yunze
  * @since 2025/2/18 18:41
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class QofFileDownloadBo extends QofFileInfoBo {
 
     /**
      * 文件
      */
     private InputStream inputStream;
+
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
 }

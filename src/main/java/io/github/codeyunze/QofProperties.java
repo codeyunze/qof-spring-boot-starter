@@ -1,6 +1,5 @@
 package io.github.codeyunze;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * @author yunze
  * @since 2025/2/16 16:28
  */
-@Data
 @Configuration
 @ConfigurationProperties(
         prefix = QofConstant.QOF
@@ -21,4 +19,11 @@ public class QofProperties {
      */
     boolean persistentEnable;
 
+    public boolean isPersistentEnable() {
+        return persistentEnable;
+    }
+
+    public void setPersistentEnable(boolean persistentEnable) {
+        this.persistentEnable = persistentEnable;
+    }
 }

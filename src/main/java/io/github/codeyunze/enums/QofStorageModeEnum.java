@@ -1,7 +1,6 @@
 package io.github.codeyunze.enums;
 
 import io.github.codeyunze.QofConstant;
-import lombok.Getter;
 
 /**
  * 文件存储模式
@@ -9,7 +8,6 @@ import lombok.Getter;
  * @author yunze
  * @since 2025/2/16 16:34
  */
-@Getter
 public enum QofStorageModeEnum {
 
     /**
@@ -38,5 +36,7 @@ public enum QofStorageModeEnum {
         this.mode = mode;
     }
 
-
+    public String getMode() {
+        return mode;
+    }
 }

@@ -1,8 +1,8 @@
 package io.github.codeyunze.core.local;
 
-import cn.hutool.core.util.IdUtil;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
+import io.github.codeyunze.core.AbstractQofClient;
 import io.github.codeyunze.core.QofClient;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
@@ -26,29 +26,19 @@ import java.nio.file.StandardCopyOption;
  * @since 2025/2/17 16:53
  */
 @Service
-public class LocalQofClient implements QofClient {
+public class LocalQofClient extends AbstractQofClient implements QofClient {
 
     @Resource
     private LocalQofProperties fileProperties;
 
-    private final QofExtService qofExtService;
-
     public LocalQofClient(QofExtService qofExtService) {
-        this.qofExtService = qofExtService;
+        super(qofExtService);
     }
 
     @Override
-    public Long upload(InputStream fis, QofFileInfoDto info) {
-        if (info.getFileId() == null) {
-            info.setFileId(IdUtil.getSnowflakeNextId());
-        }
-        qofExtService.beforeUpload(info);
-
-        String suffix = info.getFileName().substring(info.getFileName().lastIndexOf(".")).toLowerCase();
-        String key = fileProperties.getFilepath() + info.getDirectoryAddress();
-
+    protected Long doUpload(InputStream fis, QofFileInfoDto info) {
         // 确保上传目录存在
-        Path uploadPath = Paths.get(key);
+        Path uploadPath = Paths.get(fileProperties.getFilepath() + info.getDirectoryAddress());
         if (!Files.exists(uploadPath)) {
             try {
                 // 创建目录
@@ -58,8 +48,7 @@ public class LocalQofClient implements QofClient {
             }
         }
 
-        String fileName = info.getFileId() + suffix;
-        info.setFilePath(info.getDirectoryAddress() + "/" + fileName);
+        String fileName = info.getFileId() + info.getFilePath().substring(info.getFilePath().lastIndexOf("."));
 
         // 定义目标文件路径
         Path filePath = uploadPath.resolve(fileName);
@@ -75,15 +64,11 @@ public class LocalQofClient implements QofClient {
                 e.printStackTrace();
             }
         }
-
-        qofExtService.afterUpload(info);
         return info.getFileId();
     }
 
     @Override
-    public QofFileDownloadBo download(Long fileId) {
-        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
-        qofExtService.beforeDownload(fileId);
+    protected QofFileDownloadBo doDownload(QofFileInfoBo fileBo) {
         // 确保文件路径正确构建
         String filePath = fileProperties.getFilepath() + fileBo.getFilePath();
         File file = new File(filePath);
@@ -100,19 +85,11 @@ public class LocalQofClient implements QofClient {
             throw new RuntimeException("下载文件时发生错误", e);
         }
 
-        qofExtService.afterDownload(fileId);
         return fileDownloadBo;
     }
 
     @Override
-    public boolean delete(Long fileId) {
-        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
-        if (fileBo == null) {
-            return true;
-        }
-        if (!qofExtService.beforeDelete(fileId)) {
-            return false;
-        }
+    protected boolean doDelete(QofFileInfoBo fileBo) {
         // 确保文件路径正确构建
         String filePath = fileProperties.getFilepath() + fileBo.getFilePath();
         File file = new File(filePath);

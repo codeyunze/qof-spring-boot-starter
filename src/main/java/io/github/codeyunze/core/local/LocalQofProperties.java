@@ -2,8 +2,6 @@ package io.github.codeyunze.core.local;
 
 import cn.hutool.core.text.CharPool;
 import io.github.codeyunze.QofConstant;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
@@ -14,8 +12,6 @@ import java.util.Map;
  * @author yunze
  * @since 2025/2/16 16:28
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(
         // qof.local
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.LOCAL
@@ -33,6 +29,21 @@ public class LocalQofProperties extends LocalQofModel {
      */
     Map<String, LocalQofModel> multiple;
 
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    public Map<String, LocalQofModel> getMultiple() {
+        return multiple;
+    }
+
+    public void setMultiple(Map<String, LocalQofModel> multiple) {
+        this.multiple = multiple;
+    }
 }
 
 

@@ -4,16 +4,13 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.core.QofClient;
-import io.github.codeyunze.core.QofContext;
+import io.github.codeyunze.core.QofClientFactory;
 import io.github.codeyunze.dto.QofFileDeleteDto;
 import io.github.codeyunze.dto.QofFileDownloadDto;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.dto.QofFileUploadDto;
-import io.github.codeyunze.enums.QofStorageModeEnum;
 import io.github.codeyunze.utils.Result;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,19 +33,10 @@ import java.time.LocalDateTime;
 @RequestMapping("/file")
 public class FileController {
 
-    @RequestMapping("test")
-    public String test() {
-        return " file test!!!";
-    }
+    private final QofClientFactory qofClientFactory;
 
-    private final QofClient qofLocalClient;
-    private final QofClient qofCosClient;
-
-    @Autowired
-    public FileController(@Qualifier("localQofClient") QofClient qofLocalClient
-            , @Qualifier("cosQofClient") QofClient qofCosClient) {
-        this.qofLocalClient = qofLocalClient;
-        this.qofCosClient = qofCosClient;
+    public FileController(QofClientFactory qofClientFactory) {
+        this.qofClientFactory = qofClientFactory;
     }
 
     /**
@@ -56,6 +44,7 @@ public class FileController {
      *
      * @param file          文件
      * @param fileUploadDto 文件信息
+     * @return 文件Id
      */
     @PutMapping("upload")
     public String upload(@RequestParam("uploadfile") MultipartFile file
@@ -73,11 +62,8 @@ public class FileController {
         fileInfoDto.setFileSize(file.getSize());
 
         try {
-            if (QofStorageModeEnum.COS.getMode().equals(fileUploadDto.getFileStorageMode())) {
-                return String.valueOf(qofCosClient.upload(file.getInputStream(), fileInfoDto));
-            } else {
-                return String.valueOf(qofLocalClient.upload(file.getInputStream(), fileInfoDto));
-            }
+            QofClient client = qofClientFactory.buildClient(fileUploadDto.getFileStorageMode());
+            return String.valueOf(client.upload(file.getInputStream(), fileInfoDto));
         } catch (IOException e) {
             throw new RuntimeException("文件上传失败，异常信息", e);
         }
@@ -87,15 +73,11 @@ public class FileController {
      * 文件下载接口
      *
      * @param fileDownloadDto 下载文件信息
+     * @return 文件流信息
      */
     @GetMapping("download")
     public ResponseEntity<StreamingResponseBody> download(@RequestBody @Valid QofFileDownloadDto fileDownloadDto) {
-        QofFileDownloadBo fileDownloadBo;
-        if (QofStorageModeEnum.COS.getMode().equals(fileDownloadDto.getFileStorageMode())) {
-            fileDownloadBo = qofCosClient.download(fileDownloadDto.getFileId());
-        } else {
-            fileDownloadBo = qofLocalClient.download(fileDownloadDto.getFileId());
-        }
+        QofFileDownloadBo fileDownloadBo = qofClientFactory.buildClient(fileDownloadDto.getFileStorageMode()).download(fileDownloadDto.getFileId());
 
         StreamingResponseBody streamingResponseBody = outputStream -> {
             try (InputStream inputStream = fileDownloadBo.getInputStream()) {
@@ -116,11 +98,6 @@ public class FileController {
     }
 
 
-    @RequestMapping("preview")
-    public void preview() {
-
-    }
-
     /**
      * 删除文件
      *
@@ -129,12 +106,7 @@ public class FileController {
      */
     @DeleteMapping("delete")
     public Result<Boolean> delete(@RequestBody @Valid QofFileDeleteDto fileDeleteDto) {
-        boolean deleted;
-        if (QofStorageModeEnum.COS.getMode().equals(fileDeleteDto.getFileStorageMode())) {
-            deleted = qofCosClient.delete(fileDeleteDto.getFileId());
-        } else {
-            deleted = qofLocalClient.delete(fileDeleteDto.getFileId());
-        }
+        boolean deleted = qofClientFactory.buildClient(fileDeleteDto.getFileStorageMode()).delete(fileDeleteDto.getFileId());
         return new Result<>(HttpStatus.OK.value(), deleted, deleted ? "文件删除成功!" : "文件删除失败");
     }
 }

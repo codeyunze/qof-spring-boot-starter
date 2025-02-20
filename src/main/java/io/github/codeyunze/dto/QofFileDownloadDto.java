@@ -1,7 +1,5 @@
 package io.github.codeyunze.dto;
 
-import lombok.Data;
-
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -11,7 +9,6 @@ import java.io.Serializable;
  * @author yunze
  * @since 2025-02-16 15:43:42
  */
-@Data
 public class QofFileDownloadDto implements Serializable {
 
     private static final long serialVesionUID = 1L;
@@ -34,5 +31,29 @@ public class QofFileDownloadDto implements Serializable {
      * 文件存储桶
      */
     private String fileStorageBucket;
+
+    public @NotNull(message = "文件id不能为空") Long getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(@NotNull(message = "文件id不能为空") Long fileId) {
+        this.fileId = fileId;
+    }
+
+    public @NotNull(message = "文件存储模式不能为空") String getFileStorageMode() {
+        return fileStorageMode;
+    }
+
+    public void setFileStorageMode(@NotNull(message = "文件存储模式不能为空") String fileStorageMode) {
+        this.fileStorageMode = fileStorageMode;
+    }
+
+    public String getFileStorageBucket() {
+        return fileStorageBucket;
+    }
+
+    public void setFileStorageBucket(String fileStorageBucket) {
+        this.fileStorageBucket = fileStorageBucket;
+    }
 }
 

@@ -2,7 +2,6 @@ package io.github.codeyunze.core.cos;
 
 import cn.hutool.core.text.CharPool;
 import io.github.codeyunze.QofConstant;
-import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
@@ -13,7 +12,6 @@ import java.util.Map;
  * @author yunze
  * @since 2025/2/16 16:28
  */
-@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(
         // qof.cos
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.COS

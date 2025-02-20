@@ -6,7 +6,8 @@ import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
 import io.github.codeyunze.service.QofExtService;
 import io.github.codeyunze.service.SysFilesService;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,14 @@ import javax.annotation.Resource;
 
 /**
  * QOF文件信息操作扩展接口默认实现
+ *
  * @author yunze
  * @since 2025/2/18 07:49
  */
-@Slf4j
 @Service
 public abstract class AbstractQofServiceImpl implements QofExtService {
+
+    private static final Logger log = LoggerFactory.getLogger(AbstractQofServiceImpl.class);
 
     private final SysFilesService filesService;
 
@@ -41,13 +44,13 @@ public abstract class AbstractQofServiceImpl implements QofExtService {
 
     @Override
     public Long beforeUpload(QofFileInfoDto fileDto) {
-        log.info("文件上传前执行");
+        log.info("扩展-文件上传前执行");
         return fileDto.getFileId();
     }
 
     @Override
     public QofFileInfoBo afterUpload(QofFileInfoDto fileDto) {
-        log.info("文件上传后执行");
+        log.info("扩展-文件上传后执行");
         if (qofProperties.isPersistentEnable()) {
             return filesService.save(fileDto);
         }
@@ -58,17 +61,17 @@ public abstract class AbstractQofServiceImpl implements QofExtService {
 
     @Override
     public void beforeDownload(Long fileId) {
-        log.info("文件下载前执行");
+        log.info("扩展-文件下载前执行");
     }
 
     @Override
     public void afterDownload(Long fileId) {
-        log.info("文件下载后执行");
+        log.info("扩展-文件下载后执行");
     }
 
     @Override
     public boolean beforeDelete(Long fileId) {
-        log.info("文件删除前执行");
+        log.info("扩展-文件删除前执行");
         return filesService.deleteByFileId(fileId);
     }
 }
