@@ -6,7 +6,7 @@ import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.QofClient;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
-import io.github.codeyunze.service.QofService;
+import io.github.codeyunze.service.QofExtService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +31,10 @@ public class QofLocalClient implements QofClient {
     @Resource
     private QofLocalProperties fileProperties;
 
-    private final QofService qofService;
+    private final QofExtService qofExtService;
 
-    public QofLocalClient(QofService qofService) {
-        this.qofService = qofService;
+    public QofLocalClient(QofExtService qofExtService) {
+        this.qofExtService = qofExtService;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class QofLocalClient implements QofClient {
         if (info.getFileId() == null) {
             info.setFileId(IdUtil.getSnowflakeNextId());
         }
-        qofService.beforeUpload(info);
+        qofExtService.beforeUpload(info);
 
         String suffix = info.getFileName().substring(info.getFileName().lastIndexOf(".")).toLowerCase();
         String key = fileProperties.getFilepath() + info.getDirectoryAddress();
@@ -76,14 +76,14 @@ public class QofLocalClient implements QofClient {
             }
         }
 
-        qofService.afterUpload(info);
+        qofExtService.afterUpload(info);
         return info.getFileId();
     }
 
     @Override
     public QofFileDownloadBo download(Long fileId) {
-        QofFileInfoBo fileBo = qofService.getFileInfoByFileId(fileId);
-        qofService.beforeDownload(fileId);
+        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
+        qofExtService.beforeDownload(fileId);
         // 确保文件路径正确构建
         String filePath = fileProperties.getFilepath() + fileBo.getFilePath();
         File file = new File(filePath);
@@ -100,17 +100,17 @@ public class QofLocalClient implements QofClient {
             throw new RuntimeException("下载文件时发生错误", e);
         }
 
-        qofService.afterDownload(fileId);
+        qofExtService.afterDownload(fileId);
         return fileDownloadBo;
     }
 
     @Override
     public boolean delete(Long fileId) {
-        QofFileInfoBo fileBo = qofService.getFileInfoByFileId(fileId);
+        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
         if (fileBo == null) {
             return true;
         }
-        if (!qofService.beforeDelete(fileId)) {
+        if (!qofExtService.beforeDelete(fileId)) {
             return false;
         }
         // 确保文件路径正确构建

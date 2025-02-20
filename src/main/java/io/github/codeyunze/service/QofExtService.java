@@ -9,7 +9,7 @@ import io.github.codeyunze.dto.QofFileInfoDto;
  * @author yunze
  * @since 2025/2/18 07:47
  */
-public interface QofService {
+public interface QofExtService {
 
     /**
      * 根据文件Id查询文件信息

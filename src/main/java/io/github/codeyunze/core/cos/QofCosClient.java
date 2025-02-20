@@ -12,7 +12,7 @@ import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.QofClient;
 import io.github.codeyunze.dto.QofFileInfoDto;
-import io.github.codeyunze.service.QofService;
+import io.github.codeyunze.service.QofExtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -37,10 +37,10 @@ public class QofCosClient implements QofClient {
     @Resource
     private COSClient cosClient;
 
-    private final QofService qofService;
+    private final QofExtService qofExtService;
 
-    public QofCosClient(QofService qofService) {
-        this.qofService = qofService;
+    public QofCosClient(QofExtService qofExtService) {
+        this.qofExtService = qofExtService;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class QofCosClient implements QofClient {
             info.setFileId(IdUtil.getSnowflakeNextId());
         }
         // 执行文件上传前操作
-        qofService.beforeUpload(info);
+        qofExtService.beforeUpload(info);
 
         String suffix = info.getFileName().substring(info.getFileName().lastIndexOf(".")).toLowerCase();
         String key = info.getDirectoryAddress() + "/" + info.getFileId() + suffix;
@@ -79,14 +79,14 @@ public class QofCosClient implements QofClient {
         }
 
         // 执行文件上传后操作
-        qofService.afterUpload(info);
+        qofExtService.afterUpload(info);
         return info.getFileId();
     }
 
     @Override
     public QofFileDownloadBo download(Long fileId) {
-        QofFileInfoBo fileBo = qofService.getFileInfoByFileId(fileId);
-        qofService.beforeDownload(fileId);
+        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
+        qofExtService.beforeDownload(fileId);
 
         GetObjectRequest getObjectRequest = new GetObjectRequest(fileProperties.getBucketName(), fileProperties.getFilepath() + fileBo.getFilePath());
         COSObject cosObject = cosClient.getObject(getObjectRequest);
@@ -95,18 +95,18 @@ public class QofCosClient implements QofClient {
         BeanUtils.copyProperties(fileBo, fileDownloadBo);
         fileDownloadBo.setInputStream(cosObject.getObjectContent());
 
-        qofService.afterDownload(fileId);
+        qofExtService.afterDownload(fileId);
         return fileDownloadBo;
     }
 
     @Override
     public boolean delete(Long fileId) {
-        QofFileInfoBo fileBo = qofService.getFileInfoByFileId(fileId);
+        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
         if (fileBo == null) {
             return true;
         }
         // 有文件信息，但是没有删除成功
-        if (!qofService.beforeDelete(fileId)) {
+        if (!qofExtService.beforeDelete(fileId)) {
             return false;
         }
 

@@ -4,7 +4,7 @@ import io.github.codeyunze.QofProperties;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
-import io.github.codeyunze.service.QofService;
+import io.github.codeyunze.service.QofExtService;
 import io.github.codeyunze.service.SysFilesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Service
-public abstract class AbstractQofServiceImpl implements QofService {
+public abstract class AbstractQofServiceImpl implements QofExtService {
 
     private final SysFilesService filesService;
 
