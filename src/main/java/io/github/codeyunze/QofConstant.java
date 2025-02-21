@@ -24,6 +24,16 @@ public class QofConstant {
     public static final String ENABLE_VALUE = "true";
 
     /**
+     * 默认客户端
+     */
+    public static final String DEFAULT = "default";
+
+    /**
+     * 客户端
+     */
+    public static final String CLIENT = "client";
+
+    /**
      * 文件存储类型
      */
     public interface StorageMode {

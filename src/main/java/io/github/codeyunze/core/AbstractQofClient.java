@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.InputStream;
 
 /**
+ * QOF客户端操作抽象接口
  * @author yunze
  * @since 2025/2/20 15:52
  */
@@ -92,7 +93,7 @@ public abstract class AbstractQofClient implements QofClient {
 
 
     /**
-     * 上传文件信息
+     * 具体执行-上传文件信息
      *
      * @param fis  上传文件的输入流
      * @param info 上传文件的基础信息
@@ -101,7 +102,7 @@ public abstract class AbstractQofClient implements QofClient {
     protected abstract Long doUpload(InputStream fis, QofFileInfoDto info);
 
     /**
-     * 下载文件
+     * 具体执行-下载文件
      *
      * @param fileBo 文件信息
      * @return 文件流数据
@@ -109,7 +110,7 @@ public abstract class AbstractQofClient implements QofClient {
     protected abstract QofFileDownloadBo doDownload(QofFileInfoBo fileBo);
 
     /**
-     * 删除文件
+     * 具体执行-删除文件
      *
      * @param fileBo 删除文件的唯一id
      */

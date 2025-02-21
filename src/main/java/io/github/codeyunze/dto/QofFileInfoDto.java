@@ -1,5 +1,6 @@
 package io.github.codeyunze.dto;
 
+import io.github.codeyunze.core.QofFileOperationBase;
 import io.github.codeyunze.core.cos.CosQofProperties;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,16 +13,9 @@ import java.io.Serializable;
  * @author yunze
  * @since 2025-02-16 15:43:42
  */
-public class QofFileInfoDto implements Serializable {
+public class QofFileInfoDto extends QofFileOperationBase implements Serializable {
 
     private static final long serialVesionUID = 1L;
-
-    /**
-     * 文件唯一Id [非必传]
-     * <br>
-     * 如果不传fileId，则会自动生成一个id
-     */
-    private Long fileId;
 
     /**
      * 文件名称
@@ -73,39 +67,6 @@ public class QofFileInfoDto implements Serializable {
      */
     private Long fileSize = 0L;
 
-    /**
-     * 文件存储路径 [非必传]
-     * <br>
-     * 文件存储路径组成为{@link CosQofProperties#getFilepath()}
-     * + {@link QofFileInfoDto#getDirectoryAddress()}
-     * + '/'
-     * + {@link QofFileInfoDto#getFileId()}
-     * + ( {@link QofFileInfoDto#getFileName()}的后缀 )
-     * <p>
-     * 例如： /files/business/20250201/1891054775523446784.png
-     */
-    private String filePath;
-
-    /**
-     * 文件存储模式(local、cos、oss)
-     * <br>
-     * 对应{@link io.github.codeyunze.enums.QofStorageModeEnum}
-     */
-    private String fileStorageMode;
-
-    /**
-     * 文件存储桶
-     */
-    private String fileStorageBucket;
-
-
-    public Long getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(Long fileId) {
-        this.fileId = fileId;
-    }
 
     public @Length(max = 36, message = "文件名称超过最大长度限制") @NotBlank(message = "文件名称不能为空") String getFileName() {
         return fileName;
@@ -147,28 +108,5 @@ public class QofFileInfoDto implements Serializable {
         this.fileSize = fileSize;
     }
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public String getFileStorageMode() {
-        return fileStorageMode;
-    }
-
-    public void setFileStorageMode(String fileStorageMode) {
-        this.fileStorageMode = fileStorageMode;
-    }
-
-    public String getFileStorageBucket() {
-        return fileStorageBucket;
-    }
-
-    public void setFileStorageBucket(String fileStorageBucket) {
-        this.fileStorageBucket = fileStorageBucket;
-    }
 }
 

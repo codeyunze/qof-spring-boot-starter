@@ -16,7 +16,7 @@ import java.util.Map;
         // qof.cos
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.COS
 )
-public class CosQofProperties extends CosQofModel {
+public class CosQofProperties extends CosQofConfig {
 
     /**
      * 是否启用腾讯云COS对象存储
@@ -24,10 +24,17 @@ public class CosQofProperties extends CosQofModel {
     private boolean enable;
 
     /**
-     * 多个COS配置信息
-     * Map<Bean名称, COS配置信息>
+     * 默认使用的存储站
+     * <br>
+     * 当操作没有指定存储站时，会使用指定的默认存储站
      */
-    Map<String, CosQofModel> multiple;
+    private String defaultStorageStation;
+
+    /**
+     * 多个COS配置信息
+     * Map<文件存储站名, COS配置信息>
+     */
+    Map<String, CosQofConfig> multiple;
 
     public boolean isEnable() {
         return enable;
@@ -37,12 +44,20 @@ public class CosQofProperties extends CosQofModel {
         this.enable = enable;
     }
 
-    public Map<String, CosQofModel> getMultiple() {
+    public Map<String, CosQofConfig> getMultiple() {
         return multiple;
     }
 
-    public void setMultiple(Map<String, CosQofModel> multiple) {
+    public void setMultiple(Map<String, CosQofConfig> multiple) {
         this.multiple = multiple;
+    }
+
+    public String getDefaultStorageStation() {
+        return defaultStorageStation;
+    }
+
+    public void setDefaultStorageStation(String defaultStorageStation) {
+        this.defaultStorageStation = defaultStorageStation;
     }
 }
 

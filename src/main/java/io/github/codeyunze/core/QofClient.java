@@ -34,6 +34,7 @@ public interface QofClient {
      * 删除文件
      *
      * @param fileId 删除文件的唯一id
+     * @return true: 删除成功；  false: 删除失败；
      */
     boolean delete(Long fileId);
 }

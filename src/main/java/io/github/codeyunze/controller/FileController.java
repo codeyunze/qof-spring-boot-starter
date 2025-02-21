@@ -5,9 +5,8 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.core.QofClient;
 import io.github.codeyunze.core.QofClientFactory;
-import io.github.codeyunze.dto.QofFileDeleteDto;
-import io.github.codeyunze.dto.QofFileDownloadDto;
 import io.github.codeyunze.dto.QofFileInfoDto;
+import io.github.codeyunze.dto.QofFileUniversalDto;
 import io.github.codeyunze.dto.QofFileUploadDto;
 import io.github.codeyunze.utils.Result;
 import org.springframework.beans.BeanUtils;
@@ -76,7 +75,7 @@ public class FileController {
      * @return 文件流信息
      */
     @GetMapping("download")
-    public ResponseEntity<StreamingResponseBody> download(@RequestBody @Valid QofFileDownloadDto fileDownloadDto) {
+    public ResponseEntity<StreamingResponseBody> download(@RequestBody @Valid QofFileUniversalDto fileDownloadDto) {
         QofFileDownloadBo fileDownloadBo = qofClientFactory.buildClient(fileDownloadDto.getFileStorageMode()).download(fileDownloadDto.getFileId());
 
         StreamingResponseBody streamingResponseBody = outputStream -> {
@@ -101,12 +100,12 @@ public class FileController {
     /**
      * 删除文件
      *
-     * @param fileDeleteDto 删除信息
+     * @param fileUniversalDto 删除信息
      * @return 是否删除成功   true: 文件删除成功;   false: 文件删除失败;
      */
     @DeleteMapping("delete")
-    public Result<Boolean> delete(@RequestBody @Valid QofFileDeleteDto fileDeleteDto) {
-        boolean deleted = qofClientFactory.buildClient(fileDeleteDto.getFileStorageMode()).delete(fileDeleteDto.getFileId());
+    public Result<Boolean> delete(@RequestBody @Valid QofFileUniversalDto fileUniversalDto) {
+        boolean deleted = qofClientFactory.buildClient(fileUniversalDto.getFileStorageMode()).delete(fileUniversalDto.getFileId());
         return new Result<>(HttpStatus.OK.value(), deleted, deleted ? "文件删除成功!" : "文件删除失败");
     }
 }

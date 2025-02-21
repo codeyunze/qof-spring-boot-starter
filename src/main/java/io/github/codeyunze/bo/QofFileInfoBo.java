@@ -1,6 +1,6 @@
 package io.github.codeyunze.bo;
 
-import io.github.codeyunze.core.cos.CosQofProperties;
+import io.github.codeyunze.core.QofFileOperationBase;
 
 import java.time.LocalDateTime;
 
@@ -10,12 +10,7 @@ import java.time.LocalDateTime;
  * @author yunze
  * @since 2025-02-16 15:43:41
  */
-public class QofFileInfoBo {
-
-    /**
-     * 文件唯一id
-     */
-    private Long id;
+public class QofFileInfoBo extends QofFileOperationBase {
 
     /**
      * 创建时间
@@ -28,19 +23,6 @@ public class QofFileInfoBo {
      * 例如： 靓图.png
      */
     private String fileName;
-
-    /**
-     * 文件存储路径
-     * <br>
-     * 文件存储路径组成为{@link CosQofProperties#getFilepath()}
-     * + {@link io.github.codeyunze.dto.QofFileInfoDto#getDirectoryAddress()}
-     * + '/'
-     * + {@link QofFileInfoBo#getId()}
-     * + ( {@link QofFileInfoBo#getFileName()}的后缀 )
-     * <p>
-     * 例如： /files/business/20250201/1891054775523446784.png
-     */
-    private String filePath;
 
     /**
      * 文件类型
@@ -67,14 +49,6 @@ public class QofFileInfoBo {
      */
     private Long fileSize = 0L;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -89,14 +63,6 @@ public class QofFileInfoBo {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
     }
 
     public String getFileType() {

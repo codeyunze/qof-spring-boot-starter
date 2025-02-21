@@ -75,9 +75,9 @@ public class SysFiles extends Model<SysFiles> {
     private String fileStorageMode;
 
     /**
-     * 文件存储桶
+     * 文件存储站
      */
-    private String fileStorageBucket;
+    private String fileStorageStation;
 
     /**
      * 获取主键值
@@ -169,12 +169,12 @@ public class SysFiles extends Model<SysFiles> {
         this.fileStorageMode = fileStorageMode;
     }
 
-    public String getFileStorageBucket() {
-        return fileStorageBucket;
+    public String getFileStorageStation() {
+        return fileStorageStation;
     }
 
-    public void setFileStorageBucket(String fileStorageBucket) {
-        this.fileStorageBucket = fileStorageBucket;
+    public void setFileStorageStation(String fileStorageStation) {
+        this.fileStorageStation = fileStorageStation;
     }
 }
 

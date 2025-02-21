@@ -6,7 +6,7 @@ package io.github.codeyunze.core.local;
  * @author yunze
  * @since 2025/2/16 20:39
  */
-public class LocalQofModel {
+public class LocalQofConfig {
 
     /**
      * 文件存储路径

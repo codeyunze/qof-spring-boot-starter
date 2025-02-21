@@ -4,26 +4,24 @@ import io.github.codeyunze.QofConstant;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 文件上传信息
+ * 文件下载信息
  *
  * @author yunze
  * @since 2025-02-16 15:43:42
  */
-public class QofFileUploadDto implements Serializable {
+public class QofFileUniversalDto implements Serializable {
 
     private static final long serialVesionUID = 1L;
 
-
     /**
-     * 文件名称
-     * <p>
-     * 例如： 靓图.png
+     * 文件唯一Id
      */
-    @Length(max = 36, message = "文件名称超过最大长度限制")
-    private String fileName;
+    @NotNull(message = "文件id不能为空")
+    private Long fileId;
 
     /**
      * 文件存储模式(local、cos、oss)
@@ -40,12 +38,13 @@ public class QofFileUploadDto implements Serializable {
     @Length(max = 36, message = "文件存储站超过最大长度限制")
     private String fileStorageStation = QofConstant.DEFAULT;
 
-    public @Length(max = 36, message = "文件名称超过最大长度限制") String getFileName() {
-        return fileName;
+
+    public @NotNull(message = "文件id不能为空") Long getFileId() {
+        return fileId;
     }
 
-    public void setFileName(@Length(max = 36, message = "文件名称超过最大长度限制") String fileName) {
-        this.fileName = fileName;
+    public void setFileId(@NotNull(message = "文件id不能为空") Long fileId) {
+        this.fileId = fileId;
     }
 
     public @Length(max = 10, message = "文件存储模式超过最大长度限制") @NotBlank(message = "文件存储模式不能为空") String getFileStorageMode() {
