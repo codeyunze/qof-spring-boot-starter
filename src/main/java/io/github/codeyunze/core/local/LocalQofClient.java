@@ -4,6 +4,7 @@ import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.AbstractQofClient;
 import io.github.codeyunze.core.QofClient;
+import io.github.codeyunze.core.QofFileOperationBase;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
 import io.github.codeyunze.service.QofExtService;
@@ -35,10 +36,20 @@ public class LocalQofClient extends AbstractQofClient implements QofClient {
         super(qofExtService);
     }
 
+    private String getFilePath(QofFileOperationBase fileOperationBase) {
+        String fileStorageStation;
+        if (fileProperties.getMultiple().containsKey(fileOperationBase.getFileStorageStation())) {
+            fileStorageStation = fileOperationBase.getFileStorageStation();
+        } else {
+            fileStorageStation = fileProperties.getDefaultStorageStation();
+        }
+        return fileProperties.getMultiple().get(fileStorageStation).getFilepath();
+    }
+
     @Override
     protected Long doUpload(InputStream fis, QofFileInfoDto info) {
         // 确保上传目录存在
-        Path uploadPath = Paths.get(fileProperties.getFilepath() + info.getDirectoryAddress());
+        Path uploadPath = Paths.get(getFilePath(info) + info.getDirectoryAddress());
         if (!Files.exists(uploadPath)) {
             try {
                 // 创建目录
@@ -70,7 +81,7 @@ public class LocalQofClient extends AbstractQofClient implements QofClient {
     @Override
     protected QofFileDownloadBo doDownload(QofFileInfoBo fileBo) {
         // 确保文件路径正确构建
-        String filePath = fileProperties.getFilepath() + fileBo.getFilePath();
+        String filePath = getFilePath(fileBo) + fileBo.getFilePath();
         File file = new File(filePath);
 
         if (!file.exists()) {
@@ -91,7 +102,7 @@ public class LocalQofClient extends AbstractQofClient implements QofClient {
     @Override
     protected boolean doDelete(QofFileInfoBo fileBo) {
         // 确保文件路径正确构建
-        String filePath = fileProperties.getFilepath() + fileBo.getFilePath();
+        String filePath = getFilePath(fileBo) + fileBo.getFilePath();
         File file = new File(filePath);
 
         if (!file.exists()) {

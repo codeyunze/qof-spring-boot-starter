@@ -24,6 +24,13 @@ public class LocalQofProperties extends LocalQofConfig {
     private boolean enable;
 
     /**
+     * 默认使用的存储站
+     * <br>
+     * 当操作没有指定存储站时，会使用指定的默认存储站
+     */
+    private String defaultStorageStation;
+
+    /**
      * 多个文件存储路径配置信息
      * Map<Bean名称, 本地文件存储的属性配置信息>
      */
@@ -43,6 +50,14 @@ public class LocalQofProperties extends LocalQofConfig {
 
     public void setMultiple(Map<String, LocalQofConfig> multiple) {
         this.multiple = multiple;
+    }
+
+    public String getDefaultStorageStation() {
+        return defaultStorageStation;
+    }
+
+    public void setDefaultStorageStation(String defaultStorageStation) {
+        this.defaultStorageStation = defaultStorageStation;
     }
 }
 
