@@ -31,6 +31,14 @@ public interface QofClient {
     QofFileDownloadBo download(Long fileId);
 
     /**
+     * 预览文件
+     *
+     * @param fileId 文件唯一id
+     * @return 文件流数据
+     */
+    QofFileDownloadBo preview(Long fileId);
+
+    /**
      * 删除文件
      *
      * @param fileId 删除文件的唯一id

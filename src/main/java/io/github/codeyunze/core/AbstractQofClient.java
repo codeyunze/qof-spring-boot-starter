@@ -4,14 +4,19 @@ import cn.hutool.core.util.IdUtil;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
+import io.github.codeyunze.exception.TypeNotSupportedException;
 import io.github.codeyunze.service.QofExtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * QOF客户端操作抽象接口
+ *
  * @author yunze
  * @since 2025/2/20 15:52
  */
@@ -60,15 +65,29 @@ public abstract class AbstractQofClient implements QofClient {
      */
     @Override
     public QofFileDownloadBo download(Long fileId) {
-        log.info("通用的下载前处理逻辑");
-        qofExtService.beforeDownload(fileId);
+        log.info("通用的下载处理逻辑");
         // 扩展-文件下载前操作
+        qofExtService.beforeDownload(fileId);
+        // 查询文件相关信息
         QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
         // 执行具体的文件下载操作
         QofFileDownloadBo fileDownloadBo = doDownload(fileBo);
         // 扩展-文件下载后操作
         qofExtService.afterDownload(fileId);
         return fileDownloadBo;
+    }
+
+    @Override
+    public QofFileDownloadBo preview(Long fileId) {
+        log.info("通用的文件预览处理逻辑");
+        // 查询文件相关信息
+        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
+        List<String> supportedTypes = new ArrayList<>(Arrays.asList("image/png", "image/jpeg", "application/pdf"));
+        if (!supportedTypes.contains(fileBo.getFileType().toLowerCase())) {
+            throw new TypeNotSupportedException("暂不支持[" + fileBo.getFileType() + "]文件的预览");
+        }
+        // 执行具体的文件预览操作
+        return doDownload(fileBo);
     }
 
     /**

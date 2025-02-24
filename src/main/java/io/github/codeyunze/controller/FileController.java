@@ -8,6 +8,7 @@ import io.github.codeyunze.core.QofClientFactory;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.dto.QofFileUniversalDto;
 import io.github.codeyunze.dto.QofFileUploadDto;
+import io.github.codeyunze.entity.SysFiles;
 import io.github.codeyunze.utils.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
@@ -96,6 +97,32 @@ public class FileController {
                 .body(streamingResponseBody);
     }
 
+    /**
+     * 预览文件
+     *
+     * @param fileId          文件唯一Id
+     * @param fileStorageMode 文件存储的策略 {@link SysFiles#getFileStorageMode()}
+     * @return 文件流信息
+     */
+    @GetMapping("preview")
+    public ResponseEntity<StreamingResponseBody> preview(@RequestParam("fileId") Long fileId, @RequestParam("fileStorageMode") String fileStorageMode) {
+        QofFileDownloadBo fileDownloadBo = qofClientFactory.buildClient(fileStorageMode).preview(fileId);
+
+        StreamingResponseBody streamingResponseBody = outputStream -> {
+            try (InputStream inputStream = fileDownloadBo.getInputStream()) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+        };
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=" + fileDownloadBo.getFileName())
+                .contentType(MediaType.parseMediaType(fileDownloadBo.getFileType()))
+                .body(streamingResponseBody);
+    }
 
     /**
      * 删除文件
@@ -108,4 +135,5 @@ public class FileController {
         boolean deleted = qofClientFactory.buildClient(fileUniversalDto.getFileStorageMode()).delete(fileUniversalDto.getFileId());
         return new Result<>(HttpStatus.OK.value(), deleted, deleted ? "文件删除成功!" : "文件删除失败");
     }
+
 }

@@ -33,4 +33,12 @@ public class OverallExceptionHandle {
         return new Result<>(2, null, e.getMessage());
     }
 
+
+    /**
+     * 不支持操作文件类型异常问题处理
+     */
+    @ExceptionHandler(TypeNotSupportedException.class)
+    Result<?> typeNotSupportedExceptionHandle(TypeNotSupportedException e) {
+        return new Result<>(3, null, e.getMessage());
+    }
 }
