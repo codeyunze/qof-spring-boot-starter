@@ -1,0 +1,47 @@
+
+server:
+  port: 10086
+
+spring:
+  application:
+    name: qof
+  servlet:
+    multipart:
+      # 设置单个文件大小(默认为1MB)
+      max-file-size: 10MB
+      # 设置单次请求文件的总大小
+      max-request-size: 10MB
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/file_dev?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF8&useSSL=false&allowMultiQueries=true
+    username: root
+    password: root
+
+qof:
+  cos:
+    enable: true
+    multiple:
+      3xj:
+        secret-id: aaaaaaaaaaaaaaa
+        secret-key: bbbbbbbbbbbbbbbbb
+        bucket-name: 3xj-1301969111
+        region: ap-guangzhou
+        filepath: /business
+      test:
+        secret-id: aaaaaaaaaaaaaaa
+        secret-key: bbbbbbbbbbbbbbbbb
+        bucket-name: test-one-1306929103
+        region: ap-beijing
+        filepath: /home
+    default-storage-station: 3xj
+  persistent-enable: true
+  local:
+    enable: true
+    filepath: /files
+    default-storage-station: c-station
+    multiple:
+      c-station:
+        filepath: /files/c
+      d-station:
+        filepath: /files/d
