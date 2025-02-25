@@ -6,7 +6,7 @@
 
     <groupId>io.github.codeyunze</groupId>
     <artifactId>qof-spring-boot-starter</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
     <description>对各常用文件对象存储中间件的进一步封装。现阶段实现了本地文件存储，以及腾讯云的COS对象存储。</description>
     <url>https://github.com/codeyunze/qof-spring-boot-starter</url>
     <packaging>pom</packaging>
@@ -33,7 +33,7 @@
 
     <modules>
         <module>qof-core-slim</module>
-<!--        <module>qof-core</module>-->
+        <module>qof-core</module>
         <module>qof-starter</module>
     </modules>
 
@@ -58,16 +58,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-<!--            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-validation</artifactId>
-            </dependency>-->
 
             <dependency>
                 <groupId>mysql</groupId>
