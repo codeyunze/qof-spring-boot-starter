@@ -1,8 +1,9 @@
 package io.github.codeyunze.core.local;
 
-import cn.hutool.core.text.CharPool;
-import io.github.codeyunze.QofConstant;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
@@ -12,11 +13,8 @@ import java.util.Map;
  * @author yunze
  * @since 2025/2/16 16:28
  */
-@ConfigurationProperties(
-        // qof.local
-        prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.LOCAL
-)
-public class LocalQofProperties extends LocalQofConfig {
+@ConfigurationProperties(prefix = "qof.local")
+public class LocalQofProperties extends LocalQofConfig implements InitializingBean {
 
     /**
      * 是否启用腾讯云COS对象存储
@@ -58,6 +56,34 @@ public class LocalQofProperties extends LocalQofConfig {
 
     public void setDefaultStorageStation(String defaultStorageStation) {
         this.defaultStorageStation = defaultStorageStation;
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        if (!this.enable) {
+            return;
+        }
+
+        // 检查/补全配置信息是否齐全
+        if (CollectionUtils.isEmpty(this.multiple)) {
+            if (!StringUtils.hasText(this.getFilepath())) {
+                throw new RuntimeException("缺少文件存储路径配置信息[qof.local.filepath]");
+            }
+        } else {
+            if (StringUtils.hasText(this.getFilepath())) {
+                for (Map.Entry<String, LocalQofConfig> entry : this.multiple.entrySet()) {
+                    if (!StringUtils.hasText(entry.getValue().getFilepath())) {
+                        throw new RuntimeException("缺少文件存储路径配置信息[qof.local.multiple." + entry.getKey() + ".filepath]");
+                    }
+                }
+            } else {
+                for (Map.Entry<String, LocalQofConfig> entry : this.multiple.entrySet()) {
+                    if (!StringUtils.hasText(entry.getValue().getFilepath())) {
+                        entry.getValue().setFilepath(this.getFilepath());
+                    }
+                }
+            }
+        }
     }
 }
 

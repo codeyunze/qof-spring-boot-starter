@@ -41,6 +41,11 @@ public class DefaultQofClientFactory implements QofClientFactory {
         Set<String> supportedModes = Arrays.stream(QofStorageModeEnum.values())
                 .map(QofStorageModeEnum::getMode)
                 .collect(Collectors.toSet());
+
+        if (supportedModes.contains(mode)) {
+            throw new IllegalArgumentException("未启用该存储模式，配置项为[qof." + mode + ".enable]");
+        }
+
         throw new IllegalArgumentException("暂不支持[" + storageMode + "]存储模式，支持的模式为: " + supportedModes);
     }
 

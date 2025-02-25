@@ -41,4 +41,12 @@ public class QofOverallExceptionHandle {
     Result<?> typeNotSupportedExceptionHandle(TypeNotSupportedException e) {
         return new Result<>(3, null, e.getMessage());
     }
+
+    /**
+     * 非法参数异常问题处理
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    Result<?> illegalArgumentExceptionHandle(IllegalArgumentException e) {
+        return new Result<>(4, null, e.getMessage());
+    }
 }

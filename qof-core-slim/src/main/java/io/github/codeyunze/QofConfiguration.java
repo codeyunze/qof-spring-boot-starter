@@ -1,5 +1,6 @@
 package io.github.codeyunze;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,5 +10,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan({"io.github.codeyunze"})
+@MapperScan({"io.github.codeyunze.mapper"})
 public class QofConfiguration {
 }

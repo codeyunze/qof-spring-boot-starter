@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConfigurationProperties(
-        prefix = QofConstant.QOF
+        prefix = "qof"
 )
 public class QofProperties {
 

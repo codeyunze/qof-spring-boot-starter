@@ -38,7 +38,6 @@ qof:
   persistent-enable: true
   local:
     enable: true
-    filepath: /files
     default-storage-station: c-station
     multiple:
       c-station:

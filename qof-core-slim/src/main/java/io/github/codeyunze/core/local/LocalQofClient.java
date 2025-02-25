@@ -1,5 +1,6 @@
 package io.github.codeyunze.core.local;
 
+import io.github.codeyunze.QofConstant;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.AbstractQofClient;
@@ -9,6 +10,8 @@ import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
 import io.github.codeyunze.service.QofExtService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.data.ConditionalOnRepositoryType;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,6 +30,7 @@ import java.nio.file.StandardCopyOption;
  * @since 2025/2/17 16:53
  */
 @Service
+@ConditionalOnProperty(prefix = "qof.local", name = QofConstant.ENABLE, havingValue = QofConstant.ENABLE_VALUE)
 public class LocalQofClient extends AbstractQofClient implements QofClient {
 
     @Resource
