@@ -52,8 +52,16 @@ public interface QofExtService {
     /**
      * 文件删除前执行操作
      *
-     * @param fileId 删除
+     * @param fileId 删除文件Id
      * @return true: 文件删除前执行操作成功；   false: 文件删除前执行操作失败；
      */
     boolean beforeDelete(Long fileId);
+
+    /**
+     * 文件删除后执行操作
+     *
+     * @param fileId 删除文件Id
+     * @return true: 文件删除后执行操作成功；   false: 文件删除后执行操作失败；
+     */
+    boolean afterDelete(Long fileId);
 }

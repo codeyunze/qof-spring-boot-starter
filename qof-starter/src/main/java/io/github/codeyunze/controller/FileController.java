@@ -45,7 +45,7 @@ public class FileController {
      * @return 文件Id
      */
     @PutMapping("upload")
-    public String upload(@RequestParam("uploadfile") MultipartFile file
+    public Result<Long> upload(@RequestParam("uploadfile") MultipartFile file
             , @Valid QofFileUploadDto fileUploadDto) {
         QofFileInfoDto fileInfoDto = new QofFileInfoDto();
         BeanUtils.copyProperties(fileUploadDto, fileInfoDto);
@@ -56,12 +56,12 @@ public class FileController {
             fileInfoDto.setFileName(fileName);
         }
         fileInfoDto.setFileType(file.getContentType());
-        fileInfoDto.setDirectoryAddress("/default/" + LocalDateTimeUtil.format(LocalDateTime.now(), DatePattern.SIMPLE_MONTH_PATTERN));
+        fileInfoDto.setDirectoryAddress("/" + LocalDateTimeUtil.format(LocalDateTime.now(), DatePattern.SIMPLE_MONTH_PATTERN));
         fileInfoDto.setFileSize(file.getSize());
 
         try {
             QofClient client = qofClientFactory.buildClient(fileUploadDto.getFileStorageMode());
-            return String.valueOf(client.upload(file.getInputStream(), fileInfoDto));
+            return new Result<>(HttpStatus.OK.value(), client.upload(file.getInputStream(), fileInfoDto), "文件上传成功");
         } catch (IOException e) {
             throw new RuntimeException("文件上传失败，异常信息", e);
         }

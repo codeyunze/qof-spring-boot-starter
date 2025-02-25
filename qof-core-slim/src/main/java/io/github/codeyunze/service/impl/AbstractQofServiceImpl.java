@@ -74,4 +74,10 @@ public abstract class AbstractQofServiceImpl implements QofExtService {
         log.info("扩展-文件删除前执行");
         return filesService.deleteByFileId(fileId);
     }
+
+    @Override
+    public boolean afterDelete(Long fileId) {
+        log.info("扩展-文件删除后执行");
+        return true;
+    }
 }

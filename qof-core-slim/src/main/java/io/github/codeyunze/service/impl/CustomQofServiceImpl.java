@@ -29,5 +29,9 @@ public class CustomQofServiceImpl extends AbstractQofServiceImpl {
         return super.beforeUpload(fileDto);
     }
 
-
+    @Override
+    public boolean afterDelete(Long fileId) {
+        log.info("自定义-文件删除后执行");
+        return false;
+    }
 }
