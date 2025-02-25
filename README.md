@@ -10,7 +10,7 @@
    <dependency>
    		<groupId>io.github.codeyunze</groupId>
        <artifactId>qof-starter</artifactId>
-       <version>0.0.3</version>
+       <version>0.0.4</version>
    </dependency>
    ```
 
@@ -20,7 +20,7 @@
 <dependency>
     <groupId>io.github.codeyunze</groupId>
     <artifactId>qof-core-slim</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
 </dependency>
 ```
 

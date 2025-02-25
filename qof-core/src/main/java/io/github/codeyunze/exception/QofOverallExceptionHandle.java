@@ -15,7 +15,7 @@ import java.util.Objects;
  * @since 2024/6/19 星期三 22:57
  */
 @RestControllerAdvice
-public class OverallExceptionHandle {
+public class QofOverallExceptionHandle {
 
     /**
      * 参数校验异常提示
