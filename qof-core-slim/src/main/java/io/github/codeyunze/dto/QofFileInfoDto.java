@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author yunze
  * @since 2025-02-16 15:43:42
  */
-public class QofFileInfoDto extends QofFileOperationBase implements Serializable {
+public class QofFileInfoDto<T> extends QofFileOperationBase implements Serializable {
 
     private static final long serialVesionUID = 1L;
 
@@ -67,6 +67,18 @@ public class QofFileInfoDto extends QofFileOperationBase implements Serializable
      */
     private Long fileSize = 0L;
 
+    /**
+     * 扩展参数对象
+     */
+    private T extendObject;
+
+    public T getExtendObject() {
+        return extendObject;
+    }
+
+    public void setExtendObject(T extendObject) {
+        this.extendObject = extendObject;
+    }
 
     public @Length(max = 36, message = "文件名称超过最大长度限制") @NotBlank(message = "文件名称不能为空") String getFileName() {
         return fileName;

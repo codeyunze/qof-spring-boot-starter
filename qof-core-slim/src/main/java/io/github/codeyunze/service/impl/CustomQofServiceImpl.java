@@ -1,5 +1,6 @@
 package io.github.codeyunze.service.impl;
 
+import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.service.SysFilesService;
 import org.slf4j.Logger;
@@ -13,8 +14,8 @@ import org.springframework.stereotype.Service;
  * @author yunze
  * @since 2025/2/18 07:49
  */
-@Primary
-@Service
+// @Primary
+// @Service
 public class CustomQofServiceImpl extends AbstractQofServiceImpl {
 
     private static final Logger log = LoggerFactory.getLogger(CustomQofServiceImpl.class);
@@ -24,13 +25,13 @@ public class CustomQofServiceImpl extends AbstractQofServiceImpl {
     }
 
     @Override
-    public Long beforeUpload(QofFileInfoDto fileDto) {
+    public Long beforeUpload(QofFileInfoDto<?> fileDto) {
         log.info("自定义-文件上传前执行");
         return super.beforeUpload(fileDto);
     }
 
     @Override
-    public boolean afterDelete(Long fileId) {
+    public boolean afterDelete(QofFileInfoBo<?> fileBo) {
         log.info("自定义-文件删除后执行");
         return false;
     }

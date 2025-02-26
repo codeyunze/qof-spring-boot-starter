@@ -19,7 +19,7 @@ public interface SysFilesService extends IService<SysFiles> {
      * @param fileDto 新增基础数据
      * @return 主键Id
      */
-    QofFileInfoBo save(QofFileInfoDto fileDto);
+    QofFileInfoBo<?> save(QofFileInfoDto<?> fileDto);
 
     /**
      * 根据文件Id获取文件信息
@@ -27,7 +27,7 @@ public interface SysFilesService extends IService<SysFiles> {
      * @param fileId 文件Id
      * @return 文件基础信息
      */
-    QofFileInfoBo getByFileId(Long fileId);
+    QofFileInfoBo<?> getByFileId(Long fileId);
 
     /**
      * 根据文件Id删除文件信息

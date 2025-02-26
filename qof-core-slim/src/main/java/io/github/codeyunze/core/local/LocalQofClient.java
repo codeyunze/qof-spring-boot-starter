@@ -51,7 +51,7 @@ public class LocalQofClient extends AbstractQofClient implements QofClient {
     }
 
     @Override
-    protected Long doUpload(InputStream fis, QofFileInfoDto info) {
+    protected Long doUpload(InputStream fis, QofFileInfoDto<?> info) {
         // 确保上传目录存在
         Path uploadPath = Paths.get(getFilePath(info) + info.getDirectoryAddress());
         if (!Files.exists(uploadPath)) {

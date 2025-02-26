@@ -75,7 +75,7 @@ public class CosQofClient extends AbstractQofClient implements QofClient {
     }
 
     @Override
-    protected Long doUpload(InputStream fis, QofFileInfoDto info) {
+    protected Long doUpload(InputStream fis, QofFileInfoDto<?> info) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         // 上传的流如果能够获取准确的流长度，则推荐一定填写 content-length
         // 如果确实没办法获取到，则下面这行可以省略，但同时高级接口也没办法使用分块上传了

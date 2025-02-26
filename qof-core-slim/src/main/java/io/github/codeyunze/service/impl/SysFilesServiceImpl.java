@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class SysFilesServiceImpl extends ServiceImpl<SysFilesMapper, SysFiles> implements SysFilesService {
 
     @Override
-    public QofFileInfoBo save(QofFileInfoDto fileDto) {
+    public QofFileInfoBo<?> save(QofFileInfoDto<?> fileDto) {
         SysFiles fileDo = new SysFiles();
         BeanUtils.copyProperties(fileDto, fileDo);
         if (null == fileDto.getFileId()) {
@@ -29,13 +29,13 @@ public class SysFilesServiceImpl extends ServiceImpl<SysFilesMapper, SysFiles> i
             fileDo.setId(fileDto.getFileId());
         }
         baseMapper.insert(fileDo);
-        QofFileInfoBo fileBo = new QofFileInfoBo();
+        QofFileInfoBo<?> fileBo = new QofFileInfoBo<>();
         BeanUtils.copyProperties(fileDo, fileBo);
         return fileBo;
     }
 
     @Override
-    public QofFileInfoBo getByFileId(Long fileId) {
+    public QofFileInfoBo<?> getByFileId(Long fileId) {
         return baseMapper.selectByFileId(fileId);
     }
 

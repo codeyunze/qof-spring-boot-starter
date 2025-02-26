@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * @author yunze
  * @since 2025-02-16 15:43:41
  */
-public class QofFileInfoBo extends QofFileOperationBase {
+public class QofFileInfoBo<T> extends QofFileOperationBase {
 
     /**
      * 创建时间
@@ -48,6 +48,19 @@ public class QofFileInfoBo extends QofFileOperationBase {
      * 例如： 1024
      */
     private Long fileSize = 0L;
+
+    /**
+     * 扩展数据对象
+     */
+    private T extendObject;
+
+    public T getExtendObject() {
+        return extendObject;
+    }
+
+    public void setExtendObject(T extendObject) {
+        this.extendObject = extendObject;
+    }
 
     public LocalDateTime getCreateTime() {
         return createTime;

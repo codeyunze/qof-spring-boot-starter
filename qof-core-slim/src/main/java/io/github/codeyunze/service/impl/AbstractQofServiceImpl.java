@@ -34,8 +34,8 @@ public abstract class AbstractQofServiceImpl implements QofExtService {
     private QofProperties qofProperties;
 
     @Override
-    public QofFileInfoBo getFileInfoByFileId(Long fileId) {
-        QofFileInfoBo fileBo = filesService.getByFileId(fileId);
+    public QofFileInfoBo<?> getFileInfoByFileId(Long fileId) {
+        QofFileInfoBo<?> fileBo = filesService.getByFileId(fileId);
         if (fileBo == null) {
             throw new DataNotExistException("文件信息不存在");
         }
@@ -43,40 +43,40 @@ public abstract class AbstractQofServiceImpl implements QofExtService {
     }
 
     @Override
-    public Long beforeUpload(QofFileInfoDto fileDto) {
+    public Long beforeUpload(QofFileInfoDto<?> fileDto) {
         log.info("扩展-文件上传前执行");
         return fileDto.getFileId();
     }
 
     @Override
-    public QofFileInfoBo afterUpload(QofFileInfoDto fileDto) {
+    public QofFileInfoBo<?> afterUpload(QofFileInfoDto<?> fileDto) {
         log.info("扩展-文件上传后执行");
         if (qofProperties.isPersistentEnable()) {
             return filesService.save(fileDto);
         }
-        QofFileInfoBo fileBo = new QofFileInfoBo();
+        QofFileInfoBo<?> fileBo = new QofFileInfoBo<>();
         BeanUtils.copyProperties(fileDto, fileBo);
         return fileBo;
     }
 
     @Override
-    public void beforeDownload(Long fileId) {
+    public void beforeDownload(QofFileInfoBo<?> fileBo) {
         log.info("扩展-文件下载前执行");
     }
 
     @Override
-    public void afterDownload(Long fileId) {
+    public void afterDownload(QofFileInfoBo<?> fileBo) {
         log.info("扩展-文件下载后执行");
     }
 
     @Override
-    public boolean beforeDelete(Long fileId) {
+    public boolean beforeDelete(QofFileInfoBo<?> fileBo) {
         log.info("扩展-文件删除前执行");
-        return filesService.deleteByFileId(fileId);
+        return filesService.deleteByFileId(fileBo.getFileId());
     }
 
     @Override
-    public boolean afterDelete(Long fileId) {
+    public boolean afterDelete(QofFileInfoBo<?> fileBo) {
         log.info("扩展-文件删除后执行");
         return true;
     }

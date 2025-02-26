@@ -39,7 +39,7 @@ public abstract class AbstractQofClient implements QofClient {
      * @return 文件唯一id
      */
     @Override
-    public Long upload(InputStream fis, QofFileInfoDto info) {
+    public Long upload(InputStream fis, QofFileInfoDto<?> info) {
         log.info("通用的上传前处理逻辑");
         if (info.getFileId() == null) {
             info.setFileId(IdUtil.getSnowflakeNextId());
@@ -66,14 +66,14 @@ public abstract class AbstractQofClient implements QofClient {
     @Override
     public QofFileDownloadBo download(Long fileId) {
         log.info("通用的下载处理逻辑");
-        // 扩展-文件下载前操作
-        qofExtService.beforeDownload(fileId);
         // 查询文件相关信息
-        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
+        QofFileInfoBo<?> fileBo = qofExtService.getFileInfoByFileId(fileId);
+        // 扩展-文件下载前操作
+        qofExtService.beforeDownload(fileBo);
         // 执行具体的文件下载操作
         QofFileDownloadBo fileDownloadBo = doDownload(fileBo);
         // 扩展-文件下载后操作
-        qofExtService.afterDownload(fileId);
+        qofExtService.afterDownload(fileBo);
         return fileDownloadBo;
     }
 
@@ -81,7 +81,7 @@ public abstract class AbstractQofClient implements QofClient {
     public QofFileDownloadBo preview(Long fileId) {
         log.info("通用的文件预览处理逻辑");
         // 查询文件相关信息
-        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
+        QofFileInfoBo<?> fileBo = qofExtService.getFileInfoByFileId(fileId);
         List<String> supportedTypes = new ArrayList<>(Arrays.asList("image/png", "image/jpeg", "application/pdf"));
         if (!supportedTypes.contains(fileBo.getFileType().toLowerCase())) {
             throw new TypeNotSupportedException("暂不支持[" + fileBo.getFileType() + "]文件的预览");
@@ -98,12 +98,12 @@ public abstract class AbstractQofClient implements QofClient {
     @Override
     public boolean delete(Long fileId) {
         log.info("通用的删除前处理逻辑");
-        QofFileInfoBo fileBo = qofExtService.getFileInfoByFileId(fileId);
+        QofFileInfoBo<?> fileBo = qofExtService.getFileInfoByFileId(fileId);
         if (fileBo == null) {
             return true;
         }
         // 有文件信息，但是没有删除成功
-        if (!qofExtService.beforeDelete(fileId)) {
+        if (!qofExtService.beforeDelete(fileBo)) {
             return false;
         }
 
@@ -118,7 +118,7 @@ public abstract class AbstractQofClient implements QofClient {
      * @param info 上传文件的基础信息
      * @return 文件唯一id
      */
-    protected abstract Long doUpload(InputStream fis, QofFileInfoDto info);
+    protected abstract Long doUpload(InputStream fis, QofFileInfoDto<?> info);
 
     /**
      * 具体执行-下载文件
@@ -126,12 +126,12 @@ public abstract class AbstractQofClient implements QofClient {
      * @param fileBo 文件信息
      * @return 文件流数据
      */
-    protected abstract QofFileDownloadBo doDownload(QofFileInfoBo fileBo);
+    protected abstract QofFileDownloadBo doDownload(QofFileInfoBo<?> fileBo);
 
     /**
      * 具体执行-删除文件
      *
      * @param fileBo 删除文件的唯一id
      */
-    protected abstract boolean doDelete(QofFileInfoBo fileBo);
+    protected abstract boolean doDelete(QofFileInfoBo<?> fileBo);
 }

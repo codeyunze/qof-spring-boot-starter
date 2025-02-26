@@ -25,7 +25,7 @@ public interface QofExtService {
      * @param fileDto 新增文件基础数据
      * @return 主键Id, 如果上传失败则返回null
      */
-    Long beforeUpload(QofFileInfoDto fileDto);
+    Long beforeUpload(QofFileInfoDto<?> fileDto);
 
     /**
      * 文件上传之后
@@ -33,35 +33,35 @@ public interface QofExtService {
      * @param fileDto 文件基础数据
      * @return 主键Id, 如果上传失败则返回null
      */
-    QofFileInfoBo afterUpload(QofFileInfoDto fileDto);
+    QofFileInfoBo<?> afterUpload(QofFileInfoDto<?> fileDto);
 
     /**
      * 下载前执行操作
      *
-     * @param fileId 文件Id
+     * @param fileBo 文件信息
      */
-    void beforeDownload(Long fileId);
+    void beforeDownload(QofFileInfoBo<?> fileBo);
 
     /**
      * 下载后执行操作
      *
-     * @param fileId 文件Id
+     * @param fileBo 文件信息
      */
-    void afterDownload(Long fileId);
+    void afterDownload(QofFileInfoBo<?> fileBo);
 
     /**
      * 文件删除前执行操作
      *
-     * @param fileId 删除文件Id
+     * @param fileBo 删除文件信息
      * @return true: 文件删除前执行操作成功；   false: 文件删除前执行操作失败；
      */
-    boolean beforeDelete(Long fileId);
+    boolean beforeDelete(QofFileInfoBo<?> fileBo);
 
     /**
      * 文件删除后执行操作
      *
-     * @param fileId 删除文件Id
+     * @param fileBo 删除文件信息
      * @return true: 文件删除后执行操作成功；   false: 文件删除后执行操作失败；
      */
-    boolean afterDelete(Long fileId);
+    boolean afterDelete(QofFileInfoBo<?> fileBo);
 }

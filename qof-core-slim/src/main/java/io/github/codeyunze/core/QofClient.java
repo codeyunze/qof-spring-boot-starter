@@ -20,7 +20,7 @@ public interface QofClient {
      * @param info 上传文件的基础信息
      * @return 文件唯一id
      */
-    Long upload(InputStream fis, QofFileInfoDto info);
+    Long upload(InputStream fis, QofFileInfoDto<?> info);
 
     /**
      * 下载文件

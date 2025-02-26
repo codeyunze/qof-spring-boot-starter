@@ -23,6 +23,6 @@ public interface SysFilesMapper extends BaseMapper<SysFiles> {
      * @return 文件基础信息
      */
     @Select("select id as file_id, create_time, file_name, file_path, file_type, file_label, file_size, file_storage_station from sys_files where invalid = 0 and id = #{fileId}")
-    QofFileInfoBo selectByFileId(@Param("fileId") Long fileId);
+    QofFileInfoBo<?> selectByFileId(@Param("fileId") Long fileId);
 }
 
