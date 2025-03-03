@@ -13,6 +13,19 @@ public class LocalQofConfig {
      */
     private String filepath;
 
+    /**
+     * 文件预览地址
+     */
+    private String previewAddress;
+
+    public String getPreviewAddress() {
+        return previewAddress;
+    }
+
+    public void setPreviewAddress(String previewAddress) {
+        this.previewAddress = previewAddress;
+    }
+
     public String getFilepath() {
         return filepath;
     }
