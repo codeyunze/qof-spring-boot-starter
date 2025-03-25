@@ -3,7 +3,7 @@ package io.github.codeyunze.core.local;
 /**
  * 本地文件存储的属性配置信息
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/16 20:39
  */
 public class LocalQofConfig {

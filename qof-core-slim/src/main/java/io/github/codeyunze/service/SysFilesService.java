@@ -8,7 +8,7 @@ import io.github.codeyunze.entity.SysFiles;
 /**
  * 系统-文件表(SysFiles)表服务接口
  *
- * @author yunze
+ * @author 高晗
  * @since 2025-02-16 15:43:41
  */
 public interface SysFilesService extends IService<SysFiles> {

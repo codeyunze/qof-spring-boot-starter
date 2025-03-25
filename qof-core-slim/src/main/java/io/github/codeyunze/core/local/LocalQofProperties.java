@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 本地文件存储属性配置信息
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/16 16:28
  */
 @ConfigurationProperties(prefix = "qof.local")

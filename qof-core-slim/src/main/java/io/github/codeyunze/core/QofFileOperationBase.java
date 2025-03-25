@@ -1,6 +1,5 @@
 package io.github.codeyunze.core;
 
-import io.github.codeyunze.QofConstant;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.cos.CosQofProperties;
 
@@ -11,7 +10,7 @@ import java.io.Serializable;
  * <br>
  * 操作文件必要的参数信息
  *
- * @author yunze
+ * @author 高晗
  * @since 2025-02-16 15:43:42
  */
 public class QofFileOperationBase implements Serializable {

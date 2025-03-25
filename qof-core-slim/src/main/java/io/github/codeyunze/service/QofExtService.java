@@ -6,7 +6,7 @@ import io.github.codeyunze.dto.QofFileInfoDto;
 /**
  * QOF文件信息操作扩展接口
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/18 07:47
  */
 public interface QofExtService {

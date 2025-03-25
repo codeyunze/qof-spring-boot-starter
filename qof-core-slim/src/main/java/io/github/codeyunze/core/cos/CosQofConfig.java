@@ -3,7 +3,7 @@ package io.github.codeyunze.core.cos;
 /**
  * 腾讯云-COS对象存储的属性配置信息
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/16 20:39
  */
 public class CosQofConfig {

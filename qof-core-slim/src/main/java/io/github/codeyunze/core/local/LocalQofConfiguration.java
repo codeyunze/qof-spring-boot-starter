@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 /**
  * 本地存储操作配置
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/16 18:26
  */
 @SpringBootConfiguration

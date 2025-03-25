@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * 腾讯云文件操作接口实现
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/17 16:53
  */
 @Service
@@ -103,7 +103,7 @@ public class CosQofClient extends AbstractQofClient implements QofClient {
     }
 
     @Override
-    protected QofFileDownloadBo doDownload(QofFileInfoBo fileBo) {
+    protected QofFileDownloadBo doDownload(QofFileInfoBo<?> fileBo) {
         GetObjectRequest getObjectRequest = new GetObjectRequest(getBucketName(fileBo), getFilePath(fileBo));
         COSObject cosObject = getClient(fileBo).getObject(getObjectRequest);
 
@@ -114,7 +114,7 @@ public class CosQofClient extends AbstractQofClient implements QofClient {
     }
 
     @Override
-    protected boolean doDelete(QofFileInfoBo fileBo) {
+    protected boolean doDelete(QofFileInfoBo<?> fileBo) {
         getClient(fileBo).deleteObject(getBucketName(fileBo), getFilePath(fileBo));
         return true;
     }

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Select;
 /**
  * 系统-文件表(SysFiles)表数据库访问层
  *
- * @author yunze
+ * @author 高晗
  * @since 2025-02-16 15:43:41
  */
 @Mapper

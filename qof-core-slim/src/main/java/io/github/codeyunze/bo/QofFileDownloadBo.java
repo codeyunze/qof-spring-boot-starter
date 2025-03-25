@@ -6,7 +6,7 @@ import java.io.InputStream;
 /**
  * 下载文件信息
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/18 18:41
  */
 public class QofFileDownloadBo extends QofFileInfoBo {

@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * 全局异常捕获
  *
- * @author yunze
+ * @author 高晗
  * @since 2024/6/19 星期三 22:57
  */
 @RestControllerAdvice

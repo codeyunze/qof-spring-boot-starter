@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * 文件上传信息
  *
- * @author yunze
+ * @author 高晗
  * @since 2025-02-16 15:43:42
  */
 public class QofFileInfoDto<T> extends QofFileOperationBase implements Serializable {

@@ -8,7 +8,7 @@ import java.io.InputStream;
 /**
  * QOF客户端操作接口
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/17 08:46
  */
 public interface QofClient {

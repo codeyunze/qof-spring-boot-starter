@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * 后端返回给前端的数据对象
  *
- * @author yunze
+ * @author 高晗
  * @since 2022/11/13 23:23
  * @version 1.0
  */

@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * 腾讯云COS对象存储客户端操作配置
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/16 18:26
  */
 @ConditionalOnClass(COSClient.class)    // 当项目中存在COSClient.class类时才会使当前配置类生效

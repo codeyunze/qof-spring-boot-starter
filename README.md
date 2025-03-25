@@ -1,4 +1,4 @@
-# qof-spring-boot-starter
+# qof-spring-boot-starter （快联文件桥）
 
 ## 一、使用说明
 
@@ -8,9 +8,9 @@
 
    ```xml
    <dependency>
-   		<groupId>io.github.codeyunze</groupId>
+       <groupId>io.github.codeyunze</groupId>
        <artifactId>qof-starter</artifactId>
-       <version>0.0.6</version>
+       <version>0.0.7</version>
    </dependency>
    ```
 
@@ -20,7 +20,7 @@
 <dependency>
     <groupId>io.github.codeyunze</groupId>
     <artifactId>qof-core-slim</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.7</version>
 </dependency>
 ```
 
@@ -357,7 +357,7 @@ import org.springframework.stereotype.Service;
 /**
  * QOF文件信息操作扩展接口自定义实现
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/18 07:49
  */
 @Primary

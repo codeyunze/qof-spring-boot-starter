@@ -5,7 +5,7 @@ import io.github.codeyunze.QofConstant;
 /**
  * 文件存储模式
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/16 16:34
  */
 public enum QofStorageModeEnum {

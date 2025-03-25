@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 文件配置属性
- * @author yunze
+ * @author 高晗
  * @since 2025/2/16 16:28
  */
 @Configuration

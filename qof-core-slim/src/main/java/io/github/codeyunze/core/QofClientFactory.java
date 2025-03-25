@@ -5,7 +5,7 @@ import io.github.codeyunze.enums.QofStorageModeEnum;
 /**
  * 客户端构建工程
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/19 23:18
  */
 public interface QofClientFactory {

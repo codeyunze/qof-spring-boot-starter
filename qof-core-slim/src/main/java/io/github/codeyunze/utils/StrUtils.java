@@ -5,7 +5,7 @@ import org.springframework.util.StringUtils;
 /**
  * 字符串工具
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/21 11:43
  */
 public class StrUtils {

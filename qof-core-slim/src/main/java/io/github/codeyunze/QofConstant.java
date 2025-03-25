@@ -3,7 +3,7 @@ package io.github.codeyunze;
 /**
  * 常量信息
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/16 18:04
  */
 public class QofConstant {

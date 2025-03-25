@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * QOF客户端操作抽象接口
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/20 15:52
  */
 public abstract class AbstractQofClient implements QofClient {

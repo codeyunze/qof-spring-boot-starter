@@ -3,7 +3,7 @@ package io.github.codeyunze.exception;
 /**
  * 业务数据不存在异常
  *
- * @author yunze
+ * @author 高晗
  * @since 2024/11/23 星期六 14:45
  */
 public class DataNotExistException extends RuntimeException {

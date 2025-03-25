@@ -11,7 +11,6 @@ import io.github.codeyunze.exception.DataNotExistException;
 import io.github.codeyunze.service.QofExtService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.data.ConditionalOnRepositoryType;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,7 +25,7 @@ import java.nio.file.StandardCopyOption;
 /**
  * 本地文件操作接口实现
  *
- * @author yunze
+ * @author 高晗
  * @since 2025/2/17 16:53
  */
 @Service
@@ -83,7 +82,7 @@ public class LocalQofClient extends AbstractQofClient implements QofClient {
     }
 
     @Override
-    protected QofFileDownloadBo doDownload(QofFileInfoBo fileBo) {
+    protected QofFileDownloadBo doDownload(QofFileInfoBo<?> fileBo) {
         // 确保文件路径正确构建
         String filePath = getFilePath(fileBo) + fileBo.getFilePath();
         File file = new File(filePath);
@@ -104,7 +103,7 @@ public class LocalQofClient extends AbstractQofClient implements QofClient {
     }
 
     @Override
-    protected boolean doDelete(QofFileInfoBo fileBo) {
+    protected boolean doDelete(QofFileInfoBo<?> fileBo) {
         // 确保文件路径正确构建
         String filePath = getFilePath(fileBo) + fileBo.getFilePath();
         File file = new File(filePath);

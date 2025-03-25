@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 /**
  * 文件信息
  *
- * @author yunze
+ * @author 高晗
  * @since 2025-02-16 15:43:41
  */
 public class QofFileInfoBo<T> extends QofFileOperationBase {

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 /**
  * 系统-文件表(SysFiles)表实体类
  *
- * @author yunze
+ * @author 高晗
  * @since 2025-02-16 15:43:41
  */
 public class SysFiles extends Model<SysFiles> {
