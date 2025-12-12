@@ -11,7 +11,6 @@ import io.github.codeyunze.QofConstant;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.AbstractQofClient;
-import io.github.codeyunze.core.QofClient;
 import io.github.codeyunze.core.QofFileOperationBase;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.service.QofExtService;
@@ -33,7 +32,7 @@ import java.util.Map;
  * @since 2025/2/17 16:53
  */
 @Service
-public class CosQofClient extends AbstractQofClient implements QofClient {
+public class CosQofClient extends AbstractQofClient {
 
     private static final Logger log = LoggerFactory.getLogger(CosQofClient.class);
 
@@ -80,24 +79,21 @@ public class CosQofClient extends AbstractQofClient implements QofClient {
         // 上传的流如果能够获取准确的流长度，则推荐一定填写 content-length
         // 如果确实没办法获取到，则下面这行可以省略，但同时高级接口也没办法使用分块上传了
         objectMetadata.setContentLength(info.getFileSize());
-        PutObjectRequest putObjectRequest = new PutObjectRequest(getBucketName(info), getFilePath(info), fis, objectMetadata);
         // 设置单链接限速（如有需要），不需要可忽略
-        putObjectRequest.setTrafficLimit(8 * 1024 * 1024);
-        try {
+        try (InputStream inputStream = fis) {
+            PutObjectRequest putObjectRequest = new PutObjectRequest(getBucketName(info), getFilePath(info), inputStream, objectMetadata);
+            putObjectRequest.setTrafficLimit(8 * 1024 * 1024);
             COSClient client = getClient(info);
             client.putObject(putObjectRequest);
         } catch (CosServiceException e) {
-            log.error("COS服务异常: {}", e.getMessage(), e);
-            throw new RuntimeException("文件上传失败，服务异常", e);
+            log.error("COS服务异常，文件路径: {}, 错误码: {}, 错误信息: {}", getFilePath(info), e.getErrorCode(), e.getErrorMessage(), e);
+            throw new RuntimeException("文件上传失败，COS服务异常: " + e.getErrorMessage(), e);
         } catch (CosClientException e) {
-            log.error("COS客户端异常: {}", e.getMessage(), e);
-            throw new RuntimeException("文件上传失败，客户端异常", e);
-        } finally {
-            try {
-                fis.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            log.error("COS客户端异常，文件路径: {}, 异常信息: {}", getFilePath(info), e.getMessage(), e);
+            throw new RuntimeException("文件上传失败，COS客户端异常: " + e.getMessage(), e);
+        } catch (IOException e) {
+            log.error("文件流处理异常，文件路径: {}", getFilePath(info), e);
+            throw new RuntimeException("文件上传失败，流处理异常", e);
         }
         return info.getFileId();
     }

@@ -7,11 +7,10 @@
     <parent>
         <groupId>io.github.codeyunze</groupId>
         <artifactId>qof-spring-boot-starter</artifactId>
-        <version>0.0.7</version>
+        <version>0.0.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>qof-core</artifactId>
-    <version>0.0.7</version>
     <description>对各常用文件对象存储中间件的进一步封装，并提供了可调用的API接口。现阶段实现了本地文件存储，以及腾讯云的COS对象存储。</description>
     <url>https://github.com/codeyunze/qof-spring-boot-starter</url>
     <packaging>jar</packaging>
@@ -48,10 +47,22 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- 参数校验依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>io.github.codeyunze</groupId>
             <artifactId>qof-core-slim</artifactId>
             <version>${project.parent.version}</version>
+        </dependency>
+
+        <!-- Hutool工具类依赖，FileController中使用了hutool的日期工具类 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
         </dependency>
     </dependencies>
 </project>

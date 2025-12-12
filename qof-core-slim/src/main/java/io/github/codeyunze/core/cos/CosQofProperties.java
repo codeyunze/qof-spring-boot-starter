@@ -1,6 +1,5 @@
 package io.github.codeyunze.core.cos;
 
-import io.github.codeyunze.core.local.LocalQofConfig;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.CollectionUtils;
@@ -117,7 +116,7 @@ public class CosQofProperties extends CosQofConfig implements InitializingBean {
             } else {
                 for (Map.Entry<String, CosQofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getRegion())) {
-                        entry.getValue().setSecretKey(this.getRegion());
+                        entry.getValue().setRegion(this.getRegion());
                     }
                 }
             }

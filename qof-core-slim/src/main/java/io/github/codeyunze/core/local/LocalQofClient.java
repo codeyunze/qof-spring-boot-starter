@@ -4,11 +4,12 @@ import io.github.codeyunze.QofConstant;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.AbstractQofClient;
-import io.github.codeyunze.core.QofClient;
 import io.github.codeyunze.core.QofFileOperationBase;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
 import io.github.codeyunze.service.QofExtService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,9 @@ import java.nio.file.StandardCopyOption;
  */
 @Service
 @ConditionalOnProperty(prefix = "qof.local", name = QofConstant.ENABLE, havingValue = QofConstant.ENABLE_VALUE)
-public class LocalQofClient extends AbstractQofClient implements QofClient {
+public class LocalQofClient extends AbstractQofClient {
+
+    private static final Logger log = LoggerFactory.getLogger(LocalQofClient.class);
 
     @Resource
     private LocalQofProperties fileProperties;
@@ -58,7 +61,8 @@ public class LocalQofClient extends AbstractQofClient implements QofClient {
                 // 创建目录
                 Files.createDirectories(uploadPath);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                log.error("创建上传目录失败: {}", uploadPath, e);
+                throw new RuntimeException("创建上传目录失败: " + uploadPath, e);
             }
         }
 
@@ -66,17 +70,12 @@ public class LocalQofClient extends AbstractQofClient implements QofClient {
 
         // 定义目标文件路径
         Path filePath = uploadPath.resolve(fileName);
-        try {
+        try (InputStream inputStream = fis) {
             // 使用NIO将输入流复制到目标文件，如果文件已经存在，则覆盖
-            Files.copy(fis, filePath, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                fis.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            log.error("文件上传失败，文件路径: {}", filePath, e);
+            throw new RuntimeException("文件上传失败: " + filePath, e);
         }
         return info.getFileId();
     }
@@ -88,6 +87,7 @@ public class LocalQofClient extends AbstractQofClient implements QofClient {
         File file = new File(filePath);
 
         if (!file.exists()) {
+            log.warn("文件不存在，文件路径: {}", filePath);
             throw new DataNotExistException("文件不存在");
         }
 
@@ -96,7 +96,8 @@ public class LocalQofClient extends AbstractQofClient implements QofClient {
         try {
             fileDownloadBo.setInputStream(Files.newInputStream(Paths.get(file.getPath())));
         } catch (IOException e) {
-            throw new RuntimeException("下载文件时发生错误", e);
+            log.error("下载文件时发生错误，文件路径: {}", filePath, e);
+            throw new RuntimeException("下载文件时发生错误: " + filePath, e);
         }
 
         return fileDownloadBo;

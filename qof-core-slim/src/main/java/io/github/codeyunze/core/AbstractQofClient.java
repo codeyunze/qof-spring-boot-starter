@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * QOF客户端操作抽象接口
+ * QOF 客户端操作抽象接口
  *
  * @author 高晗
  * @since 2025/2/20 15:52
@@ -44,7 +44,17 @@ public abstract class AbstractQofClient implements QofClient {
         if (info.getFileId() == null) {
             info.setFileId(IdUtil.getSnowflakeNextId());
         }
-        String suffix = info.getFileName().substring(info.getFileName().lastIndexOf(".")).toLowerCase();
+        
+        // 安全地提取文件后缀，防止文件名没有点号的情况
+        String suffix = "";
+        String fileName = info.getFileName();
+        if (fileName != null && fileName.contains(".")) {
+            int lastDotIndex = fileName.lastIndexOf(".");
+            if (lastDotIndex >= 0 && lastDotIndex < fileName.length() - 1) {
+                suffix = fileName.substring(lastDotIndex).toLowerCase();
+            }
+        }
+        
         String key = info.getDirectoryAddress() + "/" + info.getFileId() + suffix;
         info.setFilePath(key);
 
