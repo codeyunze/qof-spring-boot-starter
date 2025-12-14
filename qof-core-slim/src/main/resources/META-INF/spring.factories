@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   io.github.codeyunze.QofConfiguration,\
   io.github.codeyunze.core.local.LocalQofConfiguration,\
-  io.github.codeyunze.core.cos.CosQofConfiguration
+  io.github.codeyunze.core.cos.CosQofConfiguration,\
+  io.github.codeyunze.core.oss.OssQofConfiguration

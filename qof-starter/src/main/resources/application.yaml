@@ -14,7 +14,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/file_dev?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF8&useSSL=false&allowMultiQueries=true
+    url: jdbc:mysql://127.0.0.1:3306/file?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF8&useSSL=false&allowMultiQueries=true
     username: root
     password: root
 
@@ -22,25 +22,34 @@ qof:
   cos:
     enable: true
     multiple:
-      3xj:
+      mall:
         secret-id: aaaaaaaaaaaaaaa
         secret-key: bbbbbbbbbbbbbbbbb
-        bucket-name: 3xj-1301969111
+        bucket-name: mall-1234
         region: ap-guangzhou
-        filepath: /business
+        filepath: /qof
       test:
         secret-id: aaaaaaaaaaaaaaa
         secret-key: bbbbbbbbbbbbbbbbb
         bucket-name: test-one-1306929103
         region: ap-beijing
         filepath: /home
-    default-storage-station: 3xj
+    default-storage-station: mall
   persistent-enable: true
   local:
     enable: true
     default-storage-station: c-station
     multiple:
       c-station:
-        filepath: /files/c
+        filepath: ./files/c
       d-station:
-        filepath: /files/d
+        filepath: ./files/d
+  oss:
+    enable: true
+    multiple:
+      mall:
+        access-key-id: aaaaaaaaaaaaaaa
+        access-key-secret: bbbbbbbbbbbbbbbbb
+        bucket-name: mall-25667
+        endpoint: oss-cn-guangzhou.aliyuncs.com
+        filepath: /qof
