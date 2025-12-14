@@ -36,14 +36,14 @@ public class FileController {
     private static final Logger log = LoggerFactory.getLogger(FileController.class);
     
     /**
-     * 文件名安全校验正则：只允许字母、数字、下划线、中划线、点和空格
-     */
-    private static final Pattern SAFE_FILENAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_\\-\\s.]+$");
-    
-    /**
      * 路径遍历攻击检测：检测是否包含 .. 或 /
      */
     private static final Pattern PATH_TRAVERSAL_PATTERN = Pattern.compile("(\\.\\.|[/\\\\])");
+    
+    /**
+     * 危险字符检测：检测控制字符、不可见字符等
+     */
+    private static final Pattern DANGEROUS_CHAR_PATTERN = Pattern.compile("[\\x00-\\x1F\\x7F]");
 
     private final QofClientFactory qofClientFactory;
 
@@ -53,6 +53,9 @@ public class FileController {
     
     /**
      * 验证文件名安全性
+     * <p>
+     * 允许中文字符、字母、数字、下划线、中划线、点和空格
+     * 禁止路径遍历字符（..、/、\）和控制字符
      *
      * @param fileName 文件名
      * @return true表示安全，false表示不安全
@@ -61,12 +64,39 @@ public class FileController {
         if (!StringUtils.hasText(fileName)) {
             return false;
         }
-        // 检查是否包含路径遍历字符
-        if (PATH_TRAVERSAL_PATTERN.matcher(fileName).find()) {
+        
+        // 检查文件名长度（避免过长导致问题）
+        if (fileName.length() > 255) {
+            log.warn("文件名过长: {}", fileName);
             return false;
         }
-        // 检查文件名格式
-        return SAFE_FILENAME_PATTERN.matcher(fileName).matches();
+        
+        // 检查是否包含路径遍历字符
+        if (PATH_TRAVERSAL_PATTERN.matcher(fileName).find()) {
+            log.warn("文件名包含路径遍历字符: {}", fileName);
+            return false;
+        }
+        
+        // 检查是否包含危险的控制字符
+        if (DANGEROUS_CHAR_PATTERN.matcher(fileName).find()) {
+            log.warn("文件名包含危险字符: {}", fileName);
+            return false;
+        }
+        
+        // 检查文件名是否以点开头或结尾（可能隐藏文件）
+        String trimmed = fileName.trim();
+        if (trimmed.startsWith(".") || trimmed.endsWith(".")) {
+            log.warn("文件名以点开头或结尾: {}", fileName);
+            return false;
+        }
+        
+        // 检查是否包含连续的点（可能用于路径遍历）
+        if (trimmed.contains("..")) {
+            log.warn("文件名包含连续的点: {}", fileName);
+            return false;
+        }
+        
+        return true;
     }
     
 
@@ -100,7 +130,7 @@ public class FileController {
         // 验证文件名安全性
         if (!isSafeFileName(fileName)) {
             log.warn("文件名不安全: {}", fileName);
-            return new Result<>(HttpStatus.BAD_REQUEST.value(), null, "文件名包含非法字符，请使用字母、数字、下划线、中划线和点");
+            return new Result<>(HttpStatus.BAD_REQUEST.value(), null, "文件名包含非法字符或格式不正确，请确保文件名不包含路径分隔符、控制字符等危险字符");
         }
         
         fileInfoDto.setFileName(fileName);
