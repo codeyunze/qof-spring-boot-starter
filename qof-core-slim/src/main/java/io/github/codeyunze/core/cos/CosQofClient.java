@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -48,29 +49,63 @@ public class CosQofClient extends AbstractQofClient {
 
     private COSClient getClient(QofFileOperationBase fileOperationBase) {
         String fileStorageStation;
-        if (fileProperties.getMultiple().containsKey(fileOperationBase.getFileStorageStation())) {
+        Map<String, CosQofConfig> multiple = fileProperties.getMultiple();
+        if (!CollectionUtils.isEmpty(multiple) && multiple.containsKey(fileOperationBase.getFileStorageStation())) {
             fileStorageStation = fileOperationBase.getFileStorageStation();
         } else {
             fileStorageStation = fileProperties.getDefaultStorageStation();
         }
-        return cosClientMap.get(fileStorageStation + StrUtils.toUpperCase(QofConstant.StorageMode.COS));
+        String clientKey = fileStorageStation + StrUtils.toUpperCase(QofConstant.StorageMode.COS);
+        COSClient client = cosClientMap.get(clientKey);
+        if (client == null) {
+            throw new IllegalStateException("未找到COS客户端，存储站: " + fileStorageStation);
+        }
+        return client;
     }
 
     private String getBucketName(QofFileOperationBase fileOperationBase) {
-        if (!fileProperties.getMultiple().containsKey(fileOperationBase.getFileStorageStation())) {
-            return fileProperties.getMultiple().get(fileProperties.getDefaultStorageStation()).getBucketName();
+        Map<String, CosQofConfig> multiple = fileProperties.getMultiple();
+        String fileStorageStation;
+        if (CollectionUtils.isEmpty(multiple) || !multiple.containsKey(fileOperationBase.getFileStorageStation())) {
+            fileStorageStation = fileProperties.getDefaultStorageStation();
+        } else {
+            fileStorageStation = fileOperationBase.getFileStorageStation();
         }
-        return fileProperties.getMultiple().get(fileOperationBase.getFileStorageStation()).getBucketName();
+        
+        // 如果multiple为空，使用父类配置
+        if (CollectionUtils.isEmpty(multiple)) {
+            return fileProperties.getBucketName();
+        }
+        
+        CosQofConfig config = multiple.get(fileStorageStation);
+        if (config == null) {
+            throw new IllegalStateException("未找到存储站配置: " + fileStorageStation);
+        }
+        return config.getBucketName();
     }
 
     private String getFilePath(QofFileOperationBase fileOperationBase) {
+        Map<String, CosQofConfig> multiple = fileProperties.getMultiple();
         String fileStorageStation;
-        if (fileProperties.getMultiple().containsKey(fileOperationBase.getFileStorageStation())) {
-            fileStorageStation = fileOperationBase.getFileStorageStation();
-        } else {
+        if (CollectionUtils.isEmpty(multiple) || !multiple.containsKey(fileOperationBase.getFileStorageStation())) {
             fileStorageStation = fileProperties.getDefaultStorageStation();
+        } else {
+            fileStorageStation = fileOperationBase.getFileStorageStation();
         }
-        return fileProperties.getMultiple().get(fileStorageStation).getFilepath() + fileOperationBase.getFilePath();
+        
+        String filepath;
+        // 如果multiple为空，使用父类配置
+        if (CollectionUtils.isEmpty(multiple)) {
+            filepath = fileProperties.getFilepath();
+        } else {
+            CosQofConfig config = multiple.get(fileStorageStation);
+            if (config == null) {
+                throw new IllegalStateException("未找到存储站配置: " + fileStorageStation);
+            }
+            filepath = config.getFilepath();
+        }
+        
+        return filepath + fileOperationBase.getFilePath();
     }
 
     @Override

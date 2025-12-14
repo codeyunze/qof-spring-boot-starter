@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -22,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
 
 /**
  * 本地文件操作接口实现
@@ -43,13 +45,27 @@ public class LocalQofClient extends AbstractQofClient {
     }
 
     private String getFilePath(QofFileOperationBase fileOperationBase) {
+        Map<String, LocalQofConfig> multiple = fileProperties.getMultiple();
         String fileStorageStation;
-        if (fileProperties.getMultiple().containsKey(fileOperationBase.getFileStorageStation())) {
-            fileStorageStation = fileOperationBase.getFileStorageStation();
-        } else {
+        if (CollectionUtils.isEmpty(multiple) || !multiple.containsKey(fileOperationBase.getFileStorageStation())) {
             fileStorageStation = fileProperties.getDefaultStorageStation();
+        } else {
+            fileStorageStation = fileOperationBase.getFileStorageStation();
         }
-        return fileProperties.getMultiple().get(fileStorageStation).getFilepath();
+        
+        String filepath;
+        // 如果multiple为空，使用父类配置
+        if (CollectionUtils.isEmpty(multiple)) {
+            filepath = fileProperties.getFilepath();
+        } else {
+            LocalQofConfig config = multiple.get(fileStorageStation);
+            if (config == null) {
+                throw new IllegalStateException("未找到存储站配置: " + fileStorageStation);
+            }
+            filepath = config.getFilepath();
+        }
+        
+        return filepath;
     }
 
     @Override

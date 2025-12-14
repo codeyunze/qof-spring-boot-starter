@@ -9,17 +9,15 @@ import io.github.codeyunze.service.SysFilesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
 /**
- * QOF文件信息操作扩展接口默认实现
+ * QOF文件信息操作扩展接口默认实现（抽象类，供子类继承）
  *
  * @author 高晗
  * @since 2025/2/18 07:49
  */
-@Service
 public abstract class AbstractQofServiceImpl implements QofExtService {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractQofServiceImpl.class);
