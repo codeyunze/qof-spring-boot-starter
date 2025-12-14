@@ -111,7 +111,11 @@ public class CosQofClient extends AbstractQofClient {
 
     @Override
     protected boolean doDelete(QofFileInfoBo<?> fileBo) {
-        getClient(fileBo).deleteObject(getBucketName(fileBo), getFilePath(fileBo));
+        try {
+            getClient(fileBo).deleteObject(getBucketName(fileBo), getFilePath(fileBo));
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
 }

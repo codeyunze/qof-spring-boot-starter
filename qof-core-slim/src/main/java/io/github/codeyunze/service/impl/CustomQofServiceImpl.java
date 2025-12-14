@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
  * @author 高晗
  * @since 2025/2/18 07:49
  */
-// @Primary
-// @Service
+@Primary
+@Service
 public class CustomQofServiceImpl extends AbstractQofServiceImpl {
 
     private static final Logger log = LoggerFactory.getLogger(CustomQofServiceImpl.class);
@@ -31,8 +31,8 @@ public class CustomQofServiceImpl extends AbstractQofServiceImpl {
     }
 
     @Override
-    public boolean afterDelete(QofFileInfoBo<?> fileBo) {
+    public boolean afterDelete(QofFileInfoBo<?> fileBo, boolean deleted) {
         log.info("自定义-文件删除后执行");
-        return false;
+        return super.afterDelete(fileBo, deleted);
     }
 }

@@ -117,7 +117,11 @@ public abstract class AbstractQofClient implements QofClient {
             return false;
         }
 
-        return doDelete(fileBo);
+        boolean delete = doDelete(fileBo);
+
+        qofExtService.afterDelete(fileBo, delete);
+
+        return delete;
     }
 
 

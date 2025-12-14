@@ -76,7 +76,7 @@ public abstract class AbstractQofServiceImpl implements QofExtService {
     }
 
     @Override
-    public boolean afterDelete(QofFileInfoBo<?> fileBo) {
+    public boolean afterDelete(QofFileInfoBo<?> fileBo, boolean deleted) {
         log.info("扩展-文件删除后执行");
         return true;
     }

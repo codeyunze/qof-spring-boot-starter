@@ -60,8 +60,9 @@ public interface QofExtService {
     /**
      * 文件删除后执行操作
      *
-     * @param fileBo 删除文件信息
+     * @param fileBo  删除文件信息
+     * @param deleted 删除结果 true: 文件删除成功 false: 文件删除失败
      * @return true: 文件删除后执行操作成功；   false: 文件删除后执行操作失败；
      */
-    boolean afterDelete(QofFileInfoBo<?> fileBo);
+    boolean afterDelete(QofFileInfoBo<?> fileBo, boolean deleted);
 }
