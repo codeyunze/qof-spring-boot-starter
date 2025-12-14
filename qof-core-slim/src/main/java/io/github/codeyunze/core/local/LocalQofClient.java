@@ -7,6 +7,8 @@ import io.github.codeyunze.core.AbstractQofClient;
 import io.github.codeyunze.core.QofFileOperationBase;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
+import io.github.codeyunze.exception.FileUploadException;
+import io.github.codeyunze.exception.FileDownloadException;
 import io.github.codeyunze.service.QofExtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +80,7 @@ public class LocalQofClient extends AbstractQofClient {
                 Files.createDirectories(uploadPath);
             } catch (IOException e) {
                 log.error("创建上传目录失败: {}", uploadPath, e);
-                throw new RuntimeException("创建上传目录失败: " + uploadPath, e);
+                throw new FileUploadException("创建上传目录失败: " + uploadPath, e);
             }
         }
 
@@ -109,7 +111,7 @@ public class LocalQofClient extends AbstractQofClient {
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             log.error("文件上传失败，文件路径: {}", filePath, e);
-            throw new RuntimeException("文件上传失败: " + filePath, e);
+            throw new FileUploadException("文件上传失败: " + filePath, e);
         }
         return info.getFileId();
     }
@@ -131,7 +133,7 @@ public class LocalQofClient extends AbstractQofClient {
             fileDownloadBo.setInputStream(Files.newInputStream(Paths.get(file.getPath())));
         } catch (IOException e) {
             log.error("下载文件时发生错误，文件路径: {}", filePath, e);
-            throw new RuntimeException("下载文件时发生错误: " + filePath, e);
+            throw new FileDownloadException("下载文件时发生错误: " + filePath, e);
         }
 
         return fileDownloadBo;

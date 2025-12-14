@@ -38,6 +38,12 @@ public class CosQofConfig {
      */
     private String previewAddress;
 
+    /**
+     * 单链接限速（单位：字节/秒），默认8MB/s
+     * 设置为0或null表示不限速
+     */
+    private Long trafficLimit;
+
     public String getPreviewAddress() {
         return previewAddress;
     }
@@ -84,5 +90,13 @@ public class CosQofConfig {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public Long getTrafficLimit() {
+        return trafficLimit;
+    }
+
+    public void setTrafficLimit(Long trafficLimit) {
+        this.trafficLimit = trafficLimit;
     }
 }

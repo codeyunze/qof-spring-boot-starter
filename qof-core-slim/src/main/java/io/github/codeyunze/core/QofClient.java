@@ -27,6 +27,7 @@ public interface QofClient {
      *
      * @param fileId 文件唯一id
      * @return 文件流数据
+     * @apiNote 返回的QofFileDownloadBo中的InputStream需要调用者负责关闭
      */
     QofFileDownloadBo download(Long fileId);
 
@@ -35,6 +36,7 @@ public interface QofClient {
      *
      * @param fileId 文件唯一id
      * @return 文件流数据
+     * @apiNote 返回的QofFileDownloadBo中的InputStream需要调用者负责关闭
      */
     QofFileDownloadBo preview(Long fileId);
 

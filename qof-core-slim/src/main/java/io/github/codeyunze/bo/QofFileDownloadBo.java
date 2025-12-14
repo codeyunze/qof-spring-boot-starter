@@ -12,7 +12,14 @@ import java.io.InputStream;
 public class QofFileDownloadBo extends QofFileInfoBo {
 
     /**
-     * 文件
+     * 文件输入流
+     * <p>
+     * <b>重要：</b>调用者负责关闭此InputStream，建议使用try-with-resources语句：
+     * <pre>{@code
+     * try (InputStream is = fileDownloadBo.getInputStream()) {
+     *     // 使用输入流
+     * }
+     * }</pre>
      */
     private InputStream inputStream;
 

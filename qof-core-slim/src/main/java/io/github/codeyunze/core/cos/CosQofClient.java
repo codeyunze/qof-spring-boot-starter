@@ -13,6 +13,9 @@ import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.AbstractQofClient;
 import io.github.codeyunze.core.QofFileOperationBase;
 import io.github.codeyunze.dto.QofFileInfoDto;
+import io.github.codeyunze.exception.FileUploadException;
+import io.github.codeyunze.exception.FileDownloadException;
+import io.github.codeyunze.exception.FileDeleteException;
 import io.github.codeyunze.service.QofExtService;
 import io.github.codeyunze.utils.StrUtils;
 import org.slf4j.Logger;
@@ -110,6 +113,27 @@ public class CosQofClient extends AbstractQofClient {
         return filepath + fileOperationBase.getFilePath();
     }
 
+    private Long getTrafficLimit(QofFileOperationBase fileOperationBase) {
+        Map<String, CosQofConfig> multiple = fileProperties.getMultiple();
+        String fileStorageStation;
+        if (CollectionUtils.isEmpty(multiple) || !multiple.containsKey(fileOperationBase.getFileStorageStation())) {
+            fileStorageStation = fileProperties.getDefaultStorageStation();
+        } else {
+            fileStorageStation = fileOperationBase.getFileStorageStation();
+        }
+        
+        // 如果multiple为空，使用父类配置
+        if (CollectionUtils.isEmpty(multiple)) {
+            return fileProperties.getTrafficLimit();
+        }
+        
+        CosQofConfig config = multiple.get(fileStorageStation);
+        if (config == null) {
+            return fileProperties.getTrafficLimit();
+        }
+        return config.getTrafficLimit();
+    }
+
     @Override
     protected Long doUpload(InputStream fis, QofFileInfoDto<?> info) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -119,40 +143,58 @@ public class CosQofClient extends AbstractQofClient {
         // 设置单链接限速（如有需要），不需要可忽略
         try (InputStream inputStream = fis) {
             PutObjectRequest putObjectRequest = new PutObjectRequest(getBucketName(info), getFilePath(info), inputStream, objectMetadata);
-            putObjectRequest.setTrafficLimit(8 * 1024 * 1024);
+            Long trafficLimit = getTrafficLimit(info);
+            if (trafficLimit != null && trafficLimit > 0) {
+                putObjectRequest.setTrafficLimit(trafficLimit.intValue());
+            }
             COSClient client = getClient(info);
             client.putObject(putObjectRequest);
         } catch (CosServiceException e) {
             log.error("COS服务异常，文件路径: {}, 错误码: {}, 错误信息: {}", getFilePath(info), e.getErrorCode(), e.getErrorMessage(), e);
-            throw new RuntimeException("文件上传失败，COS服务异常: " + e.getErrorMessage(), e);
+            throw new FileUploadException("文件上传失败，COS服务异常: " + e.getErrorMessage(), e);
         } catch (CosClientException e) {
             log.error("COS客户端异常，文件路径: {}, 异常信息: {}", getFilePath(info), e.getMessage(), e);
-            throw new RuntimeException("文件上传失败，COS客户端异常: " + e.getMessage(), e);
+            throw new FileUploadException("文件上传失败，COS客户端异常: " + e.getMessage(), e);
         } catch (IOException e) {
             log.error("文件流处理异常，文件路径: {}", getFilePath(info), e);
-            throw new RuntimeException("文件上传失败，流处理异常", e);
+            throw new FileUploadException("文件上传失败，流处理异常", e);
         }
         return info.getFileId();
     }
 
     @Override
     protected QofFileDownloadBo doDownload(QofFileInfoBo<?> fileBo) {
-        GetObjectRequest getObjectRequest = new GetObjectRequest(getBucketName(fileBo), getFilePath(fileBo));
-        COSObject cosObject = getClient(fileBo).getObject(getObjectRequest);
+        try {
+            GetObjectRequest getObjectRequest = new GetObjectRequest(getBucketName(fileBo), getFilePath(fileBo));
+            COSObject cosObject = getClient(fileBo).getObject(getObjectRequest);
 
-        QofFileDownloadBo fileDownloadBo = new QofFileDownloadBo();
-        BeanUtils.copyProperties(fileBo, fileDownloadBo);
-        fileDownloadBo.setInputStream(cosObject.getObjectContent());
-        return fileDownloadBo;
+            QofFileDownloadBo fileDownloadBo = new QofFileDownloadBo();
+            BeanUtils.copyProperties(fileBo, fileDownloadBo);
+            fileDownloadBo.setInputStream(cosObject.getObjectContent());
+            return fileDownloadBo;
+        } catch (CosServiceException e) {
+            log.error("COS服务异常，文件路径: {}, 错误码: {}, 错误信息: {}", getFilePath(fileBo), e.getErrorCode(), e.getErrorMessage(), e);
+            throw new FileDownloadException("文件下载失败，COS服务异常: " + e.getErrorMessage(), e);
+        } catch (CosClientException e) {
+            log.error("COS客户端异常，文件路径: {}, 异常信息: {}", getFilePath(fileBo), e.getMessage(), e);
+            throw new FileDownloadException("文件下载失败，COS客户端异常: " + e.getMessage(), e);
+        }
     }
 
     @Override
     protected boolean doDelete(QofFileInfoBo<?> fileBo) {
         try {
             getClient(fileBo).deleteObject(getBucketName(fileBo), getFilePath(fileBo));
+            return true;
+        } catch (CosServiceException e) {
+            log.error("COS服务异常，文件路径: {}, 错误码: {}, 错误信息: {}", getFilePath(fileBo), e.getErrorCode(), e.getErrorMessage(), e);
+            throw new FileDeleteException("文件删除失败，COS服务异常: " + e.getErrorMessage(), e);
+        } catch (CosClientException e) {
+            log.error("COS客户端异常，文件路径: {}, 异常信息: {}", getFilePath(fileBo), e.getMessage(), e);
+            throw new FileDeleteException("文件删除失败，COS客户端异常: " + e.getMessage(), e);
         } catch (Exception e) {
-            return false;
+            log.error("文件删除异常，文件路径: {}", getFilePath(fileBo), e);
+            throw new FileDeleteException("文件删除失败: " + e.getMessage(), e);
         }
-        return true;
     }
 }
