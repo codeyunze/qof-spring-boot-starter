@@ -5,10 +5,12 @@ import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.region.Region;
+import cn.hutool.core.text.CharPool;
 import io.github.codeyunze.QofConstant;
 import io.github.codeyunze.utils.StrUtils;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.CollectionUtils;
@@ -26,11 +28,10 @@ import java.util.Map;
 @ConditionalOnClass(COSClient.class)    // 当项目中存在COSClient.class类时才会使当前配置类生效
 @SpringBootConfiguration
 @EnableConfigurationProperties({CosQofProperties.class})
-// 只有当qof.cos.enable=true时，QofCosConfiguration配置类才会被加载
-// @ConditionalOnProperty(
-//         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.COS,
-//         name = QofConstant.ENABLE,
-//         havingValue = QofConstant.ENABLE_VALUE)
+@ConditionalOnProperty(
+        prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.COS,
+        name = QofConstant.ENABLE,
+        havingValue = QofConstant.ENABLE_VALUE)
 public class CosQofConfiguration {
 
     @Resource

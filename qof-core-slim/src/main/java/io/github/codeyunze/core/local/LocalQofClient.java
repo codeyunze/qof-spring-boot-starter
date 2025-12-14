@@ -82,7 +82,25 @@ public class LocalQofClient extends AbstractQofClient {
             }
         }
 
-        String fileName = info.getFileId() + info.getFilePath().substring(info.getFilePath().lastIndexOf("."));
+        // 从filePath中提取扩展名（filePath已经在AbstractQofClient中设置，格式为：directoryAddress/fileId.suffix）
+        String suffix = "";
+        String filePathStr = info.getFilePath();
+        if (filePathStr != null && filePathStr.contains(".")) {
+            int lastDotIndex = filePathStr.lastIndexOf(".");
+            if (lastDotIndex >= 0 && lastDotIndex < filePathStr.length() - 1) {
+                suffix = filePathStr.substring(lastDotIndex);
+            }
+        }
+        
+        // 如果filePath中没有扩展名，尝试从fileName中提取
+        if (suffix.isEmpty() && info.getFileName() != null && info.getFileName().contains(".")) {
+            int lastDotIndex = info.getFileName().lastIndexOf(".");
+            if (lastDotIndex >= 0 && lastDotIndex < info.getFileName().length() - 1) {
+                suffix = info.getFileName().substring(lastDotIndex);
+            }
+        }
+        
+        String fileName = info.getFileId() + suffix;
 
         // 定义目标文件路径
         Path filePath = uploadPath.resolve(fileName);

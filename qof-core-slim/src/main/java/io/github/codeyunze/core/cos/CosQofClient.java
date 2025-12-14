@@ -18,6 +18,7 @@ import io.github.codeyunze.utils.StrUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -33,6 +34,7 @@ import java.util.Map;
  * @since 2025/2/17 16:53
  */
 @Service
+@ConditionalOnProperty(prefix = "qof.cos", name = QofConstant.ENABLE, havingValue = QofConstant.ENABLE_VALUE)
 public class CosQofClient extends AbstractQofClient {
 
     private static final Logger log = LoggerFactory.getLogger(CosQofClient.class);
