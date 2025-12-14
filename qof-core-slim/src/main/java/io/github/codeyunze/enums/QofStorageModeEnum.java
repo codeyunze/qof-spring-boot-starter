@@ -36,6 +36,10 @@ public enum QofStorageModeEnum {
         this.mode = mode;
     }
 
+    /**
+     * 获取文件存储模式
+     * @return 文件存储模式
+     */
     public String getMode() {
         return mode;
     }
