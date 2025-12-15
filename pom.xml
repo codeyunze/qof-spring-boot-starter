@@ -103,20 +103,8 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.codeyunze</groupId>
-            <artifactId>qof-core-slim</artifactId>
-            <version>0.0.8-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-        </dependency>
+        <!-- 父pom的dependencies只应该包含所有子模块都需要的公共依赖 -->
+        <!-- 子模块之间的依赖应该在各自的pom.xml中声明 -->
     </dependencies>
 
     <build>
