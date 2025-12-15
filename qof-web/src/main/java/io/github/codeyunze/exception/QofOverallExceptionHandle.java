@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
 
 import java.util.Objects;
 
@@ -98,5 +100,17 @@ public class QofOverallExceptionHandle {
     Result<?> runtimeExceptionHandle(RuntimeException e) {
         log.error("运行时异常", e);
         return new Result<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, "系统异常: " + e.getMessage());
+    }
+
+    /**
+     * 上传文件大小超过限制异常处理
+     * 统一拦截 Spring 的上传大小限制异常，返回对用户友好的提示信息
+     */
+    @ExceptionHandler({MaxUploadSizeExceededException.class, MultipartException.class})
+    Result<?> uploadSizeLimitExceptionHandle(Exception e) {
+        log.warn("上传文件大小超过限制", e);
+        // 对用户隐藏具体异常细节，只给出友好提示
+        String msg = "上传文件失败：文件大小超过系统限制，请压缩或分批上传。如需上传更大文件，请联系系统管理员调整上传大小限制。";
+        return new Result<>(HttpStatus.BAD_REQUEST.value(), null, msg);
     }
 }

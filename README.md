@@ -4,23 +4,33 @@
 
 ### 1. 添加项目的依赖
 
-如果需要使用API接口，则引入依赖
-
-   ```xml
-   <dependency>
-       <groupId>io.github.codeyunze</groupId>
-       <artifactId>qof-starter</artifactId>
-       <version>0.0.7</version>
-   </dependency>
-   ```
-
-如果不需要使用API接口，则引入依赖
+如果 **只需要使用文件操作 SDK（不暴露HTTP接口）**，则引入核心模块：
 
 ```xml
 <dependency>
     <groupId>io.github.codeyunze</groupId>
     <artifactId>qof-core-slim</artifactId>
+    <version>0.0.X</version>
+</dependency>
+```
+
+如果 **需要直接使用文件操作HTTP API接口**，则额外引入 Web 模块（原 `qof-core`，现已更名为 `qof-web`）：
+
+```xml
+<dependency>
+    <groupId>io.github.codeyunze</groupId>
+    <artifactId>qof-web</artifactId>
     <version>0.0.7</version>
+</dependency>
+```
+
+如果希望参考完整示例工程（含启动类与示例配置），可以引入示例模块：
+
+```xml
+<dependency>
+    <groupId>io.github.codeyunze</groupId>
+    <artifactId>qof-starter</artifactId>
+    <version>0.0.X</version>
 </dependency>
 ```
 

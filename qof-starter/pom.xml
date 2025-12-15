@@ -7,7 +7,7 @@
     <parent>
         <groupId>io.github.codeyunze</groupId>
         <artifactId>qof-spring-boot-starter</artifactId>
-        <version>0.0.8-SNAPSHOT</version>
+        <version>0.0.9-SNAPSHOT</version>
     </parent>
 
     <name>qof-starter</name>
@@ -50,7 +50,7 @@
 
         <dependency>
             <groupId>io.github.codeyunze</groupId>
-            <artifactId>qof-core</artifactId>
+            <artifactId>qof-web</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
