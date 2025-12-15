@@ -10,7 +10,7 @@
    <dependency>
        <groupId>io.github.codeyunze</groupId>
        <artifactId>qof-starter</artifactId>
-       <version>0.0.8-SNAPSHOT</version>
+       <version>0.0.8</version>
    </dependency>
    ```
 
@@ -20,7 +20,7 @@
 <dependency>
     <groupId>io.github.codeyunze</groupId>
     <artifactId>qof-core-slim</artifactId>
-    <version>0.0.8-SNAPSHOT</version>
+    <version>0.0.8</version>
 </dependency>
 ```
 
@@ -29,10 +29,10 @@
 ### 2. 选择对应的文件存储模式
 
    | 存储模式 | 说明                                                         | 是否支持 |
-   | -------- | ------------------------------------------------------------ | -------- |
-   | local    | 本地存储，将文件存储在服务器本地。                           | 支持     |
-   | cos      | 腾讯云的COS对象存储，将文件上传至腾讯云的COS对象存储服务里。 | 支持     |
-   | oss      | 阿里云的OSS对象存储，将文件上传至阿里云的OSS对象存储服务里。 | 待开发   |
+   | -------- | ------------------------------------------------------------ |------|
+   | local    | 本地存储，将文件存储在服务器本地。                           | 支持   |
+   | cos      | 腾讯云的COS对象存储，将文件上传至腾讯云的COS对象存储服务里。 | 支持   |
+   | oss      | 阿里云的OSS对象存储，将文件上传至阿里云的OSS对象存储服务里。 | 支持   |
 
 ### 3. 添加对应存储模式的配置信息
 
@@ -86,6 +86,28 @@
    
    ```
 
+oss模式配置信息：
+
+   ```yaml
+   qof:
+     persistent-enable: true
+   oss:
+     enable: true
+     multiple:
+       gz-station:
+         access-key-id: aaaaaaaaaaaaaaa
+         access-key-secret: bbbbbbbbbbbbbbbbb
+         bucket-name: gz-25667
+         endpoint: oss-cn-guangzhou.aliyuncs.com
+         filepath: /qof
+       hz-station:
+          access-key-id: aaaaaaaaaaaaaaa
+          access-key-secret: bbbbbbbbbbbbbbbbb
+          bucket-name: hz-0217732
+          endpoint: oss-cn-hangzhou.aliyuncs.com
+          filepath: /qof
+   ```
+
    > 对象存储分为如下两个维度
    >
    > 1. 第一级为存储模式( `mode` )，如 `local` （本地存储）、 `cos` （腾讯云对象存储）、 `oss` （阿里云对象存储）等
@@ -98,11 +120,19 @@
    >
    >    ​	这时候就可以使用存储站，第一个存储站station-c，存储路径指向C盘，第二个存储站station-d，存储路径指向D盘。
    >
-   >    **cos模式** 案例:
+   >    **cos模式** 案例：
    >
    >    ​	同一个模式cos下，一部分文件要存放在ap-guangzhou（广州地区）的存储桶bucket-gz，另一部分文件要存放在ap-beijing（北京地区）的存储桶bucket-bj。
    >
    >    ​	这时候就可以使用存储站，第一个存储站gz-station，存储路径指向存储桶bucket-gz，第二个存储站bj-station指向bucket-bj。
+   >    
+   >    **oss模式** 案例：
+   >    
+   >    ​	同一个模式oss下，一部分文件要存放在cn-guangzhou（广州地区）的存储桶gz-25667，另一部分文件要存放在cn-hangzhou（杭州地区）的存储桶hz-0217732。
+   >    
+   >    ​	这时候就可以使用存储站，第一个存储站gz-station，存储路径指向存储桶gz-25667，第二个存储站hz-station指向hz-0217732。
+
+
 
 ### 4. 使用方法1-调用文件操作SDK
 
@@ -403,4 +433,40 @@ create table sys_files
     file_storage_station varchar(36)                           null comment '文件存储站'
 ) comment '系统-文件表';
 ```
+
+
+
+
+
+## 四、扩展
+
+### 腾讯云COS对象存储地域信息
+
+| 地域 | 地域简称     | 默认域名（上传/下载/管理 ）                      |
+| ---- | ------------ | ------------------------------------------------ |
+| 北京 | ap-beijing   | <BucketName-APPID>.cos.ap-beijing.myqcloud.com   |
+| 南京 | ap-nanjing   | <BucketName-APPID>.cos.ap-nanjing.myqcloud.com   |
+| 上海 | ap-shanghai  | <BucketName-APPID>.cos.ap-shanghai.myqcloud.com  |
+| 广州 | ap-guangzhou | <BucketName-APPID>.cos.ap-guangzhou.myqcloud.com |
+| 成都 | ap-chengdu   | <BucketName-APPID>.cos.ap-chengdu.myqcloud.com   |
+| 重庆 | ap-chongqing | <BucketName-APPID>.cos.ap-chongqing.myqcloud.com |
+
+### 阿里云OSS对象存储地域信息
+
+
+| **地域**               | **地域ID**     | **外网Endpoint**                | **内网Endpoint**                         |
+| ---------------------- | -------------- | ------------------------------- | ---------------------------------------- |
+| 华东1（杭州）          | cn-hangzhou    | oss-cn-hangzhou.aliyuncs.com    | oss-cn-hangzhou-internal.aliyuncs.com    |
+| 华东2（上海）          | cn-shanghai    | oss-cn-shanghai.aliyuncs.com    | oss-cn-shanghai-internal.aliyuncs.com    |
+| 华中1（武汉-本地地域） | cn-wuhan-lr    | oss-cn-wuhan-lr.aliyuncs.com    | oss-cn-wuhan-lr-internal.aliyuncs.com    |
+| 华北1（青岛）          | cn-qingdao     | oss-cn-qingdao.aliyuncs.com     | oss-cn-qingdao-internal.aliyuncs.com     |
+| 华北2（北京）          | cn-beijing     | oss-cn-beijing.aliyuncs.com     | oss-cn-beijing-internal.aliyuncs.com     |
+| 华北3（张家口）        | cn-zhangjiakou | oss-cn-zhangjiakou.aliyuncs.com | oss-cn-zhangjiakou-internal.aliyuncs.com |
+| 华北5（呼和浩特）      | cn-huhehaote   | oss-cn-huhehaote.aliyuncs.com   | oss-cn-huhehaote-internal.aliyuncs.com   |
+| 华北6（乌兰察布）      | cn-wulanchabu  | oss-cn-wulanchabu.aliyuncs.com  | oss-cn-wulanchabu-internal.aliyuncs.com  |
+| 华南1（深圳）          | cn-shenzhen    | oss-cn-shenzhen.aliyuncs.com    | oss-cn-shenzhen-internal.aliyuncs.com    |
+| 华南2（河源）          | cn-heyuan      | oss-cn-heyuan.aliyuncs.com      | oss-cn-heyuan-internal.aliyuncs.com      |
+| 华南3（广州）          | cn-guangzhou   | oss-cn-guangzhou.aliyuncs.com   | oss-cn-guangzhou-internal.aliyuncs.com   |
+| 西南1（成都）          | cn-chengdu     | oss-cn-chengdu.aliyuncs.com     | oss-cn-chengdu-internal.aliyuncs.com     |
+| 中国香港               | cn-hongkong    | oss-cn-hongkong.aliyuncs.com    | oss-cn-hongkong-internal.aliyuncs.com    |
 
