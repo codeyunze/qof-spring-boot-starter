@@ -5,7 +5,6 @@ import io.github.codeyunze.core.cos.CosQofProperties;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 
 /**
  * 文件上传信息
@@ -13,9 +12,9 @@ import java.io.Serializable;
  * @author 高晗
  * @since 2025-02-16 15:43:42
  */
-public class QofFileInfoDto<T> extends QofFileOperationBase implements Serializable {
+public class QofFileInfoDto<T> extends QofFileOperationBase {
 
-    private static final long serialVesionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 文件名称

@@ -8,6 +8,9 @@ import com.qcloud.cos.region.Region;
 import cn.hutool.core.text.CharPool;
 import io.github.codeyunze.QofConstant;
 import io.github.codeyunze.utils.StrUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -32,10 +35,14 @@ import java.util.Map;
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.COS,
         name = QofConstant.ENABLE,
         havingValue = QofConstant.ENABLE_VALUE)
-public class CosQofConfiguration {
+public class CosQofConfiguration implements DisposableBean {
+
+    private static final Logger log = LoggerFactory.getLogger(CosQofConfiguration.class);
 
     @Resource
     private CosQofProperties cosProperties;
+    
+    private Map<String, COSClient> cosClientMap;
 
     /**
      * 注册COS客户端
@@ -44,20 +51,20 @@ public class CosQofConfiguration {
      */
     @Bean
     public Map<String, COSClient> cosClientMap() {
-        Map<String, COSClient> cosClientMap = new HashMap<>();
+        this.cosClientMap = new HashMap<>();
         if (CollectionUtils.isEmpty(cosProperties.getMultiple())) {
             COSClient cosClient = createCosClient(cosProperties);
             // beanName
             String key = QofConstant.DEFAULT + StrUtils.toUpperCase(QofConstant.StorageMode.COS);
-            cosClientMap.put(key, cosClient);
+            this.cosClientMap.put(key, cosClient);
         } else {
             cosProperties.getMultiple().forEach((storageAlias, config) -> {
                 COSClient cosClient = createCosClient(config);
                 String key = storageAlias + StrUtils.toUpperCase(QofConstant.StorageMode.COS);
-                cosClientMap.put(key, cosClient);
+                this.cosClientMap.put(key, cosClient);
             });
         }
-        return cosClientMap;
+        return this.cosClientMap;
     }
 
     /**
@@ -73,5 +80,27 @@ public class CosQofConfiguration {
         ClientConfig clientConfig = new ClientConfig(new Region(config.getRegion()));
         // 生成cos客户端
         return new COSClient(cred, clientConfig);
+    }
+
+    /**
+     * 应用关闭时，关闭所有COS客户端，释放资源
+     */
+    @Override
+    public void destroy() {
+        if (cosClientMap != null && !cosClientMap.isEmpty()) {
+            log.info("开始关闭COS客户端，共{}个", cosClientMap.size());
+            cosClientMap.forEach((key, client) -> {
+                try {
+                    if (client != null) {
+                        client.shutdown();
+                        log.debug("COS客户端[{}]已关闭", key);
+                    }
+                } catch (Exception e) {
+                    log.error("关闭COS客户端[{}]时发生异常", key, e);
+                }
+            });
+            cosClientMap.clear();
+            log.info("所有 COS 客户端已关闭");
+        }
     }
 }

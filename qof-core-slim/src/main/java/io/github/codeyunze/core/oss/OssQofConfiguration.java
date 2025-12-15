@@ -5,6 +5,9 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import io.github.codeyunze.QofConstant;
 import io.github.codeyunze.utils.StrUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -29,10 +32,14 @@ import java.util.Map;
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.OSS,
         name = QofConstant.ENABLE,
         havingValue = QofConstant.ENABLE_VALUE)
-public class OssQofConfiguration {
+public class OssQofConfiguration implements DisposableBean {
+
+    private static final Logger log = LoggerFactory.getLogger(OssQofConfiguration.class);
 
     @Resource
     private OssQofProperties ossProperties;
+    
+    private Map<String, OSS> ossClientMap;
 
     /**
      * 注册OSS客户端
@@ -41,20 +48,20 @@ public class OssQofConfiguration {
      */
     @Bean
     public Map<String, OSS> ossClientMap() {
-        Map<String, OSS> ossClientMap = new HashMap<>();
+        this.ossClientMap = new HashMap<>();
         if (CollectionUtils.isEmpty(ossProperties.getMultiple())) {
             OSS ossClient = createOssClient(ossProperties);
             // beanName
             String key = QofConstant.DEFAULT + StrUtils.toUpperCase(QofConstant.StorageMode.OSS);
-            ossClientMap.put(key, ossClient);
+            this.ossClientMap.put(key, ossClient);
         } else {
             ossProperties.getMultiple().forEach((storageAlias, config) -> {
                 OSS ossClient = createOssClient(config);
                 String key = storageAlias + StrUtils.toUpperCase(QofConstant.StorageMode.OSS);
-                ossClientMap.put(key, ossClient);
+                this.ossClientMap.put(key, ossClient);
             });
         }
-        return ossClientMap;
+        return this.ossClientMap;
     }
 
     /**
@@ -70,6 +77,28 @@ public class OssQofConfiguration {
                 config.getAccessKeyId(),
                 config.getAccessKeySecret()
         );
+    }
+
+    /**
+     * 应用关闭时，关闭所有OSS客户端，释放资源
+     */
+    @Override
+    public void destroy() {
+        if (ossClientMap != null && !ossClientMap.isEmpty()) {
+            log.info("开始关闭OSS客户端，共{}个", ossClientMap.size());
+            ossClientMap.forEach((key, client) -> {
+                try {
+                    if (client != null) {
+                        client.shutdown();
+                        log.debug("OSS客户端[{}]已关闭", key);
+                    }
+                } catch (Exception e) {
+                    log.error("关闭OSS客户端[{}]时发生异常", key, e);
+                }
+            });
+            ossClientMap.clear();
+            log.info("所有OSS客户端已关闭");
+        }
     }
 }
 
