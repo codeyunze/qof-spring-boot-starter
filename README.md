@@ -14,13 +14,13 @@
 </dependency>
 ```
 
-如果 **需要直接使用文件操作HTTP API接口**，则额外引入 Web 模块（原 `qof-core`，现已更名为 `qof-web`）：
+如果 **需要直接使用文件操作HTTP API接口**，则额外引入 Web 模块：
 
 ```xml
 <dependency>
     <groupId>io.github.codeyunze</groupId>
     <artifactId>qof-web</artifactId>
-    <version>0.0.7</version>
+    <version>0.0.X</version>
 </dependency>
 ```
 
@@ -42,7 +42,7 @@
    | -------- | ------------------------------------------------------------ | -------- |
    | local    | 本地存储，将文件存储在服务器本地。                           | 支持     |
    | cos      | 腾讯云的COS对象存储，将文件上传至腾讯云的COS对象存储服务里。 | 支持     |
-   | oss      | 阿里云的OSS对象存储，将文件上传至阿里云的OSS对象存储服务里。 | 待开发   |
+   | oss      | 阿里云的OSS对象存储，将文件上传至阿里云的OSS对象存储服务里。 | 支持   |
 
 ### 3. 添加对应存储模式的配置信息
 
