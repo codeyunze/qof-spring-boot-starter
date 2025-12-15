@@ -33,7 +33,7 @@
     </developers>
 
     <modules>
-        <module>qof-core-slim</module>
+        <module>qof-core</module>
         <module>qof-web</module>
         <module>qof-starter</module>
     </modules>

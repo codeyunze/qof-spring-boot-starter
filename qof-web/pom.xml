@@ -56,7 +56,7 @@
 
         <dependency>
             <groupId>io.github.codeyunze</groupId>
-            <artifactId>qof-core-slim</artifactId>
+            <artifactId>qof-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

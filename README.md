@@ -9,7 +9,7 @@
 ```xml
 <dependency>
     <groupId>io.github.codeyunze</groupId>
-    <artifactId>qof-core-slim</artifactId>
+    <artifactId>qof-core</artifactId>
     <version>0.0.X</version>
 </dependency>
 ```
