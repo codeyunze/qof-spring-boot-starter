@@ -39,6 +39,20 @@ public class QofProperties {
         add("application/pdf");
     }};
 
+    /**
+     * 是否启用文件类型Magic Number检测
+     * 默认值：true
+     * 启用后，会通过文件头（Magic Number）验证文件真实类型，防止文件伪装
+     */
+    private boolean enableMagicNumberDetection = true;
+
+    /**
+     * 文件流缓冲区大小（单位：字节）
+     * 默认值：8192 (8KB)
+     * 用于文件下载和预览时的流处理
+     */
+    private int bufferSize = 8192;
+
     public boolean isPersistentEnable() {
         return persistentEnable;
     }
@@ -61,5 +75,21 @@ public class QofProperties {
 
     public void setPreviewSupportedTypes(List<String> previewSupportedTypes) {
         this.previewSupportedTypes = previewSupportedTypes;
+    }
+
+    public boolean isEnableMagicNumberDetection() {
+        return enableMagicNumberDetection;
+    }
+
+    public void setEnableMagicNumberDetection(boolean enableMagicNumberDetection) {
+        this.enableMagicNumberDetection = enableMagicNumberDetection;
+    }
+
+    public int getBufferSize() {
+        return bufferSize;
+    }
+
+    public void setBufferSize(int bufferSize) {
+        this.bufferSize = bufferSize;
     }
 }

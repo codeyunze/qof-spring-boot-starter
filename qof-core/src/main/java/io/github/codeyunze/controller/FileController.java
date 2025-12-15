@@ -9,6 +9,7 @@ import io.github.codeyunze.core.QofClientFactory;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.dto.QofFileUploadDto;
 import io.github.codeyunze.entity.SysFiles;
+import io.github.codeyunze.utils.FileTypeDetector;
 import io.github.codeyunze.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,7 +148,22 @@ public class FileController {
         }
         
         fileInfoDto.setFileName(fileName);
-        fileInfoDto.setFileType(file.getContentType());
+        String contentType = file.getContentType();
+        fileInfoDto.setFileType(contentType);
+        
+        // Magic Number检测：验证文件真实类型
+        if (qofProperties.isEnableMagicNumberDetection()) {
+            try (InputStream inputStream = file.getInputStream()) {
+                if (!FileTypeDetector.validateFileType(inputStream, contentType)) {
+                    log.warn("文件类型验证失败，声明类型: {}, 文件名: {}", contentType, fileName);
+                    return new Result<>(HttpStatus.BAD_REQUEST.value(), null, 
+                            "文件类型验证失败，文件内容与声明类型不匹配");
+                }
+            } catch (IOException e) {
+                log.error("文件类型检测异常，文件名: {}", fileName, e);
+                return new Result<>(HttpStatus.BAD_REQUEST.value(), null, "文件类型检测失败");
+            }
+        }
         
         // 构建安全的目录地址（由系统自动生成，防止路径遍历攻击）
         String directoryAddress = "/" + LocalDateTimeUtil.format(LocalDateTime.now(), DatePattern.SIMPLE_MONTH_PATTERN);
@@ -183,7 +199,10 @@ public class FileController {
 
             StreamingResponseBody streamingResponseBody = outputStream -> {
                 try (InputStream inputStream = fileDownloadBo.getInputStream()) {
-                    byte[] buffer = new byte[8192]; // 增大缓冲区提高性能
+                    int bufferSize = qofProperties != null && qofProperties.getBufferSize() > 0 
+                            ? qofProperties.getBufferSize() 
+                            : 8192; // 默认8KB
+                    byte[] buffer = new byte[bufferSize];
                     int bytesRead;
                     while ((bytesRead = inputStream.read(buffer)) != -1) {
                         outputStream.write(buffer, 0, bytesRead);
@@ -225,7 +244,10 @@ public class FileController {
 
             StreamingResponseBody streamingResponseBody = outputStream -> {
                 try (InputStream inputStream = fileDownloadBo.getInputStream()) {
-                    byte[] buffer = new byte[8192]; // 增大缓冲区提高性能
+                    int bufferSize = qofProperties != null && qofProperties.getBufferSize() > 0 
+                            ? qofProperties.getBufferSize() 
+                            : 8192; // 默认8KB
+                    byte[] buffer = new byte[bufferSize];
                     int bytesRead;
                     while ((bytesRead = inputStream.read(buffer)) != -1) {
                         outputStream.write(buffer, 0, bytesRead);

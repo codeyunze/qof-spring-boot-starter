@@ -12,6 +12,7 @@ import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.AbstractQofClient;
 import io.github.codeyunze.core.QofFileOperationBase;
+import io.github.codeyunze.core.StorageStationHelper;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.FileUploadException;
 import io.github.codeyunze.exception.FileDownloadException;
@@ -23,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -53,13 +53,11 @@ public class OssQofClient extends AbstractQofClient {
     }
 
     private OSS getClient(QofFileOperationBase fileOperationBase) {
-        String fileStorageStation;
-        Map<String, OssQofConfig> multiple = fileProperties.getMultiple();
-        if (!CollectionUtils.isEmpty(multiple) && multiple.containsKey(fileOperationBase.getFileStorageStation())) {
-            fileStorageStation = fileOperationBase.getFileStorageStation();
-        } else {
-            fileStorageStation = fileProperties.getDefaultStorageStation();
-        }
+        String fileStorageStation = StorageStationHelper.getStorageStation(
+                fileOperationBase,
+                fileProperties.getMultiple(),
+                fileProperties.getDefaultStorageStation()
+        );
         String clientKey = fileStorageStation + StrUtils.toUpperCase(QofConstant.StorageMode.OSS);
         OSS client = ossClientMap.get(clientKey);
         if (client == null) {
@@ -69,46 +67,25 @@ public class OssQofClient extends AbstractQofClient {
     }
 
     private String getBucketName(QofFileOperationBase fileOperationBase) {
-        Map<String, OssQofConfig> multiple = fileProperties.getMultiple();
-        String fileStorageStation;
-        if (CollectionUtils.isEmpty(multiple) || !multiple.containsKey(fileOperationBase.getFileStorageStation())) {
-            fileStorageStation = fileProperties.getDefaultStorageStation();
-        } else {
-            fileStorageStation = fileOperationBase.getFileStorageStation();
-        }
-        
-        // 如果multiple为空，使用父类配置
-        if (CollectionUtils.isEmpty(multiple)) {
-            return fileProperties.getBucketName();
-        }
-        
-        OssQofConfig config = multiple.get(fileStorageStation);
-        if (config == null) {
-            throw new IllegalStateException("未找到存储站配置: " + fileStorageStation);
-        }
-        return config.getBucketName();
+        return StorageStationHelper.getConfigValue(
+                fileOperationBase,
+                fileProperties.getMultiple(),
+                fileProperties.getDefaultStorageStation(),
+                (v) -> fileProperties.getBucketName(),
+                OssQofConfig::getBucketName,
+                "bucket-name"
+        );
     }
 
     private String getFilePath(QofFileOperationBase fileOperationBase) {
-        Map<String, OssQofConfig> multiple = fileProperties.getMultiple();
-        String fileStorageStation;
-        if (CollectionUtils.isEmpty(multiple) || !multiple.containsKey(fileOperationBase.getFileStorageStation())) {
-            fileStorageStation = fileProperties.getDefaultStorageStation();
-        } else {
-            fileStorageStation = fileOperationBase.getFileStorageStation();
-        }
-        
-        String filepath;
-        // 如果multiple为空，使用父类配置
-        if (CollectionUtils.isEmpty(multiple)) {
-            filepath = fileProperties.getFilepath();
-        } else {
-            OssQofConfig config = multiple.get(fileStorageStation);
-            if (config == null) {
-                throw new IllegalStateException("未找到存储站配置: " + fileStorageStation);
-            }
-            filepath = config.getFilepath();
-        }
+        String filepath = StorageStationHelper.getConfigValue(
+                fileOperationBase,
+                fileProperties.getMultiple(),
+                fileProperties.getDefaultStorageStation(),
+                (v) -> fileProperties.getFilepath(),
+                OssQofConfig::getFilepath,
+                "filepath"
+        );
         
         // 构建完整路径
         String fullPath = filepath + fileOperationBase.getFilePath();

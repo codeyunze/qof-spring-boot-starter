@@ -5,6 +5,7 @@ import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.AbstractQofClient;
 import io.github.codeyunze.core.QofFileOperationBase;
+import io.github.codeyunze.core.StorageStationHelper;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
 import io.github.codeyunze.exception.FileUploadException;
@@ -15,17 +16,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Map;
 
 /**
  * 本地文件操作接口实现
@@ -47,33 +45,28 @@ public class LocalQofClient extends AbstractQofClient {
     }
 
     private String getFilePath(QofFileOperationBase fileOperationBase) {
-        Map<String, LocalQofConfig> multiple = fileProperties.getMultiple();
-        String fileStorageStation;
-        if (CollectionUtils.isEmpty(multiple) || !multiple.containsKey(fileOperationBase.getFileStorageStation())) {
-            fileStorageStation = fileProperties.getDefaultStorageStation();
-        } else {
-            fileStorageStation = fileOperationBase.getFileStorageStation();
-        }
-        
-        String filepath;
-        // 如果multiple为空，使用父类配置
-        if (CollectionUtils.isEmpty(multiple)) {
-            filepath = fileProperties.getFilepath();
-        } else {
-            LocalQofConfig config = multiple.get(fileStorageStation);
-            if (config == null) {
-                throw new IllegalStateException("未找到存储站配置: " + fileStorageStation);
-            }
-            filepath = config.getFilepath();
-        }
-        
-        return filepath;
+        return StorageStationHelper.getConfigValue(
+                fileOperationBase,
+                fileProperties.getMultiple(),
+                fileProperties.getDefaultStorageStation(),
+                (v) -> fileProperties.getFilepath(),
+                LocalQofConfig::getFilepath,
+                "filepath"
+        );
     }
 
     @Override
     protected Long doUpload(InputStream fis, QofFileInfoDto<?> info) {
-        // 确保上传目录存在
-        Path uploadPath = Paths.get(getFilePath(info) + info.getDirectoryAddress());
+        // 确保上传目录存在，使用Path.normalize()规范化路径
+        Path basePath = Paths.get(getFilePath(info));
+        Path uploadPath = basePath.resolve(info.getDirectoryAddress()).normalize();
+        
+        // 验证路径安全性，防止路径遍历攻击
+        if (!uploadPath.startsWith(basePath.normalize())) {
+            log.error("路径遍历攻击检测，基础路径: {}, 目标路径: {}", basePath, uploadPath);
+            throw new FileUploadException("文件上传失败，请稍后重试", new SecurityException("非法路径"));
+        }
+        
         if (!Files.exists(uploadPath)) {
             try {
                 // 创建目录
@@ -104,8 +97,15 @@ public class LocalQofClient extends AbstractQofClient {
         
         String fileName = info.getFileId() + suffix;
 
-        // 定义目标文件路径
-        Path filePath = uploadPath.resolve(fileName);
+        // 定义目标文件路径，使用normalize()规范化
+        Path filePath = uploadPath.resolve(fileName).normalize();
+        
+        // 再次验证路径安全性
+        if (!filePath.startsWith(basePath.normalize())) {
+            log.error("路径遍历攻击检测，基础路径: {}, 目标路径: {}", basePath, filePath);
+            throw new FileUploadException("文件上传失败，请稍后重试", new SecurityException("非法路径"));
+        }
+        
         try (InputStream inputStream = fis) {
             // 使用NIO将输入流复制到目标文件，如果文件已经存在，则覆盖
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
@@ -118,11 +118,17 @@ public class LocalQofClient extends AbstractQofClient {
 
     @Override
     protected QofFileDownloadBo doDownload(QofFileInfoBo<?> fileBo) {
-        // 确保文件路径正确构建
-        String filePath = getFilePath(fileBo) + fileBo.getFilePath();
-        File file = new File(filePath);
-
-        if (!file.exists()) {
+        // 使用Path.normalize()规范化路径
+        Path basePath = Paths.get(getFilePath(fileBo));
+        Path filePath = basePath.resolve(fileBo.getFilePath()).normalize();
+        
+        // 验证路径安全性
+        if (!filePath.startsWith(basePath.normalize())) {
+            log.error("路径遍历攻击检测，基础路径: {}, 目标路径: {}", basePath, filePath);
+            throw new FileDownloadException("文件下载失败，请稍后重试", new SecurityException("非法路径"));
+        }
+        
+        if (!Files.exists(filePath)) {
             log.warn("文件不存在，文件路径: {}", filePath);
             throw new DataNotExistException("文件不存在");
         }
@@ -130,7 +136,7 @@ public class LocalQofClient extends AbstractQofClient {
         QofFileDownloadBo fileDownloadBo = new QofFileDownloadBo();
         BeanUtils.copyProperties(fileBo, fileDownloadBo);
         try {
-            fileDownloadBo.setInputStream(Files.newInputStream(Paths.get(file.getPath())));
+            fileDownloadBo.setInputStream(Files.newInputStream(filePath));
         } catch (IOException e) {
             log.error("下载文件时发生错误，文件路径: {}", filePath, e);
             throw new FileDownloadException("文件下载失败，请稍后重试", e);
@@ -141,13 +147,24 @@ public class LocalQofClient extends AbstractQofClient {
 
     @Override
     protected boolean doDelete(QofFileInfoBo<?> fileBo) {
-        // 确保文件路径正确构建
-        String filePath = getFilePath(fileBo) + fileBo.getFilePath();
-        File file = new File(filePath);
-
-        if (!file.exists()) {
+        // 使用Path.normalize()规范化路径
+        Path basePath = Paths.get(getFilePath(fileBo));
+        Path filePath = basePath.resolve(fileBo.getFilePath()).normalize();
+        
+        // 验证路径安全性
+        if (!filePath.startsWith(basePath.normalize())) {
+            log.error("路径遍历攻击检测，基础路径: {}, 目标路径: {}", basePath, filePath);
+            return false;
+        }
+        
+        if (!Files.exists(filePath)) {
             return true;
         }
-        return file.delete();
+        try {
+            return Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            log.error("删除文件失败，文件路径: {}", filePath, e);
+            return false;
+        }
     }
 }
