@@ -9,6 +9,7 @@ import io.github.codeyunze.mapper.SysFilesMapper;
 import io.github.codeyunze.service.SysFilesService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 系统-文件表(SysFiles)表服务实现类
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class SysFilesServiceImpl extends ServiceImpl<SysFilesMapper, SysFiles> implements SysFilesService {
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public QofFileInfoBo<?> save(QofFileInfoDto<?> fileDto) {
         SysFiles fileDo = new SysFiles();
         BeanUtils.copyProperties(fileDto, fileDo);
@@ -40,6 +42,7 @@ public class SysFilesServiceImpl extends ServiceImpl<SysFilesMapper, SysFiles> i
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteByFileId(Long fileId) {
         return baseMapper.deleteById(fileId) > 0;
     }

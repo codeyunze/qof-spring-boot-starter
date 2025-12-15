@@ -42,13 +42,13 @@ public abstract class AbstractQofServiceImpl implements QofExtService {
 
     @Override
     public Long beforeUpload(QofFileInfoDto<?> fileDto) {
-        log.info("扩展-文件上传前执行");
+        log.debug("扩展-文件上传前执行");
         return fileDto.getFileId();
     }
 
     @Override
     public QofFileInfoBo<?> afterUpload(QofFileInfoDto<?> fileDto) {
-        log.info("扩展-文件上传后执行");
+        log.debug("扩展-文件上传后执行");
         if (qofProperties.isPersistentEnable()) {
             return filesService.save(fileDto);
         }
@@ -59,23 +59,23 @@ public abstract class AbstractQofServiceImpl implements QofExtService {
 
     @Override
     public void beforeDownload(QofFileInfoBo<?> fileBo) {
-        log.info("扩展-文件下载前执行");
+        log.debug("扩展-文件下载前执行");
     }
 
     @Override
     public void afterDownload(QofFileInfoBo<?> fileBo) {
-        log.info("扩展-文件下载后执行");
+        log.debug("扩展-文件下载后执行");
     }
 
     @Override
     public boolean beforeDelete(QofFileInfoBo<?> fileBo) {
-        log.info("扩展-文件删除前执行");
+        log.debug("扩展-文件删除前执行");
         return filesService.deleteByFileId(fileBo.getFileId());
     }
 
     @Override
     public boolean afterDelete(QofFileInfoBo<?> fileBo, boolean deleted) {
-        log.info("扩展-文件删除后执行");
+        log.debug("扩展-文件删除后执行");
         return true;
     }
 }

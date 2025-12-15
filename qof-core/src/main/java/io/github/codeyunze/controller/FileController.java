@@ -2,6 +2,7 @@ package io.github.codeyunze.controller;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import io.github.codeyunze.QofProperties;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.core.QofClient;
 import io.github.codeyunze.core.QofClientFactory;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +48,9 @@ public class FileController {
     private static final Pattern DANGEROUS_CHAR_PATTERN = Pattern.compile("[\\x00-\\x1F\\x7F]");
 
     private final QofClientFactory qofClientFactory;
+
+    @Resource
+    private QofProperties qofProperties;
 
     public FileController(QofClientFactory qofClientFactory) {
         this.qofClientFactory = qofClientFactory;
@@ -133,13 +138,21 @@ public class FileController {
             return new Result<>(HttpStatus.BAD_REQUEST.value(), null, "文件名包含非法字符或格式不正确，请确保文件名不包含路径分隔符、控制字符等危险字符");
         }
         
+        // 验证文件大小
+        long fileSize = file.getSize();
+        if (qofProperties.getMaxFileSize() > 0 && fileSize > qofProperties.getMaxFileSize()) {
+            log.warn("文件大小超过限制: {} bytes, 最大允许: {} bytes", fileSize, qofProperties.getMaxFileSize());
+            return new Result<>(HttpStatus.BAD_REQUEST.value(), null, 
+                    String.format("文件大小超过限制，最大允许: %.2f MB", qofProperties.getMaxFileSize() / 1024.0 / 1024.0));
+        }
+        
         fileInfoDto.setFileName(fileName);
         fileInfoDto.setFileType(file.getContentType());
         
         // 构建安全的目录地址（由系统自动生成，防止路径遍历攻击）
         String directoryAddress = "/" + LocalDateTimeUtil.format(LocalDateTime.now(), DatePattern.SIMPLE_MONTH_PATTERN);
         fileInfoDto.setDirectoryAddress(directoryAddress);
-        fileInfoDto.setFileSize(file.getSize());
+        fileInfoDto.setFileSize(fileSize);
 
         try {
             QofClient client = qofClientFactory.buildClient(fileUploadDto.getFileStorageMode());
@@ -147,10 +160,10 @@ public class FileController {
             return new Result<>(HttpStatus.OK.value(), fileId, "文件上传成功");
         } catch (IOException e) {
             log.error("文件上传失败，文件名: {}", fileName, e);
-            return new Result<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, "文件上传失败: " + e.getMessage());
+            return new Result<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, "文件上传失败，请稍后重试");
         } catch (Exception e) {
             log.error("文件上传失败，文件名: {}", fileName, e);
-            return new Result<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, "文件上传失败: " + e.getMessage());
+            return new Result<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, "文件上传失败，请稍后重试");
         }
     }
 

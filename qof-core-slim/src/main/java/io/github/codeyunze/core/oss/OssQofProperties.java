@@ -1,5 +1,6 @@
 package io.github.codeyunze.core.oss;
 
+import io.github.codeyunze.exception.StorageConfigurationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.CollectionUtils;
@@ -67,19 +68,19 @@ public class OssQofProperties extends OssQofConfig implements InitializingBean {
         // 检查/补全配置信息是否齐全
         if (CollectionUtils.isEmpty(this.multiple)) {
             if (!StringUtils.hasText(this.getAccessKeyId())) {
-                throw new RuntimeException("缺少OSS访问密钥配置信息[qof.oss.access-key-id]");
+                throw new StorageConfigurationException("缺少OSS访问密钥配置信息[qof.oss.access-key-id]");
             } else if (!StringUtils.hasText(this.getAccessKeySecret())) {
-                throw new RuntimeException("缺少OSS访问密钥配置信息[qof.oss.access-key-secret]");
+                throw new StorageConfigurationException("缺少OSS访问密钥配置信息[qof.oss.access-key-secret]");
             } else if (!StringUtils.hasText(this.getBucketName())) {
-                throw new RuntimeException("缺少OSS存储桶配置信息[qof.oss.bucket-name]");
+                throw new StorageConfigurationException("缺少OSS存储桶配置信息[qof.oss.bucket-name]");
             } else if (!StringUtils.hasText(this.getEndpoint())) {
-                throw new RuntimeException("缺少OSS地域节点配置信息[qof.oss.endpoint]");
+                throw new StorageConfigurationException("缺少OSS地域节点配置信息[qof.oss.endpoint]");
             }
         } else {
             if (!StringUtils.hasText(this.getAccessKeyId())) {
                 for (Map.Entry<String, OssQofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getAccessKeyId())) {
-                        throw new RuntimeException("缺少OSS访问密钥配置信息[qof.oss.multiple." + entry.getKey() + ".access-key-id]");
+                        throw new StorageConfigurationException("缺少OSS访问密钥配置信息[qof.oss.multiple." + entry.getKey() + ".access-key-id]");
                     }
                 }
             } else {
@@ -93,7 +94,7 @@ public class OssQofProperties extends OssQofConfig implements InitializingBean {
             if (!StringUtils.hasText(this.getAccessKeySecret())) {
                 for (Map.Entry<String, OssQofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getAccessKeySecret())) {
-                        throw new RuntimeException("缺少OSS访问密钥配置信息[qof.oss.multiple." + entry.getKey() + ".access-key-secret]");
+                        throw new StorageConfigurationException("缺少OSS访问密钥配置信息[qof.oss.multiple." + entry.getKey() + ".access-key-secret]");
                     }
                 }
             } else {
@@ -107,7 +108,7 @@ public class OssQofProperties extends OssQofConfig implements InitializingBean {
             if (!StringUtils.hasText(this.getEndpoint())) {
                 for (Map.Entry<String, OssQofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getEndpoint())) {
-                        throw new RuntimeException("缺少OSS地域节点配置信息[qof.oss.multiple." + entry.getKey() + ".endpoint]");
+                        throw new StorageConfigurationException("缺少OSS地域节点配置信息[qof.oss.multiple." + entry.getKey() + ".endpoint]");
                     }
                 }
             } else {
@@ -120,7 +121,7 @@ public class OssQofProperties extends OssQofConfig implements InitializingBean {
 
             for (Map.Entry<String, OssQofConfig> entry : this.multiple.entrySet()) {
                 if (!StringUtils.hasText(entry.getValue().getBucketName())) {
-                    throw new RuntimeException("缺少OSS存储桶配置信息[qof.oss.multiple." + entry.getKey() + ".bucket-name]");
+                    throw new StorageConfigurationException("缺少OSS存储桶配置信息[qof.oss.multiple." + entry.getKey() + ".bucket-name]");
                 }
             }
         }

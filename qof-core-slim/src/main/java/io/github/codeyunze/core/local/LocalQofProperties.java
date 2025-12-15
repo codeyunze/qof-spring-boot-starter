@@ -1,5 +1,6 @@
 package io.github.codeyunze.core.local;
 
+import io.github.codeyunze.exception.StorageConfigurationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.CollectionUtils;
@@ -67,13 +68,13 @@ public class LocalQofProperties extends LocalQofConfig implements InitializingBe
         // 检查/补全配置信息是否齐全
         if (CollectionUtils.isEmpty(this.multiple)) {
             if (!StringUtils.hasText(this.getFilepath())) {
-                throw new RuntimeException("缺少文件存储路径配置信息[qof.local.filepath]");
+                throw new StorageConfigurationException("缺少文件存储路径配置信息[qof.local.filepath]");
             }
         } else {
             if (StringUtils.hasText(this.getFilepath())) {
                 for (Map.Entry<String, LocalQofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getFilepath())) {
-                        throw new RuntimeException("缺少文件存储路径配置信息[qof.local.multiple." + entry.getKey() + ".filepath]");
+                        throw new StorageConfigurationException("缺少文件存储路径配置信息[qof.local.multiple." + entry.getKey() + ".filepath]");
                     }
                 }
             } else {

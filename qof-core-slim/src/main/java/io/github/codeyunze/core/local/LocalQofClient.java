@@ -80,7 +80,7 @@ public class LocalQofClient extends AbstractQofClient {
                 Files.createDirectories(uploadPath);
             } catch (IOException e) {
                 log.error("创建上传目录失败: {}", uploadPath, e);
-                throw new FileUploadException("创建上传目录失败: " + uploadPath, e);
+                throw new FileUploadException("文件上传失败，请稍后重试", e);
             }
         }
 
@@ -111,7 +111,7 @@ public class LocalQofClient extends AbstractQofClient {
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             log.error("文件上传失败，文件路径: {}", filePath, e);
-            throw new FileUploadException("文件上传失败: " + filePath, e);
+            throw new FileUploadException("文件上传失败，请稍后重试", e);
         }
         return info.getFileId();
     }
@@ -133,7 +133,7 @@ public class LocalQofClient extends AbstractQofClient {
             fileDownloadBo.setInputStream(Files.newInputStream(Paths.get(file.getPath())));
         } catch (IOException e) {
             log.error("下载文件时发生错误，文件路径: {}", filePath, e);
-            throw new FileDownloadException("下载文件时发生错误: " + filePath, e);
+            throw new FileDownloadException("文件下载失败，请稍后重试", e);
         }
 
         return fileDownloadBo;

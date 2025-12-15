@@ -1,6 +1,7 @@
 package io.github.codeyunze.core;
 
 import cn.hutool.core.util.IdUtil;
+import io.github.codeyunze.QofProperties;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
@@ -9,6 +10,7 @@ import io.github.codeyunze.service.QofExtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +28,9 @@ public abstract class AbstractQofClient implements QofClient {
 
     private final QofExtService qofExtService;
 
+    @Resource
+    private QofProperties qofProperties;
+
     public AbstractQofClient(QofExtService qofExtService) {
         this.qofExtService = qofExtService;
     }
@@ -40,7 +45,7 @@ public abstract class AbstractQofClient implements QofClient {
      */
     @Override
     public Long upload(InputStream fis, QofFileInfoDto<?> info) {
-        log.info("通用的上传前处理逻辑");
+        log.debug("通用的上传前处理逻辑");
         if (info.getFileId() == null) {
             info.setFileId(IdUtil.getSnowflakeNextId());
         }
@@ -75,7 +80,7 @@ public abstract class AbstractQofClient implements QofClient {
      */
     @Override
     public QofFileDownloadBo download(Long fileId) {
-        log.info("通用的下载处理逻辑");
+        log.debug("通用的下载处理逻辑");
         // 查询文件相关信息
         QofFileInfoBo<?> fileBo = qofExtService.getFileInfoByFileId(fileId);
         // 扩展-文件下载前操作
@@ -89,11 +94,22 @@ public abstract class AbstractQofClient implements QofClient {
 
     @Override
     public QofFileDownloadBo preview(Long fileId) {
-        log.info("通用的文件预览处理逻辑");
+        log.debug("通用的文件预览处理逻辑");
         // 查询文件相关信息
         QofFileInfoBo<?> fileBo = qofExtService.getFileInfoByFileId(fileId);
-        List<String> supportedTypes = new ArrayList<>(Arrays.asList("image/png", "image/jpeg", "application/pdf"));
-        if (!supportedTypes.contains(fileBo.getFileType().toLowerCase())) {
+        
+        // 检查文件类型是否为空
+        if (fileBo.getFileType() == null || fileBo.getFileType().trim().isEmpty()) {
+            throw new TypeNotSupportedException("文件类型为空，无法预览");
+        }
+        
+        // 使用配置的预览支持类型列表
+        List<String> supportedTypes = qofProperties != null && qofProperties.getPreviewSupportedTypes() != null
+                ? qofProperties.getPreviewSupportedTypes()
+                : new ArrayList<>(Arrays.asList("image/png", "image/jpeg", "application/pdf"));
+        
+        String fileType = fileBo.getFileType().toLowerCase();
+        if (!supportedTypes.contains(fileType)) {
             throw new TypeNotSupportedException("暂不支持[" + fileBo.getFileType() + "]文件的预览");
         }
         // 执行具体的文件预览操作
@@ -107,7 +123,7 @@ public abstract class AbstractQofClient implements QofClient {
      */
     @Override
     public boolean delete(Long fileId) {
-        log.info("通用的删除前处理逻辑");
+        log.debug("通用的删除前处理逻辑");
         QofFileInfoBo<?> fileBo = qofExtService.getFileInfoByFileId(fileId);
         if (fileBo == null) {
             return true;

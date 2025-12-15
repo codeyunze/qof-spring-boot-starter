@@ -151,13 +151,13 @@ public class CosQofClient extends AbstractQofClient {
             client.putObject(putObjectRequest);
         } catch (CosServiceException e) {
             log.error("COS服务异常，文件路径: {}, 错误码: {}, 错误信息: {}", getFilePath(info), e.getErrorCode(), e.getErrorMessage(), e);
-            throw new FileUploadException("文件上传失败，COS服务异常: " + e.getErrorMessage(), e);
+            throw new FileUploadException("文件上传失败，请稍后重试", e);
         } catch (CosClientException e) {
             log.error("COS客户端异常，文件路径: {}, 异常信息: {}", getFilePath(info), e.getMessage(), e);
-            throw new FileUploadException("文件上传失败，COS客户端异常: " + e.getMessage(), e);
+            throw new FileUploadException("文件上传失败，请稍后重试", e);
         } catch (IOException e) {
             log.error("文件流处理异常，文件路径: {}", getFilePath(info), e);
-            throw new FileUploadException("文件上传失败，流处理异常", e);
+            throw new FileUploadException("文件上传失败，请稍后重试", e);
         }
         return info.getFileId();
     }
@@ -174,10 +174,10 @@ public class CosQofClient extends AbstractQofClient {
             return fileDownloadBo;
         } catch (CosServiceException e) {
             log.error("COS服务异常，文件路径: {}, 错误码: {}, 错误信息: {}", getFilePath(fileBo), e.getErrorCode(), e.getErrorMessage(), e);
-            throw new FileDownloadException("文件下载失败，COS服务异常: " + e.getErrorMessage(), e);
+            throw new FileDownloadException("文件下载失败，请稍后重试", e);
         } catch (CosClientException e) {
             log.error("COS客户端异常，文件路径: {}, 异常信息: {}", getFilePath(fileBo), e.getMessage(), e);
-            throw new FileDownloadException("文件下载失败，COS客户端异常: " + e.getMessage(), e);
+            throw new FileDownloadException("文件下载失败，请稍后重试", e);
         }
     }
 
@@ -188,13 +188,13 @@ public class CosQofClient extends AbstractQofClient {
             return true;
         } catch (CosServiceException e) {
             log.error("COS服务异常，文件路径: {}, 错误码: {}, 错误信息: {}", getFilePath(fileBo), e.getErrorCode(), e.getErrorMessage(), e);
-            throw new FileDeleteException("文件删除失败，COS服务异常: " + e.getErrorMessage(), e);
+            throw new FileDeleteException("文件删除失败，请稍后重试", e);
         } catch (CosClientException e) {
             log.error("COS客户端异常，文件路径: {}, 异常信息: {}", getFilePath(fileBo), e.getMessage(), e);
-            throw new FileDeleteException("文件删除失败，COS客户端异常: " + e.getMessage(), e);
+            throw new FileDeleteException("文件删除失败，请稍后重试", e);
         } catch (Exception e) {
             log.error("文件删除异常，文件路径: {}", getFilePath(fileBo), e);
-            throw new FileDeleteException("文件删除失败: " + e.getMessage(), e);
+            throw new FileDeleteException("文件删除失败，请稍后重试", e);
         }
     }
 }

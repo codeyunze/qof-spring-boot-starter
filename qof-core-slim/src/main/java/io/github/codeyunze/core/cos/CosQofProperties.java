@@ -1,5 +1,6 @@
 package io.github.codeyunze.core.cos;
 
+import io.github.codeyunze.exception.StorageConfigurationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.CollectionUtils;
@@ -70,19 +71,19 @@ public class CosQofProperties extends CosQofConfig implements InitializingBean {
         // 检查/补全配置信息是否齐全
         if (CollectionUtils.isEmpty(this.multiple)) {
             if (!StringUtils.hasText(this.getSecretId())) {
-                throw new RuntimeException("缺少COS秘钥配置信息[qof.cos.secret-id]");
+                throw new StorageConfigurationException("缺少COS秘钥配置信息[qof.cos.secret-id]");
             } else if (!StringUtils.hasText(this.getSecretKey())) {
-                throw new RuntimeException("缺少COS秘钥配置信息[qof.cos.secret-key]");
+                throw new StorageConfigurationException("缺少COS秘钥配置信息[qof.cos.secret-key]");
             } else if (!StringUtils.hasText(this.getBucketName())) {
-                throw new RuntimeException("缺少COS存储桶配置信息[qof.cos.bucket-name]");
+                throw new StorageConfigurationException("缺少COS存储桶配置信息[qof.cos.bucket-name]");
             } else if (!StringUtils.hasText(this.getRegion())) {
-                throw new RuntimeException("缺少COS存储桶地域配置信息[qof.cos.region]");
+                throw new StorageConfigurationException("缺少COS存储桶地域配置信息[qof.cos.region]");
             }
         } else {
             if (!StringUtils.hasText(this.getSecretId())) {
                 for (Map.Entry<String, CosQofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getSecretId())) {
-                        throw new RuntimeException("缺少COS秘钥配置信息[qof.cos.multiple." + entry.getKey() + ".secret-id]");
+                        throw new StorageConfigurationException("缺少COS秘钥配置信息[qof.cos.multiple." + entry.getKey() + ".secret-id]");
                     }
                 }
             } else {
@@ -96,7 +97,7 @@ public class CosQofProperties extends CosQofConfig implements InitializingBean {
             if (!StringUtils.hasText(this.getSecretKey())) {
                 for (Map.Entry<String, CosQofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getSecretKey())) {
-                        throw new RuntimeException("缺少COS秘钥配置信息[qof.cos.multiple." + entry.getKey() + ".secret-key]");
+                        throw new StorageConfigurationException("缺少COS秘钥配置信息[qof.cos.multiple." + entry.getKey() + ".secret-key]");
                     }
                 }
             } else {
@@ -110,7 +111,7 @@ public class CosQofProperties extends CosQofConfig implements InitializingBean {
             if (!StringUtils.hasText(this.getRegion())) {
                 for (Map.Entry<String, CosQofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getRegion())) {
-                        throw new RuntimeException("缺少COS存储桶地域配置信息[qof.cos.multiple." + entry.getKey() + ".region]");
+                        throw new StorageConfigurationException("缺少COS存储桶地域配置信息[qof.cos.multiple." + entry.getKey() + ".region]");
                     }
                 }
             } else {
@@ -123,7 +124,7 @@ public class CosQofProperties extends CosQofConfig implements InitializingBean {
 
             for (Map.Entry<String, CosQofConfig> entry : this.multiple.entrySet()) {
                 if (!StringUtils.hasText(entry.getValue().getBucketName())) {
-                    throw new RuntimeException("缺少COS存储桶配置信息[qof.cos.multiple." + entry.getKey() + ".bucket-name]");
+                    throw new StorageConfigurationException("缺少COS存储桶配置信息[qof.cos.multiple." + entry.getKey() + ".bucket-name]");
                 }
             }
         }
