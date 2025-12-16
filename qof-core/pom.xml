@@ -7,7 +7,7 @@
     <parent>
         <groupId>io.github.codeyunze</groupId>
         <artifactId>qof-spring-boot-starter</artifactId>
-        <version>0.0.9</version>
+        <version>0.0.10-SNAPSHOT</version>
     </parent>
 
     <name>qof-core</name>
@@ -74,7 +74,6 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-
 
         <!-- 腾讯云 COS 对象存储 SDK 依赖 -->
         <dependency>
