@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import io.github.codeyunze.QofProperties;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
+import io.github.codeyunze.core.validation.CoreFileValidationService;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.TypeNotSupportedException;
 import io.github.codeyunze.service.QofExtService;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +33,9 @@ public abstract class AbstractQofClient implements QofClient {
     @Resource
     private QofProperties qofProperties;
 
+    @Resource
+    private CoreFileValidationService coreFileValidationService;
+
     public AbstractQofClient(QofExtService qofExtService) {
         this.qofExtService = qofExtService;
     }
@@ -46,6 +51,34 @@ public abstract class AbstractQofClient implements QofClient {
     @Override
     public Long upload(InputStream fis, QofFileInfoDto<?> info) {
         log.debug("通用的上传前处理逻辑");
+        
+        // 为了支持Magic Number检测，需要将流包装为BufferedInputStream以支持mark/reset
+        // 这样无论从web还是第三方系统调用，都能执行完整的校验逻辑
+        InputStream validationStream = fis;
+        if (fis != null && !fis.markSupported()) {
+            validationStream = new BufferedInputStream(fis, 8192);
+            // 标记位置，以便Magic Number检测后可以重置
+            validationStream.mark(8192);
+        }
+        
+        // 核心校验：无论从web还是第三方系统调用，都会执行相同的校验逻辑
+        // 包括：文件名安全性、文件大小、文件类型（Magic Number检测）
+        coreFileValidationService.validateBeforeUpload(validationStream, info);
+        
+        // 如果流被包装了，重置到开始位置以便后续上传使用
+        if (validationStream != fis && validationStream.markSupported()) {
+            try {
+                validationStream.reset();
+            } catch (Exception e) {
+                log.warn("重置流失败，将使用原始流: {}", e.getMessage());
+                validationStream = fis;
+            }
+        }
+        
+        // 使用重置后的流进行上传（如果重置成功）或原始流
+        InputStream uploadStream = (validationStream != fis && validationStream.markSupported()) 
+                ? validationStream : fis;
+        
         if (info.getFileId() == null) {
             info.setFileId(IdUtil.getSnowflakeNextId());
         }
@@ -66,7 +99,7 @@ public abstract class AbstractQofClient implements QofClient {
         // 扩展-文件上传前操作
         qofExtService.beforeUpload(info);
         // 执行具体的文件上传操作
-        Long fileId = doUpload(fis, info);
+        Long fileId = doUpload(uploadStream, info);
         // 扩展-文件上传后操作
         qofExtService.afterUpload(info);
         return fileId;
