@@ -1,13 +1,18 @@
 package io.github.codeyunze.controller;
 
 import io.github.codeyunze.bo.QofFileDownloadBo;
+import io.github.codeyunze.bo.SysFilesMetaBo;
 import io.github.codeyunze.core.QofClient;
 import io.github.codeyunze.core.QofClientFactory;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.dto.QofFileUploadDto;
 import io.github.codeyunze.entity.SysFiles;
 import io.github.codeyunze.service.FileValidationService;
+import io.github.codeyunze.service.SysFilesService;
 import io.github.codeyunze.utils.Result;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.codeyunze.utils.ResultTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
@@ -33,6 +38,9 @@ public class FileController {
 
     @Resource
     private FileValidationService fileValidationService;
+
+    @Resource
+    private SysFilesService sysFilesService;
 
     public FileController(QofClientFactory qofClientFactory) {
         this.qofClientFactory = qofClientFactory;
@@ -60,6 +68,33 @@ public class FileController {
             log.error("文件上传失败，文件名: {}", fileInfoDto.getFileName(), e);
             return new Result<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, "文件上传失败，请稍后重试");
         }
+    }
+
+    /**
+     * 文件分页列表（仅返回文件元数据信息，不包含文件流）
+     *
+     * @param pageNum          页码（从1开始）
+     * @param pageSize         每页条数
+     * @param fileName         文件名（模糊匹配，可选）
+     * @param fileStorageMode  存储模式（local/cos/oss，可选）
+     * @param fileStorageStation 存储站（可选）
+     * @return 分页结果
+     */
+    @GetMapping("page")
+    public Result<ResultTable<SysFilesMetaBo>> page(
+            @RequestParam(value = "pageNum", defaultValue = "1") long pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") long pageSize,
+            @RequestParam(value = "fileName", required = false) String fileName,
+            @RequestParam(value = "fileStorageMode", required = false) String fileStorageMode,
+            @RequestParam(value = "fileStorageStation", required = false) String fileStorageStation
+    ) {
+        IPage<SysFilesMetaBo> page = sysFilesService.pageFiles(
+                new Page<>(pageNum, pageSize),
+                fileName,
+                fileStorageMode,
+                fileStorageStation
+        );
+        return new Result<>(HttpStatus.OK.value(), new ResultTable<>(page.getRecords(), page.getTotal()), "查询成功");
     }
 
     /**

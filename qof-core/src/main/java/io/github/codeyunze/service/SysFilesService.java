@@ -1,6 +1,9 @@
 package io.github.codeyunze.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.github.codeyunze.bo.SysFilesMetaBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.entity.SysFiles;
@@ -36,6 +39,21 @@ public interface SysFilesService extends IService<SysFiles> {
      * @return true：删除成功; false: 删除失败;
      */
     boolean deleteByFileId(Long fileId);
+
+    /**
+     * 分页查询文件列表（仅元数据）
+     *
+     * @param pageNum            页码（从1开始）
+     * @param pageSize           每页条数
+     * @param fileName           文件名（模糊匹配，可选）
+     * @param fileStorageMode    存储模式（local/cos/oss，可选）
+     * @param fileStorageStation 存储站（可选）
+     * @return 分页结果
+     */
+    IPage<SysFilesMetaBo> pageFiles(Page<SysFiles> page,
+                                    String fileName,
+                                    String fileStorageMode,
+                                    String fileStorageStation);
 
 }
 
