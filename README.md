@@ -144,7 +144,7 @@
         *
         * @param fis  上传文件的输入流
         * @param info 上传文件的基础信息
-        * @return 文件唯一id
+        * @return 文件唯一 id
         */
        Long upload(InputStream fis, QofFileInfoDto info);
    ```
@@ -161,7 +161,7 @@ client.upload(fis, info);
    		/**
         * 下载文件
         *
-        * @param fileId 文件唯一id
+        * @param fileId 文件唯一 id
         * @return 文件流数据
         */
        QofFileDownloadBo download(Long fileId);
@@ -179,7 +179,7 @@ client.download(1893847860159143936);
    		/**
         * 预览文件
         *
-        * @param fileId 文件唯一id
+        * @param fileId 文件唯一 id
         * @return 文件流数据
         */
        QofFileDownloadBo preview(Long fileId);
@@ -235,7 +235,7 @@ Body参数：
 | ---- | ------ | ----------------------------------------------------------- |
 | code | int    | 返回状态编码（200: 正常；1: 参数校验不通过；2: 数据不存在） |
 | msg  | String | 提示信息                                                    |
-| data | Long   | 文件唯一Id                                                  |
+| data | Long   | 文件唯一 id                                                  |
 
 #### 文件下载接口
 

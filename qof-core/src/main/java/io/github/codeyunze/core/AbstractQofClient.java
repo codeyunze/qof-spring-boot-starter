@@ -46,7 +46,7 @@ public abstract class AbstractQofClient implements QofClient {
      *
      * @param fis  上传文件的输入流
      * @param info 上传文件的基础信息
-     * @return 文件唯一id
+     * @return 文件唯一 id
      */
     @Override
     public Long upload(InputStream fis, QofFileInfoDto<?> info) {
@@ -108,7 +108,7 @@ public abstract class AbstractQofClient implements QofClient {
     /**
      * 下载文件
      *
-     * @param fileId 文件唯一id
+     * @param fileId 文件唯一 id
      * @return 文件流数据
      */
     @Override
@@ -152,7 +152,7 @@ public abstract class AbstractQofClient implements QofClient {
     /**
      * 删除文件
      *
-     * @param fileId 删除文件的唯一id
+     * @param fileId 删除文件的唯一 id
      */
     @Override
     public boolean delete(Long fileId) {
@@ -179,7 +179,7 @@ public abstract class AbstractQofClient implements QofClient {
      *
      * @param fis  上传文件的输入流
      * @param info 上传文件的基础信息
-     * @return 文件唯一id
+     * @return 文件唯一 id
      */
     protected abstract Long doUpload(InputStream fis, QofFileInfoDto<?> info);
 
@@ -194,7 +194,7 @@ public abstract class AbstractQofClient implements QofClient {
     /**
      * 具体执行-删除文件
      *
-     * @param fileBo 删除文件的唯一id
+     * @param fileBo 删除文件的唯一 id
      */
     protected abstract boolean doDelete(QofFileInfoBo<?> fileBo);
 }

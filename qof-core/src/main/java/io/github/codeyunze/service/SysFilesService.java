@@ -17,22 +17,22 @@ public interface SysFilesService extends IService<SysFiles> {
      * 新增数据
      *
      * @param fileDto 新增基础数据
-     * @return 主键Id
+     * @return 主键 Id
      */
     QofFileInfoBo<?> save(QofFileInfoDto<?> fileDto);
 
     /**
-     * 根据文件Id获取文件信息
+     * 根据文件 Id 获取文件信息
      *
-     * @param fileId 文件Id
+     * @param fileId 文件 Id
      * @return 文件基础信息
      */
     QofFileInfoBo<?> getByFileId(Long fileId);
 
     /**
-     * 根据文件Id删除文件信息
+     * 根据文件 Id 删除文件信息
      *
-     * @param fileId 文件Id
+     * @param fileId 文件 Id
      * @return true：删除成功; false: 删除失败;
      */
     boolean deleteByFileId(Long fileId);
