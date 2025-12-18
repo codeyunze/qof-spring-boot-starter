@@ -3,6 +3,9 @@ package io.github.codeyunze.service;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.dto.QofFileUploadDto;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+
+import java.io.InputStream;
 
 /**
  * 文件服务接口（Web适配层）
@@ -32,8 +35,8 @@ public interface FileValidationService {
      * @param operation   操作类型（用于日志）
      * @return 流式响应体
      */
-    org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody createStreamingResponseBody(
-            java.io.InputStream inputStream, Long fileId, String operation);
+    StreamingResponseBody createStreamingResponseBody(
+            InputStream inputStream, Long fileId, String operation);
 
     /**
      * 对文件名进行 URL 编码
