@@ -58,11 +58,19 @@ public class LocalQofClient extends AbstractQofClient {
     @Override
     protected Long doUpload(InputStream fis, QofFileInfoDto<?> info) {
         // 确保上传目录存在，使用Path.normalize()规范化路径
-        Path basePath = Paths.get(getFilePath(info));
-        Path uploadPath = basePath.resolve(info.getDirectoryAddress()).normalize();
+        Path basePath = Paths.get(getFilePath(info)).toAbsolutePath().normalize();
         
-        // 验证路径安全性，防止路径遍历攻击
-        if (!uploadPath.startsWith(basePath.normalize())) {
+        // 清理directoryAddress，移除前导的/或\，确保它是相对路径
+        String directoryAddress = info.getDirectoryAddress();
+        if (directoryAddress != null) {
+            // 移除前导的/或\，以及Windows路径分隔符
+            directoryAddress = directoryAddress.replaceFirst("^[/\\\\]+", "");
+        }
+        
+        Path uploadPath = basePath.resolve(directoryAddress).normalize();
+        
+        // 验证路径安全性，防止路径遍历攻击（使用绝对路径进行比较，确保跨平台兼容）
+        if (!uploadPath.startsWith(basePath)) {
             log.error("路径遍历攻击检测，基础路径: {}, 目标路径: {}", basePath, uploadPath);
             throw new FileUploadException("文件上传失败，请稍后重试", new SecurityException("非法路径"));
         }
@@ -100,8 +108,8 @@ public class LocalQofClient extends AbstractQofClient {
         // 定义目标文件路径，使用normalize()规范化
         Path filePath = uploadPath.resolve(fileName).normalize();
         
-        // 再次验证路径安全性
-        if (!filePath.startsWith(basePath.normalize())) {
+        // 再次验证路径安全性（使用绝对路径进行比较）
+        if (!filePath.startsWith(basePath)) {
             log.error("路径遍历攻击检测，基础路径: {}, 目标路径: {}", basePath, filePath);
             throw new FileUploadException("文件上传失败，请稍后重试", new SecurityException("非法路径"));
         }
@@ -118,12 +126,19 @@ public class LocalQofClient extends AbstractQofClient {
 
     @Override
     protected QofFileDownloadBo doDownload(QofFileInfoBo<?> fileBo) {
-        // 使用Path.normalize()规范化路径
-        Path basePath = Paths.get(getFilePath(fileBo));
-        Path filePath = basePath.resolve(fileBo.getFilePath()).normalize();
+        // 使用Path.normalize()规范化路径，转换为绝对路径以确保跨平台兼容
+        Path basePath = Paths.get(getFilePath(fileBo)).toAbsolutePath().normalize();
         
-        // 验证路径安全性
-        if (!filePath.startsWith(basePath.normalize())) {
+        // 清理filePath，移除前导的/或\，确保它是相对路径
+        String filePathStr = fileBo.getFilePath();
+        if (filePathStr != null) {
+            filePathStr = filePathStr.replaceFirst("^[/\\\\]+", "");
+        }
+        
+        Path filePath = basePath.resolve(filePathStr).normalize();
+        
+        // 验证路径安全性（使用绝对路径进行比较）
+        if (!filePath.startsWith(basePath)) {
             log.error("路径遍历攻击检测，基础路径: {}, 目标路径: {}", basePath, filePath);
             throw new FileDownloadException("文件下载失败，请稍后重试", new SecurityException("非法路径"));
         }
@@ -147,12 +162,19 @@ public class LocalQofClient extends AbstractQofClient {
 
     @Override
     protected boolean doDelete(QofFileInfoBo<?> fileBo) {
-        // 使用Path.normalize()规范化路径
-        Path basePath = Paths.get(getFilePath(fileBo));
-        Path filePath = basePath.resolve(fileBo.getFilePath()).normalize();
+        // 使用Path.normalize()规范化路径，转换为绝对路径以确保跨平台兼容
+        Path basePath = Paths.get(getFilePath(fileBo)).toAbsolutePath().normalize();
         
-        // 验证路径安全性
-        if (!filePath.startsWith(basePath.normalize())) {
+        // 清理filePath，移除前导的/或\，确保它是相对路径
+        String filePathStr = fileBo.getFilePath();
+        if (filePathStr != null) {
+            filePathStr = filePathStr.replaceFirst("^[/\\\\]+", "");
+        }
+        
+        Path filePath = basePath.resolve(filePathStr).normalize();
+        
+        // 验证路径安全性（使用绝对路径进行比较）
+        if (!filePath.startsWith(basePath)) {
             log.error("路径遍历攻击检测，基础路径: {}, 目标路径: {}", basePath, filePath);
             return false;
         }
