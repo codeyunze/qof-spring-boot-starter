@@ -7,7 +7,7 @@
     <name>qof-spring-boot-starter</name>
     <groupId>io.github.codeyunze</groupId>
     <artifactId>qof-spring-boot-starter</artifactId>
-    <version>17.0.1</version>
+    <version>17.0.2</version>
     <description>快联文件桥，对各常用文件对象存储中间件的进一步封装。现阶段实现了本地文件存储、腾讯云的COS对象存储、阿里云的OSS对象存储。</description>
     <url>https://github.com/codeyunze/qof-spring-boot-starter</url>
     <packaging>pom</packaging>
@@ -39,14 +39,14 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>2.6.15</spring-boot.version>
+        <spring-boot.version>3.5.8</spring-boot.version>
         <mysql.version>8.0.33</mysql.version>
-        <druid.version>1.2.6</druid.version>
-        <mybatis-plus.version>3.5.4</mybatis-plus.version>
-        <hutool-all.version>5.8.26</hutool-all.version>
+        <druid.version>1.2.22</druid.version>
+        <mybatis-plus.version>3.5.15</mybatis-plus.version>
+        <hutool-all.version>5.8.28</hutool-all.version>
         <qcloud.version>5.6.242</qcloud.version>
         <aliyun-oss.version>3.17.4</aliyun-oss.version>
     </properties>
@@ -62,8 +62,8 @@
             </dependency>
 
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
                 <scope>runtime</scope>
                 <version>${mysql.version}</version>
             </dependency>
@@ -76,7 +76,7 @@
 
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
 
@@ -115,8 +115,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
@@ -192,15 +192,4 @@
             </build>
         </profile>
     </profiles>
-
-    <!--<distributionManagement>
-        <repository>
-            <id>codeyunze</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>codeyunze</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>-->
 </project>

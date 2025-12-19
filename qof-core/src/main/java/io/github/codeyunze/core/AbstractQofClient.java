@@ -11,7 +11,7 @@ import io.github.codeyunze.service.QofExtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;

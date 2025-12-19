@@ -4,7 +4,7 @@ import io.github.codeyunze.core.QofFileOperationBase;
 import io.github.codeyunze.core.cos.CosQofProperties;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * 文件上传信息

@@ -7,12 +7,12 @@
     <parent>
         <groupId>io.github.codeyunze</groupId>
         <artifactId>qof-spring-boot-starter</artifactId>
-        <version>17.0.1</version>
+        <version>17.0.2</version>
     </parent>
 
     <name>qof-core</name>
     <artifactId>qof-core</artifactId>
-    <description>对各常用文件对象存储中间件的进一步封装（核心 + 持久化 + 各存储实现）。现阶段实现了本地文件存储、腾讯云COS对象存储、阿里云OSS对象存储。</description>
+    <description>jdk17环境下，对各常用文件对象存储中间件的进一步封装（核心 + 持久化 + 各存储实现）。现阶段实现了本地文件存储、腾讯云COS对象存储、阿里云OSS对象存储。</description>
     <url>https://github.com/codeyunze/qof-spring-boot-starter</url>
     <packaging>jar</packaging>
 
@@ -37,8 +37,8 @@
     </developers>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -49,8 +49,8 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -61,7 +61,7 @@
 
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
         </dependency>
 
         <dependency>
