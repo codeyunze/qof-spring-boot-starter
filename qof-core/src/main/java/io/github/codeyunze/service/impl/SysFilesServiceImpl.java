@@ -1,7 +1,11 @@
 package io.github.codeyunze.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.github.codeyunze.bo.SysFilesMetaBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.entity.SysFiles;
@@ -10,6 +14,7 @@ import io.github.codeyunze.service.SysFilesService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  * 系统-文件表(SysFiles)表服务实现类
@@ -45,6 +50,74 @@ public class SysFilesServiceImpl extends ServiceImpl<SysFilesMapper, SysFiles> i
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteByFileId(Long fileId) {
         return baseMapper.deleteById(fileId) > 0;
+    }
+
+    @Override
+    public IPage<SysFilesMetaBo> pageFiles(Page<SysFiles> page,
+                                          String fileName,
+                                          String fileStorageMode,
+                                          String fileStorageStation) {
+        // 参数兜底（属于服务层的入参保护）
+        if (page == null) {
+            page = new Page<>(1, 10);
+        }
+        if (page.getCurrent() < 1) {
+            page.setCurrent(1);
+        }
+        if (page.getSize() < 1) {
+            page.setSize(10);
+        }
+
+        LambdaQueryWrapper<SysFiles> wrapper = new LambdaQueryWrapper<>();
+        // 仅查询有效数据（invalid=0 表示有效）
+        wrapper.eq(SysFiles::getInvalid, 0L);
+        wrapper.orderByDesc(SysFiles::getCreateTime);
+
+        // 只查询列表需要的字段，避免返回/暴露 filePath
+        wrapper.select(
+                SysFiles::getId,
+                SysFiles::getCreateTime,
+                SysFiles::getUpdateTime,
+                SysFiles::getFileName,
+                SysFiles::getFileType,
+                SysFiles::getFileLabel,
+                SysFiles::getFileSize,
+                SysFiles::getFileStorageMode,
+                SysFiles::getFileStorageStation
+        );
+
+        if (StringUtils.hasText(fileName)) {
+            wrapper.like(SysFiles::getFileName, fileName.trim());
+        }
+        if (StringUtils.hasText(fileStorageMode)) {
+            wrapper.eq(SysFiles::getFileStorageMode, fileStorageMode.trim().toLowerCase());
+        }
+        if (StringUtils.hasText(fileStorageStation)) {
+            wrapper.eq(SysFiles::getFileStorageStation, fileStorageStation.trim());
+        }
+
+        IPage<SysFiles> entityPage = this.page(page, wrapper);
+        Page<SysFilesMetaBo> metaPage = new Page<>(entityPage.getCurrent(), entityPage.getSize(), entityPage.getTotal());
+        metaPage.setPages(entityPage.getPages());
+        metaPage.setRecords(entityPage.getRecords().stream().map(this::toMetaBo).collect(java.util.stream.Collectors.toList()));
+        return metaPage;
+    }
+
+    private SysFilesMetaBo toMetaBo(SysFiles entity) {
+        SysFilesMetaBo bo = new SysFilesMetaBo();
+        if (entity == null) {
+            return bo;
+        }
+        bo.setId(entity.getId());
+        bo.setCreateTime(entity.getCreateTime());
+        bo.setUpdateTime(entity.getUpdateTime());
+        bo.setFileName(entity.getFileName());
+        bo.setFileType(entity.getFileType());
+        bo.setFileLabel(entity.getFileLabel());
+        bo.setFileSize(entity.getFileSize());
+        bo.setFileStorageMode(entity.getFileStorageMode());
+        bo.setFileStorageStation(entity.getFileStorageStation());
+        return bo;
     }
 }
 
