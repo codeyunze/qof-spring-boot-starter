@@ -80,6 +80,16 @@ public class SysFiles extends Model<SysFiles> {
     private String fileStorageStation;
 
     /**
+     * 是否公开访问：1-公开，0-不公开
+     */
+    private Integer publicAccess;
+
+    /**
+     * 创建者ID
+     */
+    private Long createId;
+
+    /**
      * 获取主键值
      *
      * @return 主键值
@@ -175,6 +185,22 @@ public class SysFiles extends Model<SysFiles> {
 
     public void setFileStorageStation(String fileStorageStation) {
         this.fileStorageStation = fileStorageStation;
+    }
+
+    public Integer getPublicAccess() {
+        return publicAccess;
+    }
+
+    public void setPublicAccess(Integer publicAccess) {
+        this.publicAccess = publicAccess;
+    }
+
+    public Long getCreateId() {
+        return createId;
+    }
+
+    public void setCreateId(Long createId) {
+        this.createId = createId;
     }
 }
 

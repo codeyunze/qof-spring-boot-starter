@@ -94,6 +94,15 @@ public class QofOverallExceptionHandle {
     }
 
     /**
+     * 文件访问拒绝异常处理
+     */
+    @ExceptionHandler(FileAccessDeniedException.class)
+    Result<?> fileAccessDeniedExceptionHandle(FileAccessDeniedException e) {
+        log.warn("文件访问被拒绝: {}", e.getMessage());
+        return new Result<>(HttpStatus.FORBIDDEN.value(), null, e.getMessage());
+    }
+
+    /**
      * 通用运行时异常处理
      */
     @ExceptionHandler(RuntimeException.class)

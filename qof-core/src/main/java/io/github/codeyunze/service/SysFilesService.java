@@ -55,5 +55,14 @@ public interface SysFilesService extends IService<SysFiles> {
                                     String fileStorageMode,
                                     String fileStorageStation);
 
+    /**
+     * 校验文件访问权限
+     *
+     * @param fileId   文件ID
+     * @param createId 创建者ID（可选，当文件不公开时必须提供）
+     * @throws io.github.codeyunze.exception.FileAccessDeniedException 如果访问被拒绝
+     */
+    void checkFileAccessPermission(Long fileId, Long createId);
+
 }
 

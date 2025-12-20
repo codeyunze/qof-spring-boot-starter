@@ -7,6 +7,7 @@ import io.github.codeyunze.core.QofClientFactory;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.dto.QofFileUploadDto;
 import io.github.codeyunze.entity.SysFiles;
+import io.github.codeyunze.exception.FileAccessDeniedException;
 import io.github.codeyunze.service.FileValidationService;
 import io.github.codeyunze.service.SysFilesService;
 import io.github.codeyunze.utils.Result;
@@ -102,13 +103,18 @@ public class FileController {
      *
      * @param fileId          文件唯一 Id
      * @param fileStorageMode 文件存储模式
+     * @param createId        创建者ID（可选，当文件不公开时必须提供）
      * @return 文件流信息
      */
     @GetMapping("download")
     public ResponseEntity<StreamingResponseBody> download(
             @RequestParam("fileId") Long fileId,
-            @RequestParam("fileStorageMode") String fileStorageMode) {
+            @RequestParam("fileStorageMode") String fileStorageMode,
+            @RequestParam(value = "createId", required = false) Long createId) {
         try {
+            // 校验文件访问权限
+            sysFilesService.checkFileAccessPermission(fileId, createId);
+            
             QofFileDownloadBo fileDownloadBo = qofClientFactory.buildClient(fileStorageMode).download(fileId);
 
             StreamingResponseBody streamingResponseBody = fileValidationService.createStreamingResponseBody(
@@ -121,6 +127,9 @@ public class FileController {
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .contentLength(fileDownloadBo.getFileSize())
                     .body(streamingResponseBody);
+        } catch (FileAccessDeniedException e) {
+            log.warn("文件下载权限被拒绝，文件Id: {}, 原因: {}", fileId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         } catch (Exception e) {
             log.error("文件下载失败，文件Id: {}", fileId, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -132,11 +141,18 @@ public class FileController {
      *
      * @param fileId          文件唯一 Id
      * @param fileStorageMode 文件存储的策略 {@link SysFiles#getFileStorageMode()}
+     * @param createId        创建者ID（可选，当文件不公开时必须提供）
      * @return 文件流信息
      */
     @GetMapping("preview")
-    public ResponseEntity<StreamingResponseBody> preview(@RequestParam("fileId") Long fileId, @RequestParam("fileStorageMode") String fileStorageMode) {
+    public ResponseEntity<StreamingResponseBody> preview(
+            @RequestParam("fileId") Long fileId,
+            @RequestParam("fileStorageMode") String fileStorageMode,
+            @RequestParam(value = "createId", required = false) Long createId) {
         try {
+            // 校验文件访问权限
+            sysFilesService.checkFileAccessPermission(fileId, createId);
+            
             QofFileDownloadBo fileDownloadBo = qofClientFactory.buildClient(fileStorageMode).preview(fileId);
 
             StreamingResponseBody streamingResponseBody = fileValidationService.createStreamingResponseBody(
@@ -152,6 +168,9 @@ public class FileController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())
                     .contentType(MediaType.parseMediaType(fileDownloadBo.getFileType()))
                     .body(streamingResponseBody);
+        } catch (FileAccessDeniedException e) {
+            log.warn("文件预览权限被拒绝，文件Id: {}, 原因: {}", fileId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         } catch (Exception e) {
             log.error("文件预览失败，文件Id: {}", fileId, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -163,11 +182,18 @@ public class FileController {
      *
      * @param fileId          文件唯一 Id
      * @param fileStorageMode 文件存储模式
+     * @param createId        创建者ID（可选，当文件不公开时必须提供）
      * @return 是否删除成功   true: 文件删除成功;   false: 文件删除失败;
      */
     @DeleteMapping("delete")
-    public Result<Boolean> delete(@RequestParam("fileId") Long fileId, @RequestParam("fileStorageMode") String fileStorageMode) {
+    public Result<Boolean> delete(
+            @RequestParam("fileId") Long fileId,
+            @RequestParam("fileStorageMode") String fileStorageMode,
+            @RequestParam(value = "createId", required = false) Long createId) {
         try {
+            // 校验文件访问权限
+            sysFilesService.checkFileAccessPermission(fileId, createId);
+            
             boolean deleted = qofClientFactory.buildClient(fileStorageMode).delete(fileId);
             return new Result<>(HttpStatus.OK.value(), deleted, deleted ? "文件删除成功!" : "文件删除失败");
         } catch (Exception e) {

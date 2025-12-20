@@ -50,6 +50,16 @@ public class QofFileInfoBo<T> extends QofFileOperationBase {
     private Long fileSize = 0L;
 
     /**
+     * 是否公开访问：1-公开，0-不公开
+     */
+    private Integer publicAccess;
+
+    /**
+     * 创建者ID
+     */
+    private Long createId;
+
+    /**
      * 扩展数据对象
      */
     private T extendObject;
@@ -100,6 +110,22 @@ public class QofFileInfoBo<T> extends QofFileOperationBase {
 
     public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public Integer getPublicAccess() {
+        return publicAccess;
+    }
+
+    public void setPublicAccess(Integer publicAccess) {
+        this.publicAccess = publicAccess;
+    }
+
+    public Long getCreateId() {
+        return createId;
+    }
+
+    public void setCreateId(Long createId) {
+        this.createId = createId;
     }
 }
 
