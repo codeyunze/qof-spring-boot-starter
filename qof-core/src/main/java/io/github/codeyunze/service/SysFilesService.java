@@ -3,8 +3,8 @@ package io.github.codeyunze.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import io.github.codeyunze.bo.SysFilesMetaBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
+import io.github.codeyunze.bo.SysFilesMetaBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.entity.SysFiles;
 
@@ -43,8 +43,7 @@ public interface SysFilesService extends IService<SysFiles> {
     /**
      * 分页查询文件列表（仅元数据）
      *
-     * @param pageNum            页码（从1开始）
-     * @param pageSize           每页条数
+     * @param page               分页
      * @param fileName           文件名（模糊匹配，可选）
      * @param fileStorageMode    存储模式（local/cos/oss，可选）
      * @param fileStorageStation 存储站（可选）
@@ -58,7 +57,7 @@ public interface SysFilesService extends IService<SysFiles> {
     /**
      * 校验文件访问权限
      *
-     * @param fileId   文件ID
+     * @param fileId   文件 ID
      * @param createId 创建者ID（可选，当文件不公开时必须提供）
      * @throws io.github.codeyunze.exception.FileAccessDeniedException 如果访问被拒绝
      */
