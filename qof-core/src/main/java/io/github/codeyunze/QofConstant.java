@@ -34,6 +34,16 @@ public class QofConstant {
     public static final String CLIENT = "client";
 
     /**
+     * 公开
+     */
+    public static final Integer PUBLIC_ACCESS = 1;
+
+    /**
+     * 不公开，私有
+     */
+    public static final Integer PRIVATE_ACCESS = 0;
+
+    /**
      * 文件存储类型
      */
     public interface StorageMode {
