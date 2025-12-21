@@ -46,8 +46,8 @@ public class QofFileUploadDto implements Serializable {
     /**
      * 是否公开访问：1-公开，0-不公开
      */
-    @Max(value = QofConstant.PUBLIC_ACCESS)
-    @Min(value = QofConstant.PRIVATE_ACCESS)
+    @Max(value = 1)
+    @Min(value = 0)
     private Integer publicAccess = QofConstant.PRIVATE_ACCESS;
 
     /**
