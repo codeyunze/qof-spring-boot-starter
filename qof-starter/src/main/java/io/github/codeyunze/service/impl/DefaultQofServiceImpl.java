@@ -1,6 +1,6 @@
 package io.github.codeyunze.service.impl;
 
-import io.github.codeyunze.service.SysFilesService;
+import io.github.codeyunze.service.FilesService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DefaultQofServiceImpl extends AbstractQofServiceImpl {
 
-    public DefaultQofServiceImpl(SysFilesService filesService) {
+    public DefaultQofServiceImpl(FilesService filesService) {
         super(filesService);
     }
 }

@@ -14,7 +14,7 @@ import io.github.codeyunze.entity.SysFiles;
  * @author 高晗
  * @since 2025-02-16 15:43:41
  */
-public interface SysFilesService extends IService<SysFiles> {
+public interface FilesService extends IService<SysFiles> {
 
     /**
      * 新增数据

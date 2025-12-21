@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Select;
  * @since 2025-02-16 15:43:41
  */
 @Mapper
-public interface SysFilesMapper extends BaseMapper<SysFiles> {
+public interface FilesMapper extends BaseMapper<SysFiles> {
 
     /**
      * 根据文件Id获取文件信息

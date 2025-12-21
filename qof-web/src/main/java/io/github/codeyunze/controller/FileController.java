@@ -9,7 +9,7 @@ import io.github.codeyunze.dto.QofFileUploadDto;
 import io.github.codeyunze.entity.SysFiles;
 import io.github.codeyunze.exception.FileAccessDeniedException;
 import io.github.codeyunze.service.FileValidationService;
-import io.github.codeyunze.service.SysFilesService;
+import io.github.codeyunze.service.FilesService;
 import io.github.codeyunze.utils.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -41,7 +41,7 @@ public class FileController {
     private FileValidationService fileValidationService;
 
     @Resource
-    private SysFilesService sysFilesService;
+    private FilesService filesService;
 
     public FileController(QofClientFactory qofClientFactory) {
         this.qofClientFactory = qofClientFactory;
@@ -89,7 +89,7 @@ public class FileController {
             @RequestParam(value = "fileStorageMode", required = false) String fileStorageMode,
             @RequestParam(value = "fileStorageStation", required = false) String fileStorageStation
     ) {
-        IPage<SysFilesMetaBo> page = sysFilesService.pageFiles(
+        IPage<SysFilesMetaBo> page = filesService.pageFiles(
                 new Page<>(pageNum, pageSize),
                 fileName,
                 fileStorageMode,
@@ -113,7 +113,7 @@ public class FileController {
             @RequestParam(value = "createId", required = false) Long createId) {
         try {
             // 校验文件访问权限
-            sysFilesService.checkFileAccessPermission(fileId, createId);
+            filesService.checkFileAccessPermission(fileId, createId);
             
             QofFileDownloadBo fileDownloadBo = qofClientFactory.buildClient(fileStorageMode).download(fileId);
 
@@ -151,7 +151,7 @@ public class FileController {
             @RequestParam(value = "createId", required = false) Long createId) {
         try {
             // 校验文件访问权限
-            sysFilesService.checkFileAccessPermission(fileId, createId);
+            filesService.checkFileAccessPermission(fileId, createId);
             
             QofFileDownloadBo fileDownloadBo = qofClientFactory.buildClient(fileStorageMode).preview(fileId);
 
@@ -192,7 +192,7 @@ public class FileController {
             @RequestParam(value = "createId", required = false) Long createId) {
         try {
             // 校验文件访问权限
-            sysFilesService.checkFileAccessPermission(fileId, createId);
+            filesService.checkFileAccessPermission(fileId, createId);
             
             boolean deleted = qofClientFactory.buildClient(fileStorageMode).delete(fileId);
             return new Result<>(HttpStatus.OK.value(), deleted, deleted ? "文件删除成功!" : "文件删除失败");

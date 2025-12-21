@@ -4,8 +4,8 @@ import io.github.codeyunze.QofProperties;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
+import io.github.codeyunze.service.FilesService;
 import io.github.codeyunze.service.QofExtService;
-import io.github.codeyunze.service.SysFilesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,9 +22,9 @@ public abstract class AbstractQofServiceImpl implements QofExtService {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractQofServiceImpl.class);
 
-    private final SysFilesService filesService;
+    private final FilesService filesService;
 
-    public AbstractQofServiceImpl(SysFilesService filesService) {
+    public AbstractQofServiceImpl(FilesService filesService) {
         this.filesService = filesService;
     }
 

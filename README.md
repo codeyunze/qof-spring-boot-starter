@@ -359,7 +359,7 @@ QOF 提供了文件相关操作之前和之后的扩展接口
 package io.github.codeyunze.service.impl;
 
 import io.github.codeyunze.dto.QofFileInfoDto;
-import io.github.codeyunze.service.SysFilesService;
+import io.github.codeyunze.service.FilesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -400,18 +400,20 @@ public class CustomQofServiceImpl extends AbstractQofServiceImpl {
 ```sql
 create table sys_files
 (
-    id                   bigint                                not null comment '主键标识'
-        primary key,
-    create_time          datetime    default CURRENT_TIMESTAMP not null comment '创建时间',
-    update_time          datetime    default CURRENT_TIMESTAMP null comment '更新时间',
-    invalid              bigint      default 0                 not null comment '数据是否有效：0数据有效',
-    file_name            varchar(100)                          not null comment '文件名称',
-    file_path            varchar(255)                          not null comment '文件路径',
-    file_type            varchar(100)                          not null comment '文件类型(image/png、image/jpeg)',
-    file_label           varchar(36)                           null comment '文件标签',
-    file_size            bigint      default 0                 not null comment '文件大小(单位byte字节)',
-    file_storage_mode    varchar(10) default 'local'           not null comment '文件存储模式(local、cos、oss)',
-    file_storage_station varchar(36)                           null comment '文件存储站'
+   id                   bigint                                not null comment '主键标识'
+      primary key,
+   create_time          datetime    default CURRENT_TIMESTAMP not null comment '创建时间',
+   update_time          datetime    default CURRENT_TIMESTAMP null comment '更新时间',
+   invalid              bigint      default 0                 not null comment '数据是否有效：0数据有效',
+   file_name            varchar(100)                          not null comment '文件名称',
+   file_path            varchar(255)                          not null comment '文件路径',
+   file_type            varchar(100)                          not null comment '文件类型(image/png、image/jpeg)',
+   file_label           varchar(36)                           null comment '文件标签',
+   file_size            bigint      default 0                 not null comment '文件大小(单位byte字节)',
+   file_storage_mode    varchar(10) default 'local'           not null comment '文件存储模式(local、cos、oss)',
+   file_storage_station varchar(36)                           null comment '文件存储站',
+   create_id            bigint                                null comment '文件上传人id',
+   public_access        int         default 0                 not null comment '公开访问(0:不公开，1:公开)'
 ) comment '系统-文件表';
 ```
 

@@ -12,9 +12,9 @@ import io.github.codeyunze.dto.QofFileInfoDto;
 public interface QofExtService {
 
     /**
-     * 根据文件Id查询文件信息
+     * 根据文件 Id 查询文件信息
      *
-     * @param fileId 文件Id
+     * @param fileId 文件 Id
      * @return QofFileInfoBo 文件信息
      */
     QofFileInfoBo getFileInfoByFileId(Long fileId);

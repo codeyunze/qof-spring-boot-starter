@@ -10,8 +10,8 @@ import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.entity.SysFiles;
 import io.github.codeyunze.exception.FileAccessDeniedException;
-import io.github.codeyunze.mapper.SysFilesMapper;
-import io.github.codeyunze.service.SysFilesService;
+import io.github.codeyunze.mapper.FilesMapper;
+import io.github.codeyunze.service.FilesService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
  * @since 2025-02-16 15:43:41
  */
 @Service
-public class SysFilesServiceImpl extends ServiceImpl<SysFilesMapper, SysFiles> implements SysFilesService {
+public class FilesServiceImpl extends ServiceImpl<FilesMapper, SysFiles> implements FilesService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)

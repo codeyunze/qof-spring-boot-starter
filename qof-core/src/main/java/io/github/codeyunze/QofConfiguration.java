@@ -1,7 +1,7 @@
 package io.github.codeyunze;
 
+import io.github.codeyunze.service.FilesService;
 import io.github.codeyunze.service.QofExtService;
-import io.github.codeyunze.service.SysFilesService;
 import io.github.codeyunze.service.impl.AbstractQofServiceImpl;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -24,8 +24,8 @@ public class QofConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(QofExtService.class)
-    public QofExtService defaultQofExtService(SysFilesService sysFilesService) {
-        return new AbstractQofServiceImpl(sysFilesService) {
+    public QofExtService defaultQofExtService(FilesService filesService) {
+        return new AbstractQofServiceImpl(filesService) {
             // 使用匿名内部类实现抽象类
         };
     }
