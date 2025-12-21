@@ -100,6 +100,15 @@ public class OssQofClient extends AbstractQofClient {
 
     @Override
     protected Long doUpload(InputStream fis, QofFileInfoDto<?> info) {
+        // 获取实际使用的存储站（如果用户传入的存储站在配置中不存在，会使用默认存储站）
+        // 更新到info中，确保保存到数据库时使用的是实际使用的存储站
+        String actualStorageStation = StorageStationHelper.getStorageStation(
+                info,
+                fileProperties.getMultiple(),
+                fileProperties.getDefaultStorageStation()
+        );
+        info.setFileStorageStation(actualStorageStation);
+        
         ObjectMetadata objectMetadata = new ObjectMetadata();
         // 上传的流如果能够获取准确的流长度，则推荐一定填写 content-length
         objectMetadata.setContentLength(info.getFileSize());
