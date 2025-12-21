@@ -1,5 +1,6 @@
 package io.github.codeyunze.core;
 
+import io.github.codeyunze.QofConstant;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.cos.CosQofProperties;
 
@@ -49,6 +50,16 @@ public class QofFileOperationBase implements Serializable {
      */
     private String filePath;
 
+    /**
+     * 创建者 ID
+     */
+    private Long createId;
+
+    /**
+     * 是否公开访问：1-公开，0-不公开
+     */
+    private Integer publicAccess;
+
     public Long getFileId() {
         return fileId;
     }
@@ -79,6 +90,22 @@ public class QofFileOperationBase implements Serializable {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public Long getCreateId() {
+        return createId;
+    }
+
+    public void setCreateId(Long createId) {
+        this.createId = createId;
+    }
+
+    public Integer getPublicAccess() {
+        return publicAccess;
+    }
+
+    public void setPublicAccess(Integer publicAccess) {
+        this.publicAccess = publicAccess;
     }
 }
 

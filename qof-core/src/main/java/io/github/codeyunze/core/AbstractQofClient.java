@@ -1,11 +1,14 @@
 package io.github.codeyunze.core;
 
 import cn.hutool.core.util.IdUtil;
+import io.github.codeyunze.QofConstant;
 import io.github.codeyunze.QofProperties;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.validation.CoreFileValidationService;
 import io.github.codeyunze.dto.QofFileInfoDto;
+import io.github.codeyunze.exception.FileAccessDeniedException;
+import io.github.codeyunze.exception.FileUploadException;
 import io.github.codeyunze.exception.TypeNotSupportedException;
 import io.github.codeyunze.service.QofExtService;
 import org.slf4j.Logger;
@@ -17,6 +20,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * QOF 客户端操作抽象接口
@@ -51,6 +55,10 @@ public abstract class AbstractQofClient implements QofClient {
     @Override
     public Long upload(InputStream fis, QofFileInfoDto<?> info) {
         log.debug("通用的上传前处理逻辑");
+
+        if (Objects.equals(info.getPublicAccess(), QofConstant.PRIVATE_ACCESS) && info.getCreateId() == null) {
+            throw new FileUploadException("私有文件必须指定文件所有者");
+        }
         
         // 为了支持Magic Number检测，需要将流包装为BufferedInputStream以支持mark/reset
         // 这样无论从web还是第三方系统调用，都能执行完整的校验逻辑

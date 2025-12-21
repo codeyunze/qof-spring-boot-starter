@@ -4,6 +4,9 @@ import io.github.codeyunze.QofConstant;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -40,6 +43,18 @@ public class QofFileUploadDto implements Serializable {
     @Length(max = 36, message = "文件存储站超过最大长度限制")
     private String fileStorageStation = QofConstant.DEFAULT;
 
+    /**
+     * 是否公开访问：1-公开，0-不公开
+     */
+    @Max(value = QofConstant.PUBLIC_ACCESS)
+    @Min(value = QofConstant.PRIVATE_ACCESS)
+    private Integer publicAccess = QofConstant.PRIVATE_ACCESS;
+
+    /**
+     * 创建者 ID
+     */
+    private Long createId;
+
     public @Length(max = 36, message = "文件名称超过最大长度限制") String getFileName() {
         return fileName;
     }
@@ -62,6 +77,14 @@ public class QofFileUploadDto implements Serializable {
 
     public void setFileStorageStation(@Length(max = 36, message = "文件存储站超过最大长度限制") String fileStorageStation) {
         this.fileStorageStation = fileStorageStation;
+    }
+
+    public Integer getPublicAccess() {
+        return publicAccess;
+    }
+
+    public void setPublicAccess(Integer publicAccess) {
+        this.publicAccess = publicAccess;
     }
 }
 
