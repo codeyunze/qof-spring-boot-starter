@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Select;
  * @since 2025-02-16 15:43:41
  */
 @Mapper
-public interface SysFilesMapper extends BaseMapper<SysFiles> {
+public interface FilesMapper extends BaseMapper<SysFiles> {
 
     /**
      * 根据文件Id获取文件信息
@@ -22,7 +22,7 @@ public interface SysFilesMapper extends BaseMapper<SysFiles> {
      * @param fileId 文件Id
      * @return 文件基础信息
      */
-    @Select("select id as file_id, create_time, file_name, file_path, file_type, file_label, file_size, file_storage_station from sys_files where invalid = 0 and id = #{fileId}")
+    @Select("select id as file_id, create_time, file_name, file_path, file_type, file_label, file_size, file_storage_station, public_access, create_id from sys_files where invalid = 0 and id = #{fileId}")
     QofFileInfoBo<?> selectByFileId(@Param("fileId") Long fileId);
 }
 

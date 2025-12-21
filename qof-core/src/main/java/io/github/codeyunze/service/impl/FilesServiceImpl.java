@@ -9,8 +9,9 @@ import io.github.codeyunze.bo.SysFilesMetaBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.entity.SysFiles;
-import io.github.codeyunze.mapper.SysFilesMapper;
-import io.github.codeyunze.service.SysFilesService;
+import io.github.codeyunze.exception.FileAccessDeniedException;
+import io.github.codeyunze.mapper.FilesMapper;
+import io.github.codeyunze.service.FilesService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,7 @@ import org.springframework.util.StringUtils;
  * @since 2025-02-16 15:43:41
  */
 @Service
-public class SysFilesServiceImpl extends ServiceImpl<SysFilesMapper, SysFiles> implements SysFilesService {
+public class FilesServiceImpl extends ServiceImpl<FilesMapper, SysFiles> implements FilesService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -101,6 +102,26 @@ public class SysFilesServiceImpl extends ServiceImpl<SysFilesMapper, SysFiles> i
         metaPage.setPages(entityPage.getPages());
         metaPage.setRecords(entityPage.getRecords().stream().map(this::toMetaBo).collect(java.util.stream.Collectors.toList()));
         return metaPage;
+    }
+
+    @Override
+    public void checkFileAccessPermission(Long fileId, Long createId) {
+        QofFileInfoBo<?> fileBo = getByFileId(fileId);
+        
+        // 如果文件是公开的（publicAccess == 1），允许访问
+        if (fileBo.getPublicAccess() != null && fileBo.getPublicAccess() == 1) {
+            return;
+        }
+        
+        // 如果文件不公开（publicAccess == 0 或 null），需要校验 createId
+        if (createId == null) {
+            throw new FileAccessDeniedException("文件访问被拒绝：该文件为私有文件，需要提供创建者ID");
+        }
+        
+        // 校验 createId 是否匹配
+        if (fileBo.getCreateId() == null || !fileBo.getCreateId().equals(createId)) {
+            throw new FileAccessDeniedException("文件访问被拒绝：创建者ID不匹配");
+        }
     }
 
     private SysFilesMetaBo toMetaBo(SysFiles entity) {
