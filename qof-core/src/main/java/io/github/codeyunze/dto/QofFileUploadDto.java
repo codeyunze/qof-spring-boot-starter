@@ -85,5 +85,13 @@ public class QofFileUploadDto implements Serializable {
     public void setPublicAccess(Integer publicAccess) {
         this.publicAccess = publicAccess;
     }
+
+    public Long getCreateId() {
+        return createId;
+    }
+
+    public void setCreateId(Long createId) {
+        this.createId = createId;
+    }
 }
 
