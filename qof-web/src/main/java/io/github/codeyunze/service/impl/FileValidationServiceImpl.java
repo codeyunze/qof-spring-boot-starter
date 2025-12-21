@@ -12,10 +12,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
@@ -61,7 +63,7 @@ public class FileValidationServiceImpl implements FileValidationService {
 
 
     @Override
-    public org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody createStreamingResponseBody(
+    public StreamingResponseBody createStreamingResponseBody(
             InputStream inputStream, Long fileId, String operation) {
         return outputStream -> {
             try (InputStream is = inputStream) {
@@ -83,7 +85,7 @@ public class FileValidationServiceImpl implements FileValidationService {
     @Override
     public String encodeFileName(String fileName) {
         try {
-            return java.net.URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString())
+            return URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString())
                     .replace("+", "%20");
         } catch (Exception e) {
             log.warn("文件名编码失败: {}", fileName, e);
