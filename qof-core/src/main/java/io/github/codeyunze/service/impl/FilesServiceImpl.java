@@ -145,7 +145,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, SysFiles> impleme
         }
         List<String> previewAddress = new ArrayList<>();
         for (Long fileId : fileIds) {
-            previewAddress.add(qofProperties.getPreviewAddress() + "?fileId=" + fileId);
+            previewAddress.add(qofProperties.getPreviewAddress() + "/" + fileId);
         }
         return previewAddress;
     }
