@@ -8,6 +8,8 @@ import io.github.codeyunze.bo.SysFilesMetaBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.entity.SysFiles;
 
+import java.util.List;
+
 /**
  * 系统-文件表(SysFiles)表服务接口
  *
@@ -62,6 +64,14 @@ public interface FilesService extends IService<SysFiles> {
      * @throws io.github.codeyunze.exception.FileAccessDeniedException 如果访问被拒绝
      */
     void checkFileAccessPermission(Long fileId, Long createId);
+
+    /**
+     * 获取文件预览地址
+     *
+     * @param fileIds 文件 ID
+     * @return 文件预览地址
+     */
+    List<String> getFilePreviewByFileId(Long... fileIds);
 
 }
 

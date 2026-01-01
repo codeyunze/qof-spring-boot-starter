@@ -23,9 +23,9 @@ qof:
     enable: true
     multiple:
       mall:
-        secret-id: aaaaaaaaaaaaaaa
-        secret-key: bbbbbbbbbbbbbbbbb
-        bucket-name: mall-1234
+        secret-id: ${COS_SECRET_ID}
+        secret-key: ${COS_SECRET_KEY}
+        bucket-name: ${COS_BUCKET_NAME}
         region: ap-guangzhou
         filepath: /qof
       test:
@@ -44,12 +44,4 @@ qof:
         filepath: ./files/c
       d-station:
         filepath: ./files/d
-  oss:
-    enable: true
-    multiple:
-      mall:
-        access-key-id: aaaaaaaaaaaaaaa
-        access-key-secret: bbbbbbbbbbbbbbbbb
-        bucket-name: mall-25667
-        endpoint: oss-cn-guangzhou.aliyuncs.com
-        filepath: /qof
+
