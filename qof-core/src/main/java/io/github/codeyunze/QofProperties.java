@@ -53,6 +53,11 @@ public class QofProperties {
      */
     private int bufferSize = 8192;
 
+    /**
+     * 文件预览地址
+     */
+    private String previewAddress;
+
     public boolean isPersistentEnable() {
         return persistentEnable;
     }
@@ -91,5 +96,13 @@ public class QofProperties {
 
     public void setBufferSize(int bufferSize) {
         this.bufferSize = bufferSize;
+    }
+
+    public String getPreviewAddress() {
+        return previewAddress;
+    }
+
+    public void setPreviewAddress(String previewAddress) {
+        this.previewAddress = previewAddress;
     }
 }

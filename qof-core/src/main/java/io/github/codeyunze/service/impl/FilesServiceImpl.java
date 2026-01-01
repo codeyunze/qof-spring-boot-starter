@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.github.codeyunze.QofProperties;
 import io.github.codeyunze.bo.SysFilesMetaBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
@@ -15,7 +16,14 @@ import io.github.codeyunze.service.FilesService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 系统-文件表(SysFiles)表服务实现类
@@ -25,6 +33,12 @@ import org.springframework.util.StringUtils;
  */
 @Service
 public class FilesServiceImpl extends ServiceImpl<FilesMapper, SysFiles> implements FilesService {
+
+    private final QofProperties qofProperties;
+
+    public FilesServiceImpl(QofProperties qofProperties) {
+        this.qofProperties = qofProperties;
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -107,22 +121,35 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, SysFiles> impleme
     @Override
     public void checkFileAccessPermission(Long fileId, Long createId) {
         QofFileInfoBo<?> fileBo = getByFileId(fileId);
-        
+
         // 如果文件是公开的（publicAccess == 1），允许访问
         if (fileBo.getPublicAccess() != null && fileBo.getPublicAccess() == 1) {
             return;
         }
-        
+
         // 如果文件不公开（publicAccess == 0 或 null），需要校验 createId
         if (createId == null) {
             throw new FileAccessDeniedException("文件访问被拒绝：该文件为私有文件，需要提供创建者ID");
         }
-        
+
         // 校验 createId 是否匹配
         if (fileBo.getCreateId() == null || !fileBo.getCreateId().equals(createId)) {
             throw new FileAccessDeniedException("文件访问被拒绝：创建者ID不匹配");
         }
     }
+
+    @Override
+    public List<String> getFilePreviewByFileId(Long... fileIds) {
+        if (qofProperties == null || !StringUtils.hasText(qofProperties.getPreviewAddress())) {
+            throw new FileAccessDeniedException("文件预览被拒绝：请配置文件预览地址[qof.preview-address]");
+        }
+        List<String> previewAddress = new ArrayList<>();
+        for (Long fileId : fileIds) {
+            previewAddress.add(qofProperties.getPreviewAddress() + "?fileId=" + fileId);
+        }
+        return previewAddress;
+    }
+
 
     private SysFilesMetaBo toMetaBo(SysFiles entity) {
         SysFilesMetaBo bo = new SysFilesMetaBo();
