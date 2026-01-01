@@ -139,7 +139,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, SysFiles> impleme
     }
 
     @Override
-    public List<String> getFilePreviewByFileId(Long... fileIds) {
+    public List<String> getFilePreviewByFileId(List<Long> fileIds) {
         if (qofProperties == null || !StringUtils.hasText(qofProperties.getPreviewAddress())) {
             throw new FileAccessDeniedException("文件预览被拒绝：请配置文件预览地址[qof.preview-address]");
         }

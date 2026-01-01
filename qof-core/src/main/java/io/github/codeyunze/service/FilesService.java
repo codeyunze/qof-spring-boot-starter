@@ -71,7 +71,7 @@ public interface FilesService extends IService<SysFiles> {
      * @param fileIds 文件 ID
      * @return 文件预览地址
      */
-    List<String> getFilePreviewByFileId(Long... fileIds);
+    List<String> getFilePreviewByFileId(List<Long> fileIds);
 
 }
 
