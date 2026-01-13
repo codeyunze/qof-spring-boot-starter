@@ -25,7 +25,11 @@ public enum QofStorageModeEnum {
     /**
      * Minio-对象存储模式
      */
-    MINIO(QofConstant.StorageMode.minio);
+    MINIO(QofConstant.StorageMode.minio),
+    /**
+     * RustFS-对象存储模式
+     */
+    RUSTFS(QofConstant.StorageMode.RUSTFS);
 
     /**
      * 文件存储模式

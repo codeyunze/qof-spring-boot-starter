@@ -49,6 +49,7 @@
         <hutool-all.version>5.8.26</hutool-all.version>
         <qcloud.version>5.6.242</qcloud.version>
         <aliyun-oss.version>3.17.4</aliyun-oss.version>
+        <aws-sdk.version>2.25.27</aws-sdk.version>
     </properties>
 
     <dependencyManagement>
@@ -98,6 +99,13 @@
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-oss.version}</version>
+            </dependency>
+
+            <!-- AWS S3 SDK 依赖（用于 RustFS） -->
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>s3</artifactId>
+                <version>${aws-sdk.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
