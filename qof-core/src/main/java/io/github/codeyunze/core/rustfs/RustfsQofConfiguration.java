@@ -17,7 +17,7 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;

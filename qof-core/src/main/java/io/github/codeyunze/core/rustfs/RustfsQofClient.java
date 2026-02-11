@@ -12,6 +12,7 @@ import io.github.codeyunze.exception.FileDownloadException;
 import io.github.codeyunze.exception.FileDeleteException;
 import io.github.codeyunze.service.QofExtService;
 import io.github.codeyunze.utils.StrUtils;
+import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -25,7 +26,6 @@ import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
