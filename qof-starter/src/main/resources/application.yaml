@@ -44,4 +44,23 @@ qof:
         filepath: ./files/c
       d-station:
         filepath: ./files/d
-
+  oss:
+    enable: true
+    multiple:
+      mall:
+        access-key-id: aaaaaaaaaaaaaaa
+        access-key-secret: bbbbbbbbbbbbbbbbb
+        bucket-name: mall-25667
+        endpoint: oss-cn-guangzhou.aliyuncs.com
+        filepath: /qof
+  rustfs:
+    enable: true
+    multiple:
+      demo:
+        endpoint: http://127.0.0.1:9000
+        access-key: xxxxxxxxxxxxxxx
+        secret-key: xxxxxxxxxxxxxxxxxxxxxxxxxx
+        bucket-name: demo
+        region: us-guangzhou
+        filepath: /qof
+    default-storage-station: demo
