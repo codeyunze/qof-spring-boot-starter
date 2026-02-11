@@ -51,5 +51,6 @@ public class QofConstant {
         String COS = "cos";
         String OSS = "oss";
         String minio = "minio";
+        String RUSTFS = "rustfs";
     }
 }
