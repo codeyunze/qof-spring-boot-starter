@@ -1,0 +1,22 @@
+# 场景：宿主自建 Controller，只引入 persistence（不引 starter-web）
+# 依赖组合建议：
+#   - qof-spring-boot-starter（含 local 等默认能力）
+#   - qof-spring-boot-starter-persistence（落库）
+#   - 按需再加 starter-cos / starter-oss / starter-s3
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/file?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF8&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+
+qof:
+  # 开启后：上传 afterUpload 会写入 sys_files；按 fileId 下载/删除才可用
+  persistent-enable: true
+  local:
+    enable: true
+    default-storage-station: default
+    multiple:
+      default:
+        filepath: ./files
