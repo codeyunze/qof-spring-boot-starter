@@ -6,21 +6,24 @@
 
 ## 模块一览
 
+各模块说明见对应目录下 `README.md`。
+
 | Artifact | 职责 |
 |---|---|
-| `qof-api` | SPI（Provider / Listener / Metadata） |
-| `qof-core` | 门面、工厂、校验、DTO（**不含**云 SDK / DB） |
-| `qof-storage-local` | 本地存储 |
-| `qof-storage-cos` | 腾讯云 COS |
-| `qof-storage-oss` | 阿里云 OSS |
-| `qof-storage-s3` | S3 兼容（RustFS / MinIO） |
-| `qof-persistence-mybatis` | 元数据持久化（MyBatis-Plus） |
-| `qof-spring-boot-starter` | 默认 Starter = core + **local** |
-| `qof-spring-boot-starter-web` | HTTP + persistence |
-| `qof-spring-boot-starter-cos` / `oss` / `s3` | 按存储裁剪 |
-| `qof-spring-boot-starter-persistence` | 仅持久化 |
-| `qof-web` | HTTP 实现（建议经 starter-web 引入） |
-| `qof-examples` | 演示工程，**禁止**业务依赖 |
+| [`qof-api`](qof-api/README.md) | SPI（Provider / Listener / Metadata） |
+| [`qof-core`](qof-core/README.md) | 门面、工厂、校验、DTO（**不含**云 SDK / DB） |
+| [`qof-storage-local`](qof-storage-local/README.md) | 本地存储 |
+| [`qof-storage-cos`](qof-storage-cos/README.md) | 腾讯云 COS |
+| [`qof-storage-oss`](qof-storage-oss/README.md) | 阿里云 OSS |
+| [`qof-storage-s3`](qof-storage-s3/README.md) | S3 兼容（RustFS / MinIO） |
+| [`qof-persistence-mybatis`](qof-persistence-mybatis/README.md) | 元数据持久化（MyBatis-Plus） |
+| [`qof-spring-boot-autoconfigure`](qof-spring-boot-autoconfigure/README.md) | Boot 自动配置聚合 |
+| [`qof-spring-boot-starter`](qof-spring-boot-starter/README.md) | 默认 Starter = core + **local** |
+| [`qof-spring-boot-starter-web`](qof-spring-boot-starter-web/README.md) | HTTP + persistence |
+| [`qof-spring-boot-starter-cos`](qof-spring-boot-starter-cos/README.md) / [`oss`](qof-spring-boot-starter-oss/README.md) / [`s3`](qof-spring-boot-starter-s3/README.md) | 按存储裁剪 |
+| [`qof-spring-boot-starter-persistence`](qof-spring-boot-starter-persistence/README.md) | 仅持久化 |
+| [`qof-web`](qof-web/README.md) | HTTP 实现（建议经 starter-web 引入） |
+| [`qof-examples`](qof-examples/README.md) | 演示工程，**禁止**业务依赖 |
 
 ## 推荐接入
 
