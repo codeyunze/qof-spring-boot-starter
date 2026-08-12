@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.codeyunze</groupId>
+        <artifactId>qof-parent</artifactId>
+        <version>17.2.0</version>
+    </parent>
+
+    <artifactId>qof-api</artifactId>
+    <name>qof-api</name>
+    <description>QOF 稳定公共 API �?SPI（零重依赖）</description>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- �?JDK + 可选注解，保持 API 模块轻量 -->
+    </dependencies>
+</project>

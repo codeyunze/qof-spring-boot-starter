@@ -1,25 +1,57 @@
 package io.github.codeyunze.core;
 
 import io.github.codeyunze.enums.QofStorageModeEnum;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
+import io.github.codeyunze.spi.ObjectStorageProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 基于 {@link ObjectStorageProvider} 显式注册的客户端工厂。
+ * <p>
+ * 不再按类名猜测存储模式；第三方扩展只需实现 Provider 并注册为 Bean。
+ *
  * @author 高晗
  * @since 2025/2/20 15:19
  */
-@Component
 public class DefaultQofClientFactory implements QofClientFactory {
 
-    private final ApplicationContext applicationContext;
+    private static final Logger log = LoggerFactory.getLogger(DefaultQofClientFactory.class);
 
-    public DefaultQofClientFactory(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
+    private final Map<String, QofClient> clientsByMode;
+
+    /**
+     * @param providers 已注册的存储提供者
+     */
+    public DefaultQofClientFactory(List<ObjectStorageProvider> providers) {
+        Map<String, QofClient> map = new LinkedHashMap<>();
+        if (providers != null) {
+            for (ObjectStorageProvider provider : providers) {
+                if (provider == null || provider.mode() == null || provider.mode().isBlank()) {
+                    continue;
+                }
+                String mode = provider.mode().trim().toLowerCase(Locale.ROOT);
+                Object clientObj = provider.getClient();
+                if (!(clientObj instanceof QofClient client)) {
+                    throw new IllegalStateException("ObjectStorageProvider[" + mode + "] 未返回 QofClient 实例");
+                }
+                if (map.containsKey(mode)) {
+                    throw new IllegalStateException("存储模式重复注册: " + mode);
+                }
+                map.put(mode, client);
+            }
+        }
+        this.clientsByMode = Collections.unmodifiableMap(map);
+        log.info("QOF ClientFactory ready, modes={}", clientsByMode.keySet());
     }
 
     @Override
@@ -27,63 +59,24 @@ public class DefaultQofClientFactory implements QofClientFactory {
         if (storageMode == null || storageMode.trim().isEmpty()) {
             throw new IllegalArgumentException("存储模式不能为空");
         }
-        
-        String mode = storageMode.toLowerCase().trim();
-
-        // 获取所有客户端
-        Map<String, QofClient> clients = applicationContext.getBeansOfType(QofClient.class);
-        
-        if (clients.isEmpty()) {
-            throw new IllegalStateException("未找到任何文件存储客户端，请检查配置");
+        String mode = storageMode.toLowerCase(Locale.ROOT).trim();
+        if (clientsByMode.isEmpty()) {
+            throw new IllegalStateException("未找到任何文件存储客户端，请检查 qof.<mode>.enable 配置及对应依赖");
         }
-
-        // 通过类名匹配客户端
-        for (Map.Entry<String, QofClient> entry : clients.entrySet()) {
-            QofClient client = entry.getValue();
-            String className = client.getClass().getSimpleName().toLowerCase();
-            String qofClientSuffix = QofClient.class.getSimpleName().toLowerCase();
-            
-            // 检查类名是否以QofClient结尾
-            if (!className.endsWith(qofClientSuffix)) {
-                continue;
-            }
-            
-            // 提取存储模式前缀（例如：CosQofClient -> "cos"）
-            int suffixIndex = className.lastIndexOf(qofClientSuffix);
-            if (suffixIndex > 0) {
-                String key = className.substring(0, suffixIndex);
-                if (mode.equals(key)) {
-                    return client;
-                }
-            }
+        QofClient client = clientsByMode.get(mode);
+        if (client != null) {
+            return client;
         }
-
-        // 提供所有支持的存储模式作为提示
         Set<String> supportedModes = Arrays.stream(QofStorageModeEnum.values())
                 .map(QofStorageModeEnum::getMode)
                 .collect(Collectors.toSet());
-
-        // 获取已注册的客户端类型（用于调试）
-        Set<String> registeredClientTypes = clients.values().stream()
-                .map(client -> {
-                    String className = client.getClass().getSimpleName();
-                    String suffix = QofClient.class.getSimpleName();
-                    if (className.endsWith(suffix)) {
-                        return className.substring(0, className.length() - suffix.length()).toLowerCase();
-                    }
-                    return className.toLowerCase();
-                })
-                .collect(Collectors.toSet());
-
+        Collection<String> registered = clientsByMode.keySet();
         if (supportedModes.contains(mode)) {
-            throw new IllegalArgumentException(
-                    String.format("未启用该存储模式[%s]，配置项为[qof.%s.enable]。已注册的客户端类型: %s", 
-                            mode, mode, registeredClientTypes));
+            throw new IllegalArgumentException(String.format(
+                    "未启用该存储模式[%s]，配置项为[qof.%s.enable=true]，并确保对应 SDK 依赖在 classpath。已注册: %s",
+                    mode, mode, registered));
         }
-
-        throw new IllegalArgumentException(
-                String.format("暂不支持[%s]存储模式。支持的模式: %s，已注册的客户端类型: %s", 
-                        storageMode, supportedModes, registeredClientTypes));
+        throw new IllegalArgumentException(String.format(
+                "暂不支持[%s]存储模式。内置模式: %s，已注册: %s", storageMode, supportedModes, registered));
     }
-
 }

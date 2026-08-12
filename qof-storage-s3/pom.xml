@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.codeyunze</groupId>
+        <artifactId>qof-parent</artifactId>
+        <version>17.2.0</version>
+    </parent>
+    <artifactId>qof-storage-s3</artifactId>
+    <name>qof-storage-s3</name>
+    <description>QOF S3 兼容存储（RustFS / MinIO 等）</description>
+    <dependencies>
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+        </dependency>
+    </dependencies>
+</project>

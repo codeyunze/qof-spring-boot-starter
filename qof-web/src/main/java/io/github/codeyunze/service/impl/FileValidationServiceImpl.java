@@ -9,7 +9,6 @@ import io.github.codeyunze.service.FileValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -22,14 +21,13 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 /**
- * 文件服务实现（Web适配层）
- * 只负责将Web层的MultipartFile转换为core层需要的DTO
- * 所有校验逻辑都在core层的 AbstractQofClient.upload 中统一处理
+ * 文件服务实现（Web 适配层）。
+ * <p>
+ * 由 {@code QofCoreConfiguration} 显式 {@code @Bean} 注册，不再依赖组件扫描。
  *
  * @author 高晗
  * @since 2025/2/25
  */
-@Service
 public class FileValidationServiceImpl implements FileValidationService {
 
     private static final Logger log = LoggerFactory.getLogger(FileValidationServiceImpl.class);

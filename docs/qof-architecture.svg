@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="1200" height="820">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="42%" r="45%">
+      <stop offset="0%" stop-color="#d4a574" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#d4a574" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arr-gold" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#d4a574"/>
+    </marker>
+    <marker id="arr-mint" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#6ee7b7"/>
+    </marker>
+    <marker id="arr-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#fdba74"/>
+    </marker>
+    <marker id="arr-violet" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#a78bfa"/>
+    </marker>
+    <marker id="arr-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#38bdf8"/>
+    </marker>
+    <style>
+      text { font-family: -apple-system,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif; }
+      .ttl { font-family: Georgia,"Times New Roman",serif; font-size: 22px; font-weight: 700; fill: #f5f0eb; }
+      .sub { font-size: 12px; fill: #a39787; }
+      .lbl { font-family: Georgia,"Times New Roman",serif; font-size: 11px; font-weight: 700; fill: #c9a96e; opacity: 0.75; }
+      .nm  { font-size: 13px; font-weight: 600; }
+      .sm  { font-size: 10px; fill: #a39787; }
+      .xs  { font-size: 9px; fill: #6b5f53; }
+      .al  { font-size: 10px; fill: #8c7e72; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="820" fill="#0a0a0a"/>
+  <rect width="1200" height="820" fill="url(#glow)"/>
+
+  <text x="48" y="42" class="ttl">QOF Architecture · 17.2.0</text>
+  <text x="48" y="64" class="sub">快联文件桥 · 可裁剪 Spring Boot Starter · SPI 显式注册</text>
+  <text x="1152" y="42" class="xs" text-anchor="end">STYLE 08 · DARK LUXURY</text>
+
+<rect x="40" y="82" width="1120" height="100" rx="8" fill="none" stroke="#d4a574" stroke-width="0.5" stroke-dasharray="6,4" opacity="0.4"/>
+<text x="52" y="100" class="lbl">INTEGRATION · 接入层</text>
+<rect x="60" y="110" width="220" height="52" rx="6" fill="#111111" stroke="#a78bfa" stroke-width="1.5"/>
+<text x="72" y="132" class="nm" fill="#a78bfa">Host Application</text>
+<text x="72" y="150" class="sm">业务服务 / Gateway</text>
+<rect x="320" y="110" width="260" height="52" rx="6" fill="#111111" stroke="#5a9e6f" stroke-width="1.5"/>
+<text x="332" y="132" class="nm" fill="#5a9e6f">QofClientFactory / SDK</text>
+<text x="332" y="150" class="sm">注入门面 · buildClient(mode)</text>
+<rect x="620" y="110" width="250" height="52" rx="6" fill="#111111" stroke="#a78bfa" stroke-width="1.5"/>
+<text x="632" y="132" class="nm" fill="#a78bfa">Optional HTTP · qof-web</text>
+<text x="632" y="150" class="sm">qof.web.enabled · base-path</text>
+<rect x="910" y="110" width="220" height="52" rx="6" fill="#111111" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="922" y="132" class="nm" fill="#94a3b8">qof-examples</text>
+<text x="922" y="150" class="sm">演示工程 · 禁止业务依赖</text>
+
+  <path d="M280 136 H318" stroke="#d4a574" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+  <text x="288" y="128" class="al">inject</text>
+  <path d="M620 136 H582" stroke="#fdba74" stroke-width="1.5" fill="none" marker-end="url(#arr-orange)"/>
+  <text x="585" y="128" class="al">optional</text>
+
+<rect x="40" y="200" width="1120" height="108" rx="8" fill="none" stroke="#d4a574" stroke-width="0.5" stroke-dasharray="6,4" opacity="0.4"/>
+<text x="52" y="218" class="lbl">STARTER COMPOSITION · 按需组合</text>
+<rect x="60" y="230" width="210" height="58" rx="6" fill="#111111" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="72" y="252" class="nm" fill="#fbbf24">qof-spring-boot-starter</text>
+<text x="72" y="270" class="sm">默认 = core + local</text>
+<rect x="290" y="230" width="160" height="58" rx="6" fill="#111111" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="302" y="252" class="nm" fill="#fbbf24">starter-web</text>
+<text x="302" y="270" class="sm">HTTP + persistence</text>
+<rect x="470" y="230" width="140" height="58" rx="6" fill="#111111" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="482" y="252" class="nm" fill="#fbbf24">starter-cos</text>
+<text x="482" y="270" class="sm">腾讯云 COS</text>
+<rect x="630" y="230" width="140" height="58" rx="6" fill="#111111" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="642" y="252" class="nm" fill="#fbbf24">starter-oss</text>
+<text x="642" y="270" class="sm">阿里云 OSS</text>
+<rect x="790" y="230" width="140" height="58" rx="6" fill="#111111" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="802" y="252" class="nm" fill="#fbbf24">starter-s3</text>
+<text x="802" y="270" class="sm">RustFS / MinIO</text>
+<rect x="950" y="230" width="180" height="58" rx="6" fill="#111111" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="962" y="252" class="nm" fill="#fbbf24">starter-persistence</text>
+<text x="962" y="270" class="sm">仅元数据持久化</text>
+
+  <path d="M450 162 V198" stroke="#d4a574" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+  <text x="458" y="186" class="al">depends</text>
+
+<rect x="40" y="328" width="1120" height="100" rx="8" fill="none" stroke="#d4a574" stroke-width="0.5" stroke-dasharray="6,4" opacity="0.4"/>
+<text x="52" y="346" class="lbl">FACADE &amp; AUTOCONFIG · api / core / autoconfigure</text>
+<rect x="60" y="356" width="280" height="52" rx="6" fill="#111111" stroke="#5a9e6f" stroke-width="1.5"/>
+<text x="72" y="378" class="nm" fill="#5a9e6f">qof-api</text>
+<text x="72" y="396" class="sm">SPI · DTO · 异常契约 · 零重依赖</text>
+<rect x="370" y="356" width="320" height="52" rx="6" fill="#111111" stroke="#5a9e6f" stroke-width="1.5"/>
+<text x="382" y="378" class="nm" fill="#5a9e6f">qof-core</text>
+<text x="382" y="396" class="sm">Factory · Client · 校验 · NoopExt</text>
+<rect x="720" y="356" width="400" height="52" rx="6" fill="#111111" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="732" y="378" class="nm" fill="#fbbf24">qof-spring-boot-autoconfigure</text>
+<text x="732" y="396" class="sm">AutoConfiguration.imports · 无宽扫描</text>
+
+  <path d="M165 288 V326" stroke="#d4a574" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+  <path d="M370 288 V326" stroke="#a78bfa" stroke-width="1" stroke-dasharray="6,3" fill="none" marker-end="url(#arr-violet)"/>
+  <path d="M700 288 V326" stroke="#a78bfa" stroke-width="1" stroke-dasharray="6,3" fill="none" marker-end="url(#arr-violet)"/>
+  <path d="M860 288 V326" stroke="#a78bfa" stroke-width="1" stroke-dasharray="6,3" fill="none" marker-end="url(#arr-violet)"/>
+
+<rect x="40" y="448" width="1120" height="100" rx="8" fill="none" stroke="#d4a574" stroke-width="0.5" stroke-dasharray="6,4" opacity="0.4"/>
+<text x="52" y="466" class="lbl">EXTENSION SPI · 显式 mode() 注册</text>
+<rect x="60" y="476" width="300" height="52" rx="6" fill="#111111" stroke="#f87171" stroke-width="1.5"/>
+<text x="72" y="498" class="nm" fill="#f87171">ObjectStorageProvider</text>
+<text x="72" y="516" class="sm">mode() + getClient() · Bean 注册</text>
+<rect x="400" y="476" width="300" height="52" rx="6" fill="#111111" stroke="#f87171" stroke-width="1.5"/>
+<text x="412" y="498" class="nm" fill="#f87171">FileMetadataRepository</text>
+<text x="412" y="516" class="sm">元数据读写 · Noop / MyBatis</text>
+<rect x="740" y="476" width="380" height="52" rx="6" fill="#111111" stroke="#f87171" stroke-width="1.5"/>
+<text x="752" y="498" class="nm" fill="#f87171">FileLifecycleListener / QofExtService</text>
+<text x="752" y="516" class="sm">上传后钩子 · 可组合扩展</text>
+
+  <path d="M200 408 V446" stroke="#d4a574" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+  <path d="M530 408 V446" stroke="#d4a574" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+  <path d="M920 408 V446" stroke="#fdba74" stroke-width="1.5" fill="none" marker-end="url(#arr-orange)"/>
+  <text x="928" y="432" class="al">hook</text>
+
+<rect x="40" y="568" width="1120" height="100" rx="8" fill="none" stroke="#d4a574" stroke-width="0.5" stroke-dasharray="6,4" opacity="0.4"/>
+<text x="52" y="586" class="lbl">IMPLEMENTATION · 按需引入 · 禁止依赖 examples</text>
+<rect x="60" y="596" width="170" height="52" rx="6" fill="#111111" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="72" y="618" class="nm" fill="#38bdf8">storage-local</text>
+<text x="72" y="636" class="sm">本地磁盘</text>
+<rect x="250" y="596" width="170" height="52" rx="6" fill="#111111" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="262" y="618" class="nm" fill="#38bdf8">storage-cos</text>
+<text x="262" y="636" class="sm">腾讯云 COS SDK</text>
+<rect x="440" y="596" width="170" height="52" rx="6" fill="#111111" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="452" y="618" class="nm" fill="#38bdf8">storage-oss</text>
+<text x="452" y="636" class="sm">阿里云 OSS SDK</text>
+<rect x="630" y="596" width="170" height="52" rx="6" fill="#111111" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="642" y="618" class="nm" fill="#38bdf8">storage-s3</text>
+<text x="642" y="636" class="sm">S3 兼容协议</text>
+<rect x="820" y="596" width="200" height="52" rx="6" fill="#111111" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="832" y="618" class="nm" fill="#38bdf8">persistence-mybatis</text>
+<text x="832" y="636" class="sm">MyBatis-Plus 元数据</text>
+<rect x="1040" y="596" width="100" height="52" rx="6" fill="#111111" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="1052" y="618" class="nm" fill="#94a3b8">Noop</text>
+<text x="1052" y="636" class="sm">无库回退</text>
+
+  <path d="M210 528 V566" stroke="#6ee7b7" stroke-width="1.5" fill="none" marker-end="url(#arr-mint)"/>
+  <path d="M550 528 V566" stroke="#6ee7b7" stroke-width="1.5" fill="none" marker-end="url(#arr-mint)"/>
+  <text x="218" y="552" class="al">implements</text>
+  <text x="558" y="552" class="al">implements</text>
+
+<rect x="40" y="688" width="1120" height="92" rx="8" fill="none" stroke="#d4a574" stroke-width="0.5" stroke-dasharray="6,4" opacity="0.4"/>
+<text x="52" y="706" class="lbl">EXTERNAL SYSTEMS · 外部存储与数据库</text>
+<rect x="60" y="716" width="160" height="44" rx="6" fill="#111111" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="72" y="738" class="nm" fill="#38bdf8">Local Filesystem</text>
+<rect x="250" y="716" width="160" height="44" rx="6" fill="#111111" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="262" y="738" class="nm" fill="#38bdf8">Tencent COS</text>
+<rect x="440" y="716" width="160" height="44" rx="6" fill="#111111" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="452" y="738" class="nm" fill="#38bdf8">Aliyun OSS</text>
+<rect x="630" y="716" width="170" height="44" rx="6" fill="#111111" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="642" y="738" class="nm" fill="#38bdf8">RustFS / MinIO / S3</text>
+<rect x="830" y="716" width="170" height="44" rx="6" fill="#111111" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="842" y="738" class="nm" fill="#38bdf8">MySQL</text>
+<text x="842" y="756" class="sm">元数据表</text>
+
+  <path d="M145 648 V714" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#arr-blue)"/>
+  <path d="M335 648 V714" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#arr-blue)"/>
+  <path d="M525 648 V714" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#arr-blue)"/>
+  <path d="M715 648 V714" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#arr-blue)"/>
+  <path d="M920 648 V714" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#arr-blue)"/>
+
+
+  <g transform="translate(48,798)">
+    <circle cx="0" cy="0" r="4" fill="#d4a574"/><text x="10" y="4" class="xs">结构依赖</text>
+    <circle cx="90" cy="0" r="4" fill="#6ee7b7"/><text x="100" y="4" class="xs">SPI 实现</text>
+    <circle cx="180" cy="0" r="4" fill="#fdba74"/><text x="190" y="4" class="xs">控制/钩子</text>
+    <circle cx="280" cy="0" r="4" fill="#a78bfa"/><text x="290" y="4" class="xs">可选依赖</text>
+    <circle cx="380" cy="0" r="4" fill="#38bdf8"/><text x="390" y="4" class="xs">数据/存储</text>
+    <text x="520" y="4" class="xs">依赖方向：examples → starter-* → autoconfigure → core → api</text>
+  </g>
+</svg>

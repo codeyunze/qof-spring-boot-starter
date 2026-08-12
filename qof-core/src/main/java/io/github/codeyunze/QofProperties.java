@@ -1,20 +1,17 @@
 package io.github.codeyunze;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 文件配置属性
+ * 文件配置属性。
+ *
  * @author 高晗
  * @since 2025/2/16 16:28
  */
-@Configuration
-@ConfigurationProperties(
-        prefix = "qof"
-)
+@ConfigurationProperties(prefix = "qof")
 public class QofProperties {
 
     /**

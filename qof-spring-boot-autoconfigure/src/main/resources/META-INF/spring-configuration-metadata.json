@@ -1,0 +1,73 @@
+{
+  "groups": [
+    {
+      "name": "qof",
+      "type": "io.github.codeyunze.QofProperties",
+      "description": "QOF 全局配置."
+    },
+    {
+      "name": "qof.web",
+      "type": "io.github.codeyunze.web.QofWebProperties",
+      "description": "QOF Web/HTTP 可选配置."
+    }
+  ],
+  "properties": [
+    {
+      "name": "qof.persistent-enable",
+      "type": "java.lang.Boolean",
+      "description": "是否持久化文件元数据到数据库.",
+      "defaultValue": false
+    },
+    {
+      "name": "qof.max-file-size",
+      "type": "java.lang.Long",
+      "description": "上传文件大小上限（字节），0 或负数表示不限制.",
+      "defaultValue": 104857600
+    },
+    {
+      "name": "qof.enable-magic-number-detection",
+      "type": "java.lang.Boolean",
+      "description": "是否启用文件头 Magic Number 检测.",
+      "defaultValue": true
+    },
+    {
+      "name": "qof.local.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否启用本地存储."
+    },
+    {
+      "name": "qof.cos.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否启用腾讯云 COS."
+    },
+    {
+      "name": "qof.oss.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否启用阿里云 OSS."
+    },
+    {
+      "name": "qof.rustfs.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否启用 RustFS（S3 兼容）."
+    },
+    {
+      "name": "qof.web.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启用内置 FileController.",
+      "defaultValue": false
+    },
+    {
+      "name": "qof.web.base-path",
+      "type": "java.lang.String",
+      "description": "内置 FileController 路径前缀.",
+      "defaultValue": "/file"
+    },
+    {
+      "name": "qof.web.expose-advice",
+      "type": "java.lang.Boolean",
+      "description": "是否注册 QOF 异常 Advice（仅处理 QOF 相关异常）.",
+      "defaultValue": false
+    }
+  ],
+  "hints": []
+}

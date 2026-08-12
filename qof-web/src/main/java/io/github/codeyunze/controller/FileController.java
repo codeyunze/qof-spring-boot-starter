@@ -26,11 +26,15 @@ import jakarta.validation.Valid;
 import java.nio.charset.StandardCharsets;
 
 /**
+ * 内置文件 HTTP API。
+ * <p>
+ * 默认关闭，需配置 {@code qof.web.enabled=true}；路径前缀可通过 {@code qof.web.base-path} 调整。
+ *
  * @author 高晗
  * @since 2024/12/3 00:02
  */
 @RestController
-@RequestMapping("/file")
+@RequestMapping("${qof.web.base-path:/file}")
 public class FileController {
 
     private static final Logger log = LoggerFactory.getLogger(FileController.class);

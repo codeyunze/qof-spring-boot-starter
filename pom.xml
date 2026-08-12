@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>qof-spring-boot-starter</name>
+    <name>qof-parent</name>
     <groupId>io.github.codeyunze</groupId>
-    <artifactId>qof-spring-boot-starter</artifactId>
-    <version>17.0.4</version>
-    <description>快联文件桥，对各常用文件对象存储中间件的进一步封装。现阶段实现了本地文件存储、腾讯云的COS对象存储、阿里云的OSS对象存储。</description>
+    <artifactId>qof-parent</artifactId>
+    <version>17.2.0</version>
+    <description>快联文件桥（QOF）父工程：统一文件对象存储门面，面向第三方可裁剪接入。</description>
     <url>https://github.com/codeyunze/qof-spring-boot-starter</url>
     <packaging>pom</packaging>
 
@@ -33,9 +33,22 @@
     </developers>
 
     <modules>
+        <module>qof-api</module>
         <module>qof-core</module>
+        <module>qof-storage-local</module>
+        <module>qof-storage-cos</module>
+        <module>qof-storage-oss</module>
+        <module>qof-storage-s3</module>
+        <module>qof-persistence-mybatis</module>
+        <module>qof-spring-boot-autoconfigure</module>
+        <module>qof-spring-boot-starter</module>
+        <module>qof-spring-boot-starter-web</module>
+        <module>qof-spring-boot-starter-cos</module>
+        <module>qof-spring-boot-starter-oss</module>
+        <module>qof-spring-boot-starter-s3</module>
+        <module>qof-spring-boot-starter-persistence</module>
         <module>qof-web</module>
-        <module>qof-starter</module>
+        <module>qof-examples</module>
     </modules>
 
     <properties>
@@ -63,45 +76,112 @@
             </dependency>
 
             <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-storage-local</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-storage-cos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-storage-oss</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-storage-s3</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-persistence-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-spring-boot-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-spring-boot-starter-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-spring-boot-starter-cos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-spring-boot-starter-oss</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-spring-boot-starter-s3</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-spring-boot-starter-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.mysql</groupId>
                 <artifactId>mysql-connector-j</artifactId>
                 <scope>runtime</scope>
                 <version>${mysql.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool-all.version}</version>
             </dependency>
-
-            <!-- 腾讯云 COS 对象存储 SDK 依赖 -->
             <dependency>
                 <groupId>com.qcloud</groupId>
                 <artifactId>cos_api</artifactId>
                 <version>${qcloud.version}</version>
             </dependency>
-
-            <!-- 阿里云 OSS 对象存储 SDK 依赖 -->
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-oss.version}</version>
             </dependency>
-
-            <!-- AWS S3 SDK 依赖（用于 RustFS） -->
             <dependency>
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>s3</artifactId>
@@ -110,14 +190,8 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <!-- 父pom的dependencies只应该包含所有子模块都需要的公共依赖 -->
-        <!-- 子模块之间的依赖应该在各自的pom.xml中声明 -->
-    </dependencies>
-
     <build>
         <plugins>
-            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -128,7 +202,6 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <!-- Source -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -172,7 +245,6 @@
             <id>release</id>
             <build>
                 <plugins>
-                    <!-- GPG -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>

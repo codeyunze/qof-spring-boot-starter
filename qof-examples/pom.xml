@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.codeyunze</groupId>
+        <artifactId>qof-parent</artifactId>
+        <version>17.2.0</version>
+    </parent>
+    <artifactId>qof-examples</artifactId>
+    <name>qof-examples</name>
+    <description>QOF 演示工程（禁止被业务依赖）</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-parent</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-spring-boot-starter-cos</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-spring-boot-starter-oss</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-spring-boot-starter-s3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-spring-boot-starter-persistence</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>io.github.codeyunze.QofApplication</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
