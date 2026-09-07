@@ -23,5 +23,5 @@ qof:
 ## 依赖
 
 - 阿里云 OSS SDK
-- `qof-api` / `qof-core`
+- `qof-spi` / `qof-core`
 - 禁止依赖 `qof-web` / `qof-examples`

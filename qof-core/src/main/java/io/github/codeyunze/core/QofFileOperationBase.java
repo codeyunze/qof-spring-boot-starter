@@ -2,7 +2,6 @@ package io.github.codeyunze.core;
 
 import io.github.codeyunze.QofConstant;
 import io.github.codeyunze.bo.QofFileInfoBo;
-import io.github.codeyunze.core.cos.CosQofProperties;
 
 import java.io.Serializable;
 
@@ -40,7 +39,7 @@ public class QofFileOperationBase implements Serializable {
     /**
      * 文件存储路径
      * <br>
-     * 文件存储路径组成为{@link CosQofProperties#getFilepath()}
+     * 文件存储路径组成为「存储站 filepath」
      * + {@link io.github.codeyunze.dto.QofFileInfoDto#getDirectoryAddress()}
      * + '/'
      * + {@link QofFileOperationBase#getFileId()}

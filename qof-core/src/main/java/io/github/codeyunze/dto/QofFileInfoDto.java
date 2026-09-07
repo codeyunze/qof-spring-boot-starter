@@ -1,7 +1,6 @@
 package io.github.codeyunze.dto;
 
 import io.github.codeyunze.core.QofFileOperationBase;
-import io.github.codeyunze.core.cos.CosQofProperties;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotBlank;
@@ -28,10 +27,10 @@ public class QofFileInfoDto<T> extends QofFileOperationBase {
     /**
      * 文件存储目录地址 [非必传]
      * <br>
-     * 真实存储路径地址为 {@link CosQofProperties#getFilepath()} + {@link QofFileInfoDto#getDirectoryAddress()}
+     * 真实存储路径地址为「存储站 filepath」+ {@link QofFileInfoDto#getDirectoryAddress()}
      * <br>
      * 例如：文件完整的存储路径为 '/files/business/20250201/靓图.png', 则
-     * '/files'为{@link CosQofProperties#getFilepath()},
+     * '/files'为存储站 filepath,
      * '/business/20250201'为使用者传入的{@link QofFileInfoDto#getDirectoryAddress()},
      * '靓图.png'为文件名称{@link QofFileInfoDto#getFileName()}
      * <p>

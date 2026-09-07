@@ -19,5 +19,5 @@ Spring Boot 自动配置聚合模块：供 Starter 引用，承载与 Boot 集�
 ## 依赖方向
 
 ```text
-starter-* → qof-spring-boot-autoconfigure → qof-core → qof-api
+starter-* → qof-spring-boot-autoconfigure → qof-core → qof-spi
 ```

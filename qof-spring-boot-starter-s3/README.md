@@ -13,12 +13,12 @@ S3 兼容存储裁剪 Starter（RustFS / MinIO 等），不附带 Web。
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-s3</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 ```
 

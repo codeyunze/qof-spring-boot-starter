@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.github.codeyunze</groupId>
         <artifactId>qof-parent</artifactId>
-        <version>17.2.0</version>
+        <version>17.2.0-SNAPSHOT</version>
     </parent>
     <artifactId>qof-examples</artifactId>
     <name>qof-examples</name>
@@ -15,10 +15,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.codeyunze</groupId>
-            <artifactId>qof-parent</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.codeyunze</groupId>

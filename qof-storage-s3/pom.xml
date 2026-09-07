@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.github.codeyunze</groupId>
         <artifactId>qof-parent</artifactId>
-        <version>17.2.0</version>
+        <version>17.2.0-SNAPSHOT</version>
     </parent>
     <artifactId>qof-storage-s3</artifactId>
     <name>qof-storage-s3</name>

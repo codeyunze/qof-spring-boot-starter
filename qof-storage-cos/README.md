@@ -24,5 +24,5 @@ qof:
 ## 依赖
 
 - 腾讯云 COS SDK
-- `qof-api` / `qof-core`
+- `qof-spi` / `qof-core`
 - 禁止依赖 `qof-web` / `qof-examples`

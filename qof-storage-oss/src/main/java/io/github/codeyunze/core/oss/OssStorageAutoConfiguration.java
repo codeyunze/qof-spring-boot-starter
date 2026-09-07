@@ -22,25 +22,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 阿里云OSS对象存储客户端操作配置
+ * 阿里云 OSS 对象存储自动配置。
  *
  * @author 高晗
  * @since 2025/2/18
  */
-@ConditionalOnClass(OSS.class)    // 当项目中存在OSS.class类时才会使当前配置类生效
+@ConditionalOnClass(OSS.class)
 @SpringBootConfiguration
 @EnableConfigurationProperties({OssQofProperties.class})
 @ConditionalOnProperty(
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.OSS,
         name = QofConstant.ENABLE,
         havingValue = QofConstant.ENABLE_VALUE)
-public class OssQofConfiguration implements DisposableBean {
+public class OssStorageAutoConfiguration implements DisposableBean {
 
-    private static final Logger log = LoggerFactory.getLogger(OssQofConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssStorageAutoConfiguration.class);
 
     @Resource
     private OssQofProperties ossProperties;
-    
+
     private Map<String, OSS> ossClientMap;
 
     /**
@@ -53,16 +53,15 @@ public class OssQofConfiguration implements DisposableBean {
     }
 
     /**
-     * 注册OSS客户端
+     * 注册 OSS 客户端。
      *
-     * @return key为storageAlias客户端的Bean名称，value为客户端
+     * @return key 为 storageAlias 客户端的 Bean 名称，value 为客户端
      */
     @Bean
     public Map<String, OSS> ossClientMap() {
         this.ossClientMap = new HashMap<>();
         if (CollectionUtils.isEmpty(ossProperties.getMultiple())) {
             OSS ossClient = createOssClient(ossProperties);
-            // beanName
             String key = QofConstant.DEFAULT + StrUtils.toUpperCase(QofConstant.StorageMode.OSS);
             this.ossClientMap.put(key, ossClient);
         } else {
@@ -76,13 +75,12 @@ public class OssQofConfiguration implements DisposableBean {
     }
 
     /**
-     * 根据对应配置信息创建操作客户端
+     * 根据对应配置信息创建操作客户端。
      *
      * @param config 配置信息
      * @return 客户端
      */
     private OSS createOssClient(OssQofConfig config) {
-        // 创建OSS客户端实例
         return new OSSClientBuilder().build(
                 config.getEndpoint(),
                 config.getAccessKeyId(),
@@ -91,7 +89,7 @@ public class OssQofConfiguration implements DisposableBean {
     }
 
     /**
-     * 应用关闭时，关闭所有OSS客户端，释放资源
+     * 应用关闭时，关闭所有 OSS 客户端，释放资源。
      */
     @Override
     public void destroy() {
@@ -112,4 +110,3 @@ public class OssQofConfiguration implements DisposableBean {
         }
     }
 }
-

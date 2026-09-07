@@ -25,5 +25,5 @@ qof:
 ## 依赖
 
 - AWS SDK S3（兼容协议）
-- `qof-api` / `qof-core`
+- `qof-spi` / `qof-core`
 - 禁止依赖 `qof-web` / `qof-examples`

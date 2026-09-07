@@ -13,12 +13,12 @@
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-oss</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 ```
 

@@ -7,7 +7,7 @@
     <name>qof-parent</name>
     <groupId>io.github.codeyunze</groupId>
     <artifactId>qof-parent</artifactId>
-    <version>17.2.0</version>
+    <version>17.2.0-SNAPSHOT</version>
     <description>快联文件桥（QOF）父工程：统一文件对象存储门面，面向第三方可裁剪接入。</description>
     <url>https://github.com/codeyunze/qof-spring-boot-starter</url>
     <packaging>pom</packaging>
@@ -33,7 +33,7 @@
     </developers>
 
     <modules>
-        <module>qof-api</module>
+        <module>qof-spi</module>
         <module>qof-core</module>
         <module>qof-storage-local</module>
         <module>qof-storage-cos</module>
@@ -77,7 +77,7 @@
 
             <dependency>
                 <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-api</artifactId>
+                <artifactId>qof-spi</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

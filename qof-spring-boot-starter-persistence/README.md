@@ -47,12 +47,12 @@ QofExtService（persistence 自动注入的落库实现）
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-persistence</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 ```
 

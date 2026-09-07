@@ -14,7 +14,7 @@
 ## 17.1.0 — 2026-08-11
 
 ### Added
-- `qof-api`：`ObjectStorageProvider` / `FileLifecycleListener` / `FileMetadataRepository` SPI
+- `qof-spi`：`ObjectStorageProvider` / `FileLifecycleListener` / `FileMetadataRepository` SPI
 - `qof-spring-boot-autoconfigure`：配置元数据
 - `qof-spring-boot-starter`：面向第三方的真正 Starter
 - `qof-examples`：演示工程（原 `qof-starter`）

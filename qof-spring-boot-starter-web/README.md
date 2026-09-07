@@ -18,12 +18,12 @@ Web Starter：引入内置 HTTP 能力，并附带元数据持久化实现。
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-web</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 ```
 

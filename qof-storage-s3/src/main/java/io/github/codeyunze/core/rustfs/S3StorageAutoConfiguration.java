@@ -25,25 +25,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * RustFS对象存储客户端操作配置
+ * RustFS / S3 兼容对象存储自动配置。
  *
  * @author 高晗
  * @since 2025/1/12
  */
-@ConditionalOnClass(S3Client.class)    // 当项目中存在S3Client.class类时才会使当前配置类生效
+@ConditionalOnClass(S3Client.class)
 @SpringBootConfiguration
 @EnableConfigurationProperties({RustfsQofProperties.class})
 @ConditionalOnProperty(
         prefix = QofConstant.QOF + CharPool.DOT + QofConstant.StorageMode.RUSTFS,
         name = QofConstant.ENABLE,
         havingValue = QofConstant.ENABLE_VALUE)
-public class RustfsQofConfiguration implements DisposableBean {
+public class S3StorageAutoConfiguration implements DisposableBean {
 
-    private static final Logger log = LoggerFactory.getLogger(RustfsQofConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(S3StorageAutoConfiguration.class);
 
     @Resource
     private RustfsQofProperties rustfsProperties;
-    
+
     private Map<String, S3Client> s3ClientMap;
 
     /**
@@ -56,16 +56,15 @@ public class RustfsQofConfiguration implements DisposableBean {
     }
 
     /**
-     * 注册S3客户端
+     * 注册 S3 客户端。
      *
-     * @return key为storageAlias客户端的Bean名称，value为客户端
+     * @return key 为 storageAlias 客户端的 Bean 名称，value 为客户端
      */
     @Bean
     public Map<String, S3Client> s3ClientMap() {
         this.s3ClientMap = new HashMap<>();
         if (CollectionUtils.isEmpty(rustfsProperties.getMultiple())) {
             S3Client s3Client = createS3Client(rustfsProperties);
-            // beanName
             String key = QofConstant.DEFAULT + StrUtils.toUpperCase(QofConstant.StorageMode.RUSTFS);
             this.s3ClientMap.put(key, s3Client);
         } else {
@@ -79,29 +78,27 @@ public class RustfsQofConfiguration implements DisposableBean {
     }
 
     /**
-     * 根据对应配置信息创建操作客户端
+     * 根据对应配置信息创建操作客户端。
      *
      * @param config 配置信息
      * @return 客户端
      */
     private S3Client createS3Client(RustfsQofConfig config) {
-        // 创建AWS凭证
         AwsBasicCredentials awsCredentials = AwsBasicCredentials.create(
                 config.getAccessKey(),
                 config.getSecretKey()
         );
 
-        // 构建S3客户端
         return S3Client.builder()
                 .endpointOverride(URI.create(config.getEndpoint()))
                 .region(Region.of(config.getRegion()))
                 .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
-                .forcePathStyle(true)   // RustFS需要启用Path-style
+                .forcePathStyle(true)
                 .build();
     }
 
     /**
-     * 应用关闭时，关闭所有S3客户端，释放资源
+     * 应用关闭时，关闭所有 S3 客户端，释放资源。
      */
     @Override
     public void destroy() {

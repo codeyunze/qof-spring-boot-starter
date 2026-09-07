@@ -23,5 +23,5 @@ qof:
 
 ## 依赖
 
-- `qof-api` / `qof-core`（实现 SPI 与抽象客户端）
+- `qof-spi` / `qof-core`（实现 SPI 与抽象客户端）
 - **不**依赖云 SDK、**不**依赖 MyBatis

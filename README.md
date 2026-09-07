@@ -10,7 +10,7 @@
 
 | Artifact | 职责 |
 |---|---|
-| [`qof-api`](qof-api/README.md) | SPI（Provider / Listener / Metadata） |
+| [`qof-spi`](qof-spi/README.md) | SPI（Provider / Listener / Metadata） |
 | [`qof-core`](qof-core/README.md) | 门面、工厂、校验、DTO（**不含**云 SDK / DB） |
 | [`qof-storage-local`](qof-storage-local/README.md) | 本地存储 |
 | [`qof-storage-cos`](qof-storage-cos/README.md) | 腾讯云 COS |
@@ -33,7 +33,7 @@
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -50,22 +50,22 @@ qof:
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-cos</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-persistence</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-web</artifactId>
-  <version>17.2.0</version>
+  <version>17.2.0-SNAPSHOT</version>
 </dependency>
 ```
 
