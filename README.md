@@ -16,13 +16,10 @@
 | [`qof-storage-cos`](qof-storage-cos/README.md) | 腾讯云 COS |
 | [`qof-storage-oss`](qof-storage-oss/README.md) | 阿里云 OSS |
 | [`qof-storage-s3`](qof-storage-s3/README.md) | S3 兼容（RustFS / MinIO） |
-| [`qof-persistence-mybatis`](qof-persistence-mybatis/README.md) | 元数据持久化（MyBatis-Plus） |
-| [`qof-spring-boot-autoconfigure`](qof-spring-boot-autoconfigure/README.md) | Boot 自动配置聚合 |
 | [`qof-spring-boot-starter`](qof-spring-boot-starter/README.md) | 默认 Starter = core + **local** |
-| [`qof-spring-boot-starter-web`](qof-spring-boot-starter-web/README.md) | HTTP + persistence |
+| [`qof-spring-boot-starter-web`](qof-spring-boot-starter-web/README.md) | 内置 HTTP（**不**传递 persistence） |
 | [`qof-spring-boot-starter-cos`](qof-spring-boot-starter-cos/README.md) / [`oss`](qof-spring-boot-starter-oss/README.md) / [`s3`](qof-spring-boot-starter-s3/README.md) | 按存储裁剪 |
-| [`qof-spring-boot-starter-persistence`](qof-spring-boot-starter-persistence/README.md) | 仅持久化 |
-| [`qof-web`](qof-web/README.md) | HTTP 实现（建议经 starter-web 引入） |
+| [`qof-spring-boot-starter-persistence-mysql`](qof-spring-boot-starter-persistence-mysql/README.md) | MySQL 元数据（实现 + 自动配置） |
 | [`qof-examples`](qof-examples/README.md) | 演示工程，**禁止**业务依赖 |
 
 ## 推荐接入
@@ -44,7 +41,7 @@ qof:
     filepath: /data/files
 ```
 
-**需要 COS + 持久化 + HTTP：**
+**需要 COS + MySQL 元数据 + HTTP：**
 
 ```xml
 <dependency>
@@ -59,7 +56,7 @@ qof:
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
-  <artifactId>qof-spring-boot-starter-persistence</artifactId>
+  <artifactId>qof-spring-boot-starter-persistence-mysql</artifactId>
   <version>17.2.0-SNAPSHOT</version>
 </dependency>
 <dependency>
@@ -71,7 +68,6 @@ qof:
 
 ```yaml
 qof:
-  persistent-enable: true
   web:
     enabled: true
     expose-advice: true
@@ -89,6 +85,7 @@ private QofClientFactory qofClientFactory;
 Long id = qofClientFactory.buildClient("local").upload(in, info);
 ```
 
-## 自定义存储
+## 自定义存储 / 元数据
 
-实现 `io.github.codeyunze.spi.ObjectStorageProvider` 并注册为 Spring Bean。
+- 对象存储：实现 `ObjectStorageProvider` 并注册为 Bean  
+- 元数据：实现 `FileMetadataRepository`（可选 `FileMetadataQuery` / `FileLifecycleListener`）  

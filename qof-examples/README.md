@@ -1,26 +1,27 @@
 # qof-examples
 
-演示 / 样例工程：展示如何组合 Starter 与配置跑通上传下载。
+演示工程：只演示 **Local + MySQL 元数据 + 内置 Web** 主路径。
 
-## 作用
-
-- 本地验证 QOF 各 Starter 组合
-- 给接入方参考依赖与 `application.yaml` 写法
-
-## 重要约束
-
-**禁止被业务工程依赖。**  
-本模块带可运行 `main`，不是可发布的库坐标；业务侧请依赖 `qof-spring-boot-starter` 及按需的 `starter-*`。
-
-## 与历史命名
-
-原 `qof-starter` 易被误当成正式 Starter，已更正为 `qof-examples`。真正的默认 Starter 是：
+## 依赖（最小集）
 
 ```text
-qof-spring-boot-starter
+qof-spring-boot-starter-web              # HTTP + 传递 starter（含 local）
+qof-spring-boot-starter-persistence-mysql
 ```
+
+**不要**在本模块堆叠 cos / oss / s3；云存储请另建示例或在业务工程按需引入对应 `starter-*`。
+
+## 约束
+
+**禁止被业务工程依赖。** 业务侧请依赖正式 starter 坐标。
+
+## 运行前
+
+1. 按 `qof-spring-boot-starter-persistence-mysql/examples/schema.sql` 建表  
+2. 修改 `application.yaml` 中的数据源  
+3. `mvn -pl qof-examples spring-boot:run`
 
 ## 相关文档
 
 - 根目录 [README.md](../README.md)
-- [架构优化方案](../docs/架构优化方案.md)
+- [元数据持久化可插拔设计](../docs/元数据持久化可插拔设计.md)

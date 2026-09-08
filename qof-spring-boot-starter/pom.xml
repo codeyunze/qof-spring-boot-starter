@@ -14,10 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>io.github.codeyunze</groupId>
-            <artifactId>qof-spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.codeyunze</groupId>
             <artifactId>qof-core</artifactId>
         </dependency>
         <dependency>

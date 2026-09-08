@@ -4,7 +4,8 @@ import cn.hutool.core.text.CharPool;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import io.github.codeyunze.QofConstant;
-import io.github.codeyunze.service.QofExtService;
+import io.github.codeyunze.spi.FileLifecycleListener;
+import io.github.codeyunze.spi.FileMetadataRepository;
 import io.github.codeyunze.utils.StrUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 
 import jakarta.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,8 +50,9 @@ public class OssStorageAutoConfiguration implements DisposableBean {
      */
     @Bean
     @ConditionalOnMissingBean(OssQofClient.class)
-    public OssQofClient ossQofClient(QofExtService qofExtService) {
-        return new OssQofClient(qofExtService);
+    public OssQofClient ossQofClient(FileMetadataRepository metadataRepository,
+                                     List<FileLifecycleListener> lifecycleListeners) {
+        return new OssQofClient(metadataRepository, lifecycleListeners);
     }
 
     /**

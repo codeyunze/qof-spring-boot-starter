@@ -7,7 +7,8 @@ import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.region.Region;
 import cn.hutool.core.text.CharPool;
 import io.github.codeyunze.QofConstant;
-import io.github.codeyunze.service.QofExtService;
+import io.github.codeyunze.spi.FileLifecycleListener;
+import io.github.codeyunze.spi.FileMetadataRepository;
 import io.github.codeyunze.utils.StrUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 
 import jakarta.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,8 +53,9 @@ public class CosStorageAutoConfiguration implements DisposableBean {
      */
     @Bean
     @ConditionalOnMissingBean(CosQofClient.class)
-    public CosQofClient cosQofClient(QofExtService qofExtService) {
-        return new CosQofClient(qofExtService);
+    public CosQofClient cosQofClient(FileMetadataRepository metadataRepository,
+                                     List<FileLifecycleListener> lifecycleListeners) {
+        return new CosQofClient(metadataRepository, lifecycleListeners);
     }
 
     /**

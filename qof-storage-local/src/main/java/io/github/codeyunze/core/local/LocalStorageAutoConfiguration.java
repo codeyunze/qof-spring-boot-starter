@@ -2,12 +2,15 @@ package io.github.codeyunze.core.local;
 
 import cn.hutool.core.text.CharPool;
 import io.github.codeyunze.QofConstant;
-import io.github.codeyunze.service.QofExtService;
+import io.github.codeyunze.spi.FileLifecycleListener;
+import io.github.codeyunze.spi.FileMetadataRepository;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+
+import java.util.List;
 
 /**
  * 本地存储自动配置。
@@ -28,7 +31,8 @@ public class LocalStorageAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(LocalQofClient.class)
-    public LocalQofClient localQofClient(QofExtService qofExtService) {
-        return new LocalQofClient(qofExtService);
+    public LocalQofClient localQofClient(FileMetadataRepository metadataRepository,
+                                         List<FileLifecycleListener> lifecycleListeners) {
+        return new LocalQofClient(metadataRepository, lifecycleListeners);
     }
 }

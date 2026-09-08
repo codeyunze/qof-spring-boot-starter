@@ -18,7 +18,8 @@ import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.FileUploadException;
 import io.github.codeyunze.exception.FileDownloadException;
 import io.github.codeyunze.exception.FileDeleteException;
-import io.github.codeyunze.service.QofExtService;
+import io.github.codeyunze.spi.FileLifecycleListener;
+import io.github.codeyunze.spi.FileMetadataRepository;
 import io.github.codeyunze.spi.ObjectStorageProvider;
 import io.github.codeyunze.utils.StrUtils;
 import org.slf4j.Logger;
@@ -58,8 +59,9 @@ public class CosQofClient extends AbstractQofClient implements ObjectStorageProv
     @Resource
     private Map<String, COSClient> cosClientMap;
 
-    public CosQofClient(QofExtService qofExtService) {
-        super(qofExtService);
+    public CosQofClient(FileMetadataRepository metadataRepository,
+                        java.util.List<FileLifecycleListener> lifecycleListeners) {
+        super(metadataRepository, lifecycleListeners);
     }
 
     private COSClient getClient(QofFileOperationBase fileOperationBase) {

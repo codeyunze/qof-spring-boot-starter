@@ -11,7 +11,8 @@ import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.DataNotExistException;
 import io.github.codeyunze.exception.FileUploadException;
 import io.github.codeyunze.exception.FileDownloadException;
-import io.github.codeyunze.service.QofExtService;
+import io.github.codeyunze.spi.FileLifecycleListener;
+import io.github.codeyunze.spi.FileMetadataRepository;
 import io.github.codeyunze.spi.ObjectStorageProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +51,9 @@ public class LocalQofClient extends AbstractQofClient implements ObjectStoragePr
     @Resource
     private LocalQofProperties fileProperties;
 
-    public LocalQofClient(QofExtService qofExtService) {
-        super(qofExtService);
+    public LocalQofClient(FileMetadataRepository metadataRepository,
+                          java.util.List<FileLifecycleListener> lifecycleListeners) {
+        super(metadataRepository, lifecycleListeners);
     }
 
     private String getFilePath(QofFileOperationBase fileOperationBase) {

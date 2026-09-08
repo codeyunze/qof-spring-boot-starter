@@ -2,7 +2,8 @@ package io.github.codeyunze.core.rustfs;
 
 import cn.hutool.core.text.CharPool;
 import io.github.codeyunze.QofConstant;
-import io.github.codeyunze.service.QofExtService;
+import io.github.codeyunze.spi.FileLifecycleListener;
+import io.github.codeyunze.spi.FileMetadataRepository;
 import io.github.codeyunze.utils.StrUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import jakarta.annotation.Resource;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,8 +53,9 @@ public class S3StorageAutoConfiguration implements DisposableBean {
      */
     @Bean
     @ConditionalOnMissingBean(RustfsQofClient.class)
-    public RustfsQofClient rustfsQofClient(QofExtService qofExtService) {
-        return new RustfsQofClient(qofExtService);
+    public RustfsQofClient rustfsQofClient(FileMetadataRepository metadataRepository,
+                                           List<FileLifecycleListener> lifecycleListeners) {
+        return new RustfsQofClient(metadataRepository, lifecycleListeners);
     }
 
     /**

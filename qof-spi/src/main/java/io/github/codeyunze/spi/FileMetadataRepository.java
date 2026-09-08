@@ -1,11 +1,11 @@
 package io.github.codeyunze.spi;
 
+import io.github.codeyunze.spi.metadata.FileMetadata;
+
 import java.util.Optional;
 
 /**
- * 文件元数据仓储 SPI。
- * <p>
- * 将「是否落库」从存储实现中剥离：默认可用 Noop；需要 fileId 语义时再启用 MyBatis 实现。
+ * 文件元数据仓储（必选 SPI）。
  *
  * @author yunze
  * @since 17.1.0
@@ -13,33 +13,21 @@ import java.util.Optional;
 public interface FileMetadataRepository {
 
     /**
-     * 按文件 Id 查询元数据。
-     *
-     * @param fileId 文件 Id
-     * @return 元数据；不存在则为 empty
+     * 实现标识（如 {@code mysql}、{@code custom:acme}），仅用于日志 / 互斥诊断。
      */
-    Optional<Object> findById(Long fileId);
+    String type();
+
+    Optional<FileMetadata> findById(Long fileId);
 
     /**
-     * 写入元数据。
-     *
-     * @param metadata 元数据对象
-     * @return 主键 Id
+     * 新增元数据，返回 fileId（通常与入参一致）。
      */
-    Long insert(Object metadata);
+    Long save(FileMetadata metadata);
+
+    void update(FileMetadata metadata);
 
     /**
-     * 更新元数据。
-     *
-     * @param metadata 元数据对象
+     * 逻辑删除；true 表示元数据侧删除成功。
      */
-    void update(Object metadata);
-
-    /**
-     * 逻辑删除。
-     *
-     * @param fileId 文件 Id
-     * @return 是否成功
-     */
-    boolean logicDelete(Long fileId);
+    boolean deleteById(Long fileId);
 }

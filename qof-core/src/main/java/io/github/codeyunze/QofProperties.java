@@ -15,11 +15,6 @@ import java.util.List;
 public class QofProperties {
 
     /**
-     * 是否开始文件信息数据持久化
-     */
-    boolean persistentEnable;
-
-    /**
      * 文件大小限制（单位：字节）
      * 默认值：100MB (104857600字节)
      * 设置为0或负数表示不限制
@@ -54,14 +49,6 @@ public class QofProperties {
      * 文件预览地址
      */
     private String previewAddress;
-
-    public boolean isPersistentEnable() {
-        return persistentEnable;
-    }
-
-    public void setPersistentEnable(boolean persistentEnable) {
-        this.persistentEnable = persistentEnable;
-    }
 
     public long getMaxFileSize() {
         return maxFileSize;

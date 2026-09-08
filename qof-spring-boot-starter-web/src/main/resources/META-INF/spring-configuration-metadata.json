@@ -1,0 +1,30 @@
+{
+  "groups": [
+    {
+      "name": "qof.web",
+      "type": "io.github.codeyunze.web.QofWebProperties",
+      "description": "QOF Web/HTTP 可选配置."
+    }
+  ],
+  "properties": [
+    {
+      "name": "qof.web.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启用内置 FileController.",
+      "defaultValue": false
+    },
+    {
+      "name": "qof.web.base-path",
+      "type": "java.lang.String",
+      "description": "内置 FileController 路径前缀.",
+      "defaultValue": "/file"
+    },
+    {
+      "name": "qof.web.expose-advice",
+      "type": "java.lang.Boolean",
+      "description": "是否注册 QOF 异常 Advice（仅处理 QOF 相关异常）.",
+      "defaultValue": false
+    }
+  ],
+  "hints": []
+}

@@ -11,7 +11,8 @@ import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.FileUploadException;
 import io.github.codeyunze.exception.FileDownloadException;
 import io.github.codeyunze.exception.FileDeleteException;
-import io.github.codeyunze.service.QofExtService;
+import io.github.codeyunze.spi.FileLifecycleListener;
+import io.github.codeyunze.spi.FileMetadataRepository;
 import io.github.codeyunze.spi.ObjectStorageProvider;
 import io.github.codeyunze.utils.StrUtils;
 import jakarta.annotation.Resource;
@@ -58,8 +59,9 @@ public class RustfsQofClient extends AbstractQofClient implements ObjectStorageP
     @Resource
     private Map<String, S3Client> s3ClientMap;
 
-    public RustfsQofClient(QofExtService qofExtService) {
-        super(qofExtService);
+    public RustfsQofClient(FileMetadataRepository metadataRepository,
+                           java.util.List<FileLifecycleListener> lifecycleListeners) {
+        super(metadataRepository, lifecycleListeners);
     }
 
     private S3Client getClient(QofFileOperationBase fileOperationBase) {

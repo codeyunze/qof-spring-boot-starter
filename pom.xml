@@ -39,15 +39,12 @@
         <module>qof-storage-cos</module>
         <module>qof-storage-oss</module>
         <module>qof-storage-s3</module>
-        <module>qof-persistence-mybatis</module>
-        <module>qof-spring-boot-autoconfigure</module>
         <module>qof-spring-boot-starter</module>
         <module>qof-spring-boot-starter-web</module>
         <module>qof-spring-boot-starter-cos</module>
         <module>qof-spring-boot-starter-oss</module>
         <module>qof-spring-boot-starter-s3</module>
-        <module>qof-spring-boot-starter-persistence</module>
-        <module>qof-web</module>
+        <module>qof-spring-boot-starter-persistence-mysql</module>
         <module>qof-examples</module>
     </modules>
 
@@ -107,16 +104,6 @@
             </dependency>
             <dependency>
                 <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-persistence-mybatis</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-spring-boot-autoconfigure</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.codeyunze</groupId>
                 <artifactId>qof-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -142,12 +129,7 @@
             </dependency>
             <dependency>
                 <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-spring-boot-starter-persistence</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-web</artifactId>
+                <artifactId>qof-spring-boot-starter-persistence-mysql</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

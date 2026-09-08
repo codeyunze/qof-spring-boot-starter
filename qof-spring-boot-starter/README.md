@@ -4,7 +4,7 @@
 
 ## 作用
 
-- 聚合：`qof-spring-boot-autoconfigure` + `qof-core` + `qof-storage-local`
+- 聚合：`qof-core` + `qof-storage-local`
 - 第三方接入的首选坐标（真正的 Starter，不是演示工程）
 
 ## 包含能力
@@ -14,7 +14,7 @@
 | SDK 门面 / 工厂 | ✅ |
 | 本地磁盘存储 | ✅ |
 | 云存储 COS/OSS/S3 | ❌ 另引对应 starter |
-| 元数据落库 | ❌ 另引 persistence |
+| 元数据落库 | ❌ 另引 `starter-persistence-mysql` |
 | 内置 HTTP | ❌ 另引 starter-web |
 
 ## 依赖示例
