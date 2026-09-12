@@ -1,5 +1,8 @@
 package io.github.codeyunze.persistence.mysql;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import io.github.codeyunze.persistence.mysql.internal.SysFilesMapper;
 import io.github.codeyunze.spi.FileMetadataQuery;
 import io.github.codeyunze.spi.FileMetadataRepository;
@@ -19,6 +22,20 @@ import org.springframework.context.annotation.Bean;
 @ConditionalOnClass(name = "com.baomidou.mybatisplus.extension.service.impl.ServiceImpl")
 @MapperScan("io.github.codeyunze.persistence.mysql.internal")
 public class MysqlMetadataAutoConfiguration {
+
+    /**
+     * 注册分页插件；未注册时 {@code selectPage} 不会追加 LIMIT，分页不生效。
+     * <p>
+     * 若宿主已自定义 {@link MybatisPlusInterceptor}，本 Bean 不会覆盖，需自行加入
+     * {@link PaginationInnerInterceptor}。
+     */
+    @Bean
+    @ConditionalOnMissingBean(MybatisPlusInterceptor.class)
+    public MybatisPlusInterceptor qofMybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return interceptor;
+    }
 
     @Bean
     public PersistenceProviderMarker mysqlPersistenceProviderMarker() {
