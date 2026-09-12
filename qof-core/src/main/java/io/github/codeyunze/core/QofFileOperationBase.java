@@ -1,6 +1,6 @@
 package io.github.codeyunze.core;
 
-import io.github.codeyunze.QofConstant;
+import io.github.codeyunze.config.QofConstant;
 import io.github.codeyunze.bo.QofFileInfoBo;
 
 import java.io.Serializable;

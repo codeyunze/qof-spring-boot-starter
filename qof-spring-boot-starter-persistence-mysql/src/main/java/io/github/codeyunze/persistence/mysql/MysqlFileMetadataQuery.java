@@ -30,7 +30,6 @@ public class MysqlFileMetadataQuery implements FileMetadataQuery {
         long pageSize = criteria.getPageSize() < 1 ? 10 : criteria.getPageSize();
 
         LambdaQueryWrapper<SysFilesEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SysFilesEntity::getInvalid, 0L);
         wrapper.orderByDesc(SysFilesEntity::getCreateTime);
         wrapper.select(
                 SysFilesEntity::getId,

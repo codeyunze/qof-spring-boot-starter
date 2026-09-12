@@ -89,3 +89,39 @@ Long id = qofClientFactory.buildClient("local").upload(in, info);
 
 - 对象存储：实现 `ObjectStorageProvider` 并注册为 Bean  
 - 元数据：实现 `FileMetadataRepository`（可选 `FileMetadataQuery` / `FileLifecycleListener`）  
+
+## 本地开发（IDEA / 命令行均可）
+
+**环境：** JDK **17**、Maven 3.9+（或直接用仓库自带的 `mvnw` / `mvnw.cmd`）。  
+`.idea` / `*.iml` 已 gitignore，**请各自用 IDE 重新导入**，不要提交本机 IDE 文件。
+
+### IntelliJ IDEA（推荐开源协作者）
+
+1. **File → Open** 选择仓库根目录的 `pom.xml`（以 Maven 工程打开，不要只当普通文件夹）
+2. 信任项目后等待 Maven 导入完成，Project 中应出现全部子模块（`qof-core`、`qof-spi`、`qof-examples` 等）
+3. 设置 Project SDK = **17**
+4. 运行 `qof-examples` 中的 `io.github.codeyunze.examples.QofApplication`  
+   - 先按 `qof-spring-boot-starter-persistence-mysql/examples/schema.sql` 建表，并改好 `qof-examples` 的数据源配置
+
+若出现「程序包 io.github.codeyunze.xxx 不存在」：多为未正确导入多模块。处理顺序：
+
+1. 右键根 `pom.xml` → **Add as Maven Project** / Maven 工具窗口 **Reload**
+2. **File → Invalidate Caches → Invalidate and Restart**
+3. 仍异常时删除本地 `.idea` 与各模块 `*.iml` 后，重新 Open 根 `pom.xml`
+
+> 请勿与另一套 IDE（例如同时开 Cursor 与 IDEA）共用同一工作区并互相改写 `.idea`，容易把模块图冲坏。
+
+### 命令行
+
+```bash
+./mvnw clean install -DskipTests
+./mvnw -pl qof-examples -am spring-boot:run
+```
+
+Windows：
+
+```bat
+mvnw.cmd clean install -DskipTests
+mvnw.cmd -pl qof-examples -am spring-boot:run
+```
+

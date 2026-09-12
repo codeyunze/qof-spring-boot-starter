@@ -1,1 +1,1 @@
-io.github.codeyunze.core.rustfs.S3StorageAutoConfiguration
+io.github.codeyunze.storage.s3.S3StorageAutoConfiguration

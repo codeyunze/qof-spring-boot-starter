@@ -12,6 +12,15 @@
     <name>qof-spring-boot-starter-web</name>
     <description>QOF Web Starter（内置 HTTP；不传递 persistence，需自行引入）</description>
     <dependencies>
+        <!-- 本模块源码直接使用 core/spi 类型，必须声明为直接依赖（勿只靠 starter 传递） -->
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-spi</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.github.codeyunze</groupId>
             <artifactId>qof-spring-boot-starter</artifactId>

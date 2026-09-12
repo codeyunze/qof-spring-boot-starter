@@ -1,6 +1,5 @@
 package io.github.codeyunze.persistence.mysql;
 
-import io.github.codeyunze.QofConfiguration;
 import io.github.codeyunze.persistence.mysql.internal.SysFilesMapper;
 import io.github.codeyunze.spi.FileMetadataQuery;
 import io.github.codeyunze.spi.FileMetadataRepository;
@@ -16,7 +15,7 @@ import org.springframework.context.annotation.Bean;
  * MySQL 元数据持久化自动配置。
  */
 @AutoConfiguration
-@AutoConfigureBefore(QofConfiguration.class)
+@AutoConfigureBefore(name = "io.github.codeyunze.autoconfigure.QofConfiguration")
 @ConditionalOnClass(name = "com.baomidou.mybatisplus.extension.service.impl.ServiceImpl")
 @MapperScan("io.github.codeyunze.persistence.mysql.internal")
 public class MysqlMetadataAutoConfiguration {

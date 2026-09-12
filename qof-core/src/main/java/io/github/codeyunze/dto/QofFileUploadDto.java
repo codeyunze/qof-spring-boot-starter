@@ -1,6 +1,6 @@
 package io.github.codeyunze.dto;
 
-import io.github.codeyunze.QofConstant;
+import io.github.codeyunze.config.QofConstant;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotBlank;

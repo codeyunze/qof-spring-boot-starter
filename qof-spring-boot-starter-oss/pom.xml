@@ -11,6 +11,10 @@
     <artifactId>qof-spring-boot-starter-oss</artifactId>
     <name>qof-spring-boot-starter-oss</name>
     <description>QOF 阿里云 OSS Starter</description>
+    <properties>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <maven.source.skip>true</maven.source.skip>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>io.github.codeyunze</groupId>

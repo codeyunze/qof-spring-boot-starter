@@ -54,7 +54,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.5.8</spring-boot.version>
         <mysql.version>8.0.33</mysql.version>
-        <druid.version>1.2.22</druid.version>
         <mybatis-plus.version>3.5.15</mybatis-plus.version>
         <hutool-all.version>5.8.28</hutool-all.version>
         <qcloud.version>5.6.242</qcloud.version>
@@ -140,11 +139,6 @@
                 <version>${mysql.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
@@ -173,6 +167,12 @@
     </dependencyManagement>
 
     <build>
+        <!--
+          IntelliJ 多模块下会清 target/classes 却把 class 写到 out/production，
+          导致依赖模块编译时出现「程序包不存在」。统一两端输出目录。
+        -->
+        <outputDirectory>${project.basedir}/out/production</outputDirectory>
+        <testOutputDirectory>${project.basedir}/out/test</testOutputDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -205,6 +205,8 @@
                     <encoding>UTF-8</encoding>
                     <charset>UTF-8</charset>
                     <docencoding>UTF-8</docencoding>
+                    <!-- 空壳 starter 无 apidocs，避免后续模块 Error fetching link -->
+                    <detectOfflineLinks>false</detectOfflineLinks>
                     <additionalOptions>
                         <additionalOption>-Xdoclint:none</additionalOption>
                     </additionalOptions>

@@ -29,10 +29,5 @@
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <optional>true</optional>
-        </dependency>
     </dependencies>
 </project>

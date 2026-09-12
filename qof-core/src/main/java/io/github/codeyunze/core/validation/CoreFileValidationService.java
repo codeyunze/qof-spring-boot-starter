@@ -1,6 +1,6 @@
 package io.github.codeyunze.core.validation;
 
-import io.github.codeyunze.QofProperties;
+import io.github.codeyunze.config.QofProperties;
 import io.github.codeyunze.dto.QofFileInfoDto;
 import io.github.codeyunze.exception.FileUploadException;
 import io.github.codeyunze.utils.FileTypeDetector;

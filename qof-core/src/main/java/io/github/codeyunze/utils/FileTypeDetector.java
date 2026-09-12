@@ -111,7 +111,10 @@ public class FileTypeDetector {
                 byte[][] patterns = entry.getValue();
                 for (byte[] pattern : patterns) {
                     if (matchesPattern(header, bytesRead, pattern)) {
-                        if (declaredType != null && !declaredType.equals(mimeType)) {
+                        // application/octet-stream 等是“未知二进制”兜底类型，不算伪装冲突
+                        if (declaredType != null
+                                && !isGenericMimeType(declaredType)
+                                && !declaredType.equalsIgnoreCase(mimeType)) {
                             log.warn("文件类型不匹配，声明类型: {}, 检测类型: {}", declaredType, mimeType);
                         }
                         return mimeType;
@@ -179,8 +182,9 @@ public class FileTypeDetector {
      * @return true表示类型匹配或无法验证，false表示类型不匹配
      */
     public static boolean validateFileType(InputStream inputStream, String declaredType) {
-        if (declaredType == null || declaredType.trim().isEmpty()) {
-            return true; // 如果没有声明类型，无法验证
+        if (declaredType == null || declaredType.trim().isEmpty() || isGenericMimeType(declaredType)) {
+            // 未声明或仅为通用二进制类型时，以 Magic Number 检测结果为准，不视为冲突
+            return true;
         }
 
         String detectedType = detectFileType(inputStream, declaredType);
@@ -188,7 +192,20 @@ public class FileTypeDetector {
             return true; // 如果无法检测，允许通过（可能是未知类型）
         }
 
-        return detectedType.equals(declaredType);
+        return detectedType.equalsIgnoreCase(declaredType);
+    }
+
+    /**
+     * 通用/未知二进制 MIME，常见于浏览器或客户端未识别具体类型时的兜底值。
+     */
+    private static boolean isGenericMimeType(String mimeType) {
+        if (mimeType == null) {
+            return true;
+        }
+        String normalized = mimeType.trim().toLowerCase();
+        return "application/octet-stream".equals(normalized)
+                || "binary/octet-stream".equals(normalized)
+                || "application/unknown".equals(normalized);
     }
 }
 

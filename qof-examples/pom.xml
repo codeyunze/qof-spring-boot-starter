@@ -30,7 +30,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>io.github.codeyunze.QofApplication</mainClass>
+                    <mainClass>io.github.codeyunze.examples.QofApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

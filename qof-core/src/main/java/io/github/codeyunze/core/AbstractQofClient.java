@@ -1,8 +1,8 @@
 package io.github.codeyunze.core;
 
 import cn.hutool.core.util.IdUtil;
-import io.github.codeyunze.QofConstant;
-import io.github.codeyunze.QofProperties;
+import io.github.codeyunze.config.QofConstant;
+import io.github.codeyunze.config.QofProperties;
 import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.core.validation.CoreFileValidationService;

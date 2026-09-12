@@ -1,6 +1,6 @@
 package io.github.codeyunze.enums;
 
-import io.github.codeyunze.QofConstant;
+import io.github.codeyunze.config.QofConstant;
 
 /**
  * 文件存储模式

@@ -9,11 +9,16 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   datasource:
+    # 默认使用 Spring Boot 内置 HikariCP，无需指定 type
     driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/file?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF8&useSSL=false&allowMultiQueries=true
-    username: root
-    password: root
+    url: jdbc:mysql://gz-cynosdbmysql-grp-jbtgtckx.sql.tencentcdb.com:21012/mall?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF8&useSSL=false&allowMultiQueries=true
+    username: mall
+    password: asdL7*U!
+    
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 
 # 主路径演示：Local + MySQL 元数据 + 内置 HTTP
 # 建表见 qof-spring-boot-starter-persistence-mysql/examples/schema.sql

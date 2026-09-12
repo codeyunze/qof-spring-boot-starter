@@ -11,6 +11,11 @@
     <artifactId>qof-spring-boot-starter</artifactId>
     <name>qof-spring-boot-starter</name>
     <description>QOF 默认 Starter（core + local，不含云存储 / HTTP / 持久化）</description>
+    <properties>
+        <!-- 无 Java 源码，跳过 javadoc / sources，避免 fake apidocs 与下游 link 报错 -->
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <maven.source.skip>true</maven.source.skip>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>io.github.codeyunze</groupId>
