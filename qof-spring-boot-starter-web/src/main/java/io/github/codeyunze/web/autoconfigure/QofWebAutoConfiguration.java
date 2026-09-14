@@ -4,6 +4,7 @@ import io.github.codeyunze.core.QofClientFactory;
 import io.github.codeyunze.spi.FileMetadataQuery;
 import io.github.codeyunze.spi.FileMetadataRepository;
 import io.github.codeyunze.web.QofWebProperties;
+import io.github.codeyunze.web.advice.QofMultipartExceptionHandle;
 import io.github.codeyunze.web.advice.QofOverallExceptionHandle;
 import io.github.codeyunze.web.controller.FileController;
 import io.github.codeyunze.web.service.FileValidationService;
@@ -49,6 +50,16 @@ public class QofWebAutoConfiguration {
                                          FileMetadataRepository metadataRepository,
                                          ObjectProvider<FileMetadataQuery> metadataQueryProvider) {
         return new FileController(qofClientFactory, metadataRepository, metadataQueryProvider);
+    }
+
+    /**
+     * 上传超限异常处理（发生在进入 Controller 前，需全局 Advice）。
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = "qof.web", name = "expose-advice", havingValue = "true")
+    @ConditionalOnMissingBean(QofMultipartExceptionHandle.class)
+    public QofMultipartExceptionHandle qofMultipartExceptionHandle() {
+        return new QofMultipartExceptionHandle();
     }
 
     /**

@@ -31,7 +31,7 @@ import jakarta.validation.Valid;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 内置文件 HTTP API。
+ * 文件基础操作
  * <p>
  * 默认关闭，需配置 {@code qof.web.enabled=true}；路径前缀可通过 {@code qof.web.base-path} 调整。
  */

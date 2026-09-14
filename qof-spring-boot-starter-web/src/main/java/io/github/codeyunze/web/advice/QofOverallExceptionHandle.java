@@ -14,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.multipart.MultipartException;
 
 import java.util.Objects;
 
@@ -105,15 +103,5 @@ public class QofOverallExceptionHandle {
     Result<?> fileAccessDeniedExceptionHandle(FileAccessDeniedException e) {
         log.warn("文件访问被拒绝: {}", e.getMessage());
         return new Result<>(HttpStatus.FORBIDDEN.value(), null, e.getMessage());
-    }
-
-    /**
-     * 上传大小超限。
-     */
-    @ExceptionHandler({MaxUploadSizeExceededException.class, MultipartException.class})
-    Result<?> uploadSizeLimitExceptionHandle(Exception e) {
-        log.warn("上传文件大小超过限制", e);
-        String msg = "上传文件失败：文件大小超过系统限制，请压缩或分批上传。如需上传更大文件，请联系系统管理员调整上传大小限制。";
-        return new Result<>(HttpStatus.BAD_REQUEST.value(), null, msg);
     }
 }

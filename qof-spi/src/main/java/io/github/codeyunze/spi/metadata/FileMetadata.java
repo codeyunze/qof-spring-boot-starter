@@ -1,5 +1,8 @@
 package io.github.codeyunze.spi.metadata;
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,11 +74,14 @@ public class FileMetadata {
     /**
      * 创建时间；一般由仓储写入或回填。
      */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+    // @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime createTime;
 
     /**
      * 更新时间；一般由仓储写入或回填。
      */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime updateTime;
 
     /**
