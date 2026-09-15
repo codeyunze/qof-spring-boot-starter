@@ -6,7 +6,6 @@ import io.github.codeyunze.core.QofClientFactory;
 import io.github.codeyunze.metadata.MetadataPersistenceListener;
 import io.github.codeyunze.spi.FileMetadataRepository;
 import io.github.codeyunze.spi.ObjectStorageProvider;
-import io.github.codeyunze.spi.PersistenceProviderMarker;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -17,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * QOF 核心自动配置（不含具体存储与持久化，由对应模块自行装配）。
@@ -54,20 +52,6 @@ public class QofConfiguration {
     @ConditionalOnMissingBean(MetadataPersistenceListener.class)
     public MetadataPersistenceListener metadataPersistenceListener(FileMetadataRepository repository) {
         return new MetadataPersistenceListener(repository);
-    }
-
-    /**
-     * 官方 persistence starter 互斥：同时引入多个则启动失败。
-     */
-    @Bean
-    public Object qofPersistenceProviderMutexGuard(List<PersistenceProviderMarker> markers) {
-        if (markers != null && markers.size() > 1) {
-            String types = markers.stream().map(PersistenceProviderMarker::type).collect(Collectors.joining(", "));
-            throw new BeanCreationException(
-                    "检测到多个元数据持久化实现：" + types + "，请只保留一个官方 persistence starter。"
-            );
-        }
-        return new Object();
     }
 
     @Bean

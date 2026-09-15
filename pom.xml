@@ -186,8 +186,8 @@
           IntelliJ 多模块下会清 target/classes 却把 class 写到 out/production，
           导致依赖模块编译时出现「程序包不存在」。统一两端输出目录。
         -->
-        <outputDirectory>${project.basedir}/out/production</outputDirectory>
-        <testOutputDirectory>${project.basedir}/out/test</testOutputDirectory>
+        <!-- <outputDirectory>${project.basedir}/out/production</outputDirectory> -->
+        <!-- <testOutputDirectory>${project.basedir}/out/test</testOutputDirectory> -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

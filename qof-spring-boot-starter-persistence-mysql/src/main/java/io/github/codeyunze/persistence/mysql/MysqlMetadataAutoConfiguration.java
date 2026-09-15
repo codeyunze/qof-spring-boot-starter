@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import io.github.codeyunze.persistence.mysql.internal.SysFilesMapper;
 import io.github.codeyunze.spi.FileMetadataQuery;
 import io.github.codeyunze.spi.FileMetadataRepository;
-import io.github.codeyunze.spi.PersistenceProviderMarker;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -35,11 +34,6 @@ public class MysqlMetadataAutoConfiguration {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         return interceptor;
-    }
-
-    @Bean
-    public PersistenceProviderMarker mysqlPersistenceProviderMarker() {
-        return () -> "mysql";
     }
 
     @Bean
