@@ -10,16 +10,14 @@
 
 | Artifact | 职责 |
 |---|---|
-| [`qof-spi`](qof-spi/README.md) | SPI（Provider / Listener / Metadata） |
-| [`qof-core`](qof-core/README.md) | 门面、工厂、校验、DTO（**不含**云 SDK / DB） |
-| [`qof-storage-local`](qof-storage-local/README.md) | 本地存储 |
-| [`qof-storage-cos`](qof-storage-cos/README.md) | 腾讯云 COS |
-| [`qof-storage-oss`](qof-storage-oss/README.md) | 阿里云 OSS |
-| [`qof-storage-s3`](qof-storage-s3/README.md) | S3 兼容（RustFS / MinIO） |
-| [`qof-spring-boot-starter`](qof-spring-boot-starter/README.md) | 默认 Starter = core + **local** |
-| [`qof-spring-boot-starter-web`](qof-spring-boot-starter-web/README.md) | 内置 HTTP（**不**传递 persistence） |
-| [`qof-spring-boot-starter-cos`](qof-spring-boot-starter-cos/README.md) / [`oss`](qof-spring-boot-starter-oss/README.md) / [`s3`](qof-spring-boot-starter-s3/README.md) | 按存储裁剪 |
+| [`qof-core`](qof-core/README.md) | SPI 契约 + 门面、工厂、校验、DTO（**不含**云 SDK / DB） |
+| [`qof-storage-local`](qof-storage-local/README.md) | 本地存储（含自动配置） |
+| [`qof-storage-cos`](qof-storage-cos/README.md) | 腾讯云 COS（含自动配置） |
+| [`qof-storage-oss`](qof-storage-oss/README.md) | 阿里云 OSS（含自动配置） |
+| [`qof-storage-s3`](qof-storage-s3/README.md) | S3 兼容（RustFS / MinIO，含自动配置） |
+| [`qof-spring-boot-starter-web`](qof-spring-boot-starter-web/README.md) | 内置 HTTP（**不**传递 storage / persistence） |
 | [`qof-spring-boot-starter-persistence-mysql`](qof-spring-boot-starter-persistence-mysql/README.md) | MySQL 元数据（实现 + 自动配置） |
+| [`qof-spring-boot-starter-persistence-mongo`](qof-spring-boot-starter-persistence-mongo/examples/README.md) | MongoDB 元数据（实现 + 自动配置） |
 | [`qof-examples`](qof-examples/README.md) | 演示工程，**禁止**业务依赖 |
 
 ## 推荐接入
@@ -29,8 +27,8 @@
 ```xml
 <dependency>
   <groupId>io.github.codeyunze</groupId>
-  <artifactId>qof-spring-boot-starter</artifactId>
-  <version>17.2.0-SNAPSHOT</version>
+  <artifactId>qof-storage-local</artifactId>
+  <version>17.2.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -46,23 +44,18 @@ qof:
 ```xml
 <dependency>
   <groupId>io.github.codeyunze</groupId>
-  <artifactId>qof-spring-boot-starter</artifactId>
-  <version>17.2.0-SNAPSHOT</version>
-</dependency>
-<dependency>
-  <groupId>io.github.codeyunze</groupId>
-  <artifactId>qof-spring-boot-starter-cos</artifactId>
-  <version>17.2.0-SNAPSHOT</version>
+  <artifactId>qof-storage-cos</artifactId>
+  <version>17.2.2-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-persistence-mysql</artifactId>
-  <version>17.2.0-SNAPSHOT</version>
+  <version>17.2.2-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-web</artifactId>
-  <version>17.2.0-SNAPSHOT</version>
+  <version>17.2.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -98,7 +91,7 @@ Long id = qofClientFactory.buildClient("local").upload(in, info);
 ### IntelliJ IDEA（推荐开源协作者）
 
 1. **File → Open** 选择仓库根目录的 `pom.xml`（以 Maven 工程打开，不要只当普通文件夹）
-2. 信任项目后等待 Maven 导入完成，Project 中应出现全部子模块（`qof-core`、`qof-spi`、`qof-examples` 等）
+2. 信任项目后等待 Maven 导入完成，Project 中应出现全部子模块（`qof-core`、`qof-examples` 等）
 3. 设置 Project SDK = **17**
 4. 运行 `qof-examples` 中的 `io.github.codeyunze.examples.QofApplication`  
    - 先按 `qof-spring-boot-starter-persistence-mysql/examples/schema.sql` 建表，并改好 `qof-examples` 的数据源配置

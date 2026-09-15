@@ -6,18 +6,20 @@
     <parent>
         <groupId>io.github.codeyunze</groupId>
         <artifactId>qof-parent</artifactId>
-        <version>17.2.0-SNAPSHOT</version>
+        <version>17.2.2-SNAPSHOT</version>
     </parent>
     <artifactId>qof-examples</artifactId>
     <name>qof-examples</name>
     <description>QOF 演示工程：Local + MySQL 元数据 + 内置 Web（禁止被业务依赖）</description>
     <dependencies>
-        <!-- 内置 HTTP；传递 qof-spring-boot-starter（含 local）与 spring-boot-starter-web -->
         <dependency>
             <groupId>io.github.codeyunze</groupId>
             <artifactId>qof-spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- 本期唯一官方元数据演示 -->
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-storage-local</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.github.codeyunze</groupId>
             <artifactId>qof-spring-boot-starter-persistence-mysql</artifactId>
@@ -26,12 +28,30 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <encoding>UTF-8</encoding>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>3.5.3</version>
                 <configuration>
                     <mainClass>io.github.codeyunze.examples.QofApplication</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

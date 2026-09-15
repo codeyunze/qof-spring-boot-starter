@@ -4,10 +4,12 @@ MySQL 元数据持久化（实现 + 自动配置同模块）。
 
 ## 依赖
 
+需同时引入至少一个存储实现，例如本地盘：
+
 ```xml
 <dependency>
   <groupId>io.github.codeyunze</groupId>
-  <artifactId>qof-spring-boot-starter</artifactId>
+  <artifactId>qof-storage-local</artifactId>
   <version>${qof.version}</version>
 </dependency>
 <dependency>

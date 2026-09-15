@@ -7,7 +7,7 @@
     <name>qof-parent</name>
     <groupId>io.github.codeyunze</groupId>
     <artifactId>qof-parent</artifactId>
-    <version>17.2.0-SNAPSHOT</version>
+    <version>17.2.2-SNAPSHOT</version>
     <description>快联文件桥（QOF）父工程：统一文件对象存储门面，面向第三方可裁剪接入。</description>
     <url>https://github.com/codeyunze/qof-spring-boot-starter</url>
     <packaging>pom</packaging>
@@ -33,18 +33,14 @@
     </developers>
 
     <modules>
-        <module>qof-spi</module>
         <module>qof-core</module>
         <module>qof-storage-local</module>
         <module>qof-storage-cos</module>
         <module>qof-storage-oss</module>
         <module>qof-storage-s3</module>
-        <module>qof-spring-boot-starter</module>
         <module>qof-spring-boot-starter-web</module>
-        <module>qof-spring-boot-starter-cos</module>
-        <module>qof-spring-boot-starter-oss</module>
-        <module>qof-spring-boot-starter-s3</module>
         <module>qof-spring-boot-starter-persistence-mysql</module>
+        <module>qof-spring-boot-starter-persistence-mongo</module>
         <module>qof-examples</module>
     </modules>
 
@@ -83,11 +79,6 @@
 
             <dependency>
                 <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-spi</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.codeyunze</groupId>
                 <artifactId>qof-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -113,32 +104,17 @@
             </dependency>
             <dependency>
                 <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.codeyunze</groupId>
                 <artifactId>qof-spring-boot-starter-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-spring-boot-starter-cos</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-spring-boot-starter-oss</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-spring-boot-starter-s3</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.codeyunze</groupId>
                 <artifactId>qof-spring-boot-starter-persistence-mysql</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.codeyunze</groupId>
+                <artifactId>qof-spring-boot-starter-persistence-mongo</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -182,12 +158,12 @@
     </dependencyManagement>
 
     <build>
-        <!--
-          IntelliJ 多模块下会清 target/classes 却把 class 写到 out/production，
-          导致依赖模块编译时出现「程序包不存在」。统一两端输出目录。
-        -->
-        <!-- <outputDirectory>${project.basedir}/out/production</outputDirectory> -->
-        <!-- <testOutputDirectory>${project.basedir}/out/test</testOutputDirectory> -->
+        <!-- 统一编译输出到 target/classes（Maven 默认约定）。
+             IDEA 若仍写 out/ 并清空 target/classes，请开启：
+             Settings → Build Tools → Maven → Runner → Delegate IDE build/run to Maven -->
+        <directory>${project.basedir}/target</directory>
+        <outputDirectory>${project.build.directory}/classes</outputDirectory>
+        <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -1,15 +1,17 @@
 # qof-storage-s3
 
-S3 兼容对象存储实现（RustFS / MinIO 等），实现 `ObjectStorageProvider`（mode = `rustfs`）。
-
-## 作用
-
-- 基于 AWS S3 SDK（兼容协议）访问自建 / 兼容 S3 的对象存储
-- 与 COS/OSS 并列，按需引入，不进入默认 Starter
+S3 兼容对象存储实现（RustFS / MinIO 等），实现 `ObjectStorageProvider`（mode = `rustfs`），含 Spring Boot 自动配置。
 
 ## 何时引入
 
-推荐：`qof-spring-boot-starter-s3`。
+需要 S3 兼容存储时直接依赖本模块。
+
+```xml
+<dependency>
+  <groupId>io.github.codeyunze</groupId>
+  <artifactId>qof-storage-s3</artifactId>
+</dependency>
+```
 
 ## 配置要点
 
@@ -20,10 +22,7 @@ qof:
     # endpoint / access-key / secret-key / bucket 等
 ```
 
-调用：`qofClientFactory.buildClient("rustfs")`。
-
 ## 依赖
 
-- AWS SDK S3（兼容协议）
-- `qof-spi` / `qof-core`
-- 禁止依赖 `qof-web` / `qof-examples`
+- AWS S3 SDK
+- `qof-core`
