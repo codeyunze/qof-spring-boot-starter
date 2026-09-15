@@ -1,6 +1,6 @@
-package io.github.codeyunze.spi;
+package io.github.codeyunze.metadata;
 
-import io.github.codeyunze.spi.metadata.FileMetadata;
+import io.github.codeyunze.metadata.FileMetadata;
 
 import java.util.Optional;
 

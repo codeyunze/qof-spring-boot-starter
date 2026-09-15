@@ -1,8 +1,8 @@
 package io.github.codeyunze.persistence.mongo;
 
 import io.github.codeyunze.persistence.mongo.internal.SysFilesDocument;
-import io.github.codeyunze.spi.FileMetadataQuery;
-import io.github.codeyunze.spi.FileMetadataRepository;
+import io.github.codeyunze.metadata.FileMetadataQuery;
+import io.github.codeyunze.metadata.FileMetadataRepository;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

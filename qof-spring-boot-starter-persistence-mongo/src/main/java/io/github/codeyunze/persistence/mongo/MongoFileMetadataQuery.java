@@ -1,10 +1,10 @@
 package io.github.codeyunze.persistence.mongo;
 
 import io.github.codeyunze.persistence.mongo.internal.SysFilesDocument;
-import io.github.codeyunze.spi.FileMetadataQuery;
-import io.github.codeyunze.spi.metadata.FileMetadata;
-import io.github.codeyunze.spi.metadata.FileMetadataQueryCriteria;
-import io.github.codeyunze.spi.metadata.PageResult;
+import io.github.codeyunze.metadata.FileMetadataQuery;
+import io.github.codeyunze.metadata.FileMetadata;
+import io.github.codeyunze.metadata.FileMetadataQueryCriteria;
+import io.github.codeyunze.metadata.PageResult;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

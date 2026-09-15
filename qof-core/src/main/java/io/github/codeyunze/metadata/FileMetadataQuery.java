@@ -1,8 +1,8 @@
-package io.github.codeyunze.spi;
+package io.github.codeyunze.metadata;
 
-import io.github.codeyunze.spi.metadata.FileMetadata;
-import io.github.codeyunze.spi.metadata.FileMetadataQueryCriteria;
-import io.github.codeyunze.spi.metadata.PageResult;
+import io.github.codeyunze.metadata.FileMetadata;
+import io.github.codeyunze.metadata.FileMetadataQueryCriteria;
+import io.github.codeyunze.metadata.PageResult;
 
 /**
  * 文件元数据分页查询（可选 SPI）。

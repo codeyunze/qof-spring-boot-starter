@@ -34,34 +34,4 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <!--
-              IDEA 增量编译有时会清空 target/classes 中的 .class，却留下 AutoConfiguration.imports，
-              导致启动报 Unable to read meta-data for QofConfiguration。
-              package 后把 jar 解回 classes，保证 IDE 模块依赖能读到完整 class。
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>restore-classes-after-package</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <unzip src="${project.build.directory}/${project.build.finalName}.jar"
-                                       dest="${project.build.outputDirectory}"
-                                       overwrite="true"/>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

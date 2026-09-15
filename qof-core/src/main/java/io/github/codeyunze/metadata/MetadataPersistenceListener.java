@@ -1,10 +1,10 @@
 package io.github.codeyunze.metadata;
 
-import io.github.codeyunze.spi.FileLifecycleListener;
-import io.github.codeyunze.spi.FileMetadataRepository;
-import io.github.codeyunze.spi.lifecycle.DeleteContext;
-import io.github.codeyunze.spi.lifecycle.UploadContext;
-import io.github.codeyunze.spi.metadata.FileMetadata;
+import io.github.codeyunze.lifecycle.FileLifecycleListener;
+import io.github.codeyunze.metadata.FileMetadataRepository;
+import io.github.codeyunze.lifecycle.DeleteContext;
+import io.github.codeyunze.lifecycle.UploadContext;
+import io.github.codeyunze.metadata.FileMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;

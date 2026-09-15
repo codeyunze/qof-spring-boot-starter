@@ -3,8 +3,8 @@ package io.github.codeyunze.persistence.mysql;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.codeyunze.persistence.mysql.internal.SysFilesEntity;
 import io.github.codeyunze.persistence.mysql.internal.SysFilesMapper;
-import io.github.codeyunze.spi.FileMetadataRepository;
-import io.github.codeyunze.spi.metadata.FileMetadata;
+import io.github.codeyunze.metadata.FileMetadataRepository;
+import io.github.codeyunze.metadata.FileMetadata;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 

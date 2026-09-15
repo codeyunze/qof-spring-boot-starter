@@ -1,7 +1,7 @@
 package io.github.codeyunze.core;
 
 import io.github.codeyunze.enums.QofStorageModeEnum;
-import io.github.codeyunze.spi.ObjectStorageProvider;
+import io.github.codeyunze.provider.ObjectStorageProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

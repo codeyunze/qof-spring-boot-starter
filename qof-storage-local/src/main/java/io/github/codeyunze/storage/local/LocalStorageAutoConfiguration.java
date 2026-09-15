@@ -2,8 +2,8 @@ package io.github.codeyunze.storage.local;
 
 import cn.hutool.core.text.CharPool;
 import io.github.codeyunze.config.QofConstant;
-import io.github.codeyunze.spi.FileLifecycleListener;
-import io.github.codeyunze.spi.FileMetadataRepository;
+import io.github.codeyunze.lifecycle.FileLifecycleListener;
+import io.github.codeyunze.metadata.FileMetadataRepository;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

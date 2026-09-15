@@ -1,8 +1,8 @@
 package io.github.codeyunze.web.autoconfigure;
 
 import io.github.codeyunze.core.QofClientFactory;
-import io.github.codeyunze.spi.FileMetadataQuery;
-import io.github.codeyunze.spi.FileMetadataRepository;
+import io.github.codeyunze.metadata.FileMetadataQuery;
+import io.github.codeyunze.metadata.FileMetadataRepository;
 import io.github.codeyunze.web.QofWebProperties;
 import io.github.codeyunze.web.advice.QofMultipartExceptionHandle;
 import io.github.codeyunze.web.advice.QofOverallExceptionHandle;

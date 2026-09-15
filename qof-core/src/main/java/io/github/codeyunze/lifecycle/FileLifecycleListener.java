@@ -1,8 +1,8 @@
-package io.github.codeyunze.spi;
+package io.github.codeyunze.lifecycle;
 
-import io.github.codeyunze.spi.lifecycle.DeleteContext;
-import io.github.codeyunze.spi.lifecycle.DownloadContext;
-import io.github.codeyunze.spi.lifecycle.UploadContext;
+import io.github.codeyunze.lifecycle.DeleteContext;
+import io.github.codeyunze.lifecycle.DownloadContext;
+import io.github.codeyunze.lifecycle.UploadContext;
 
 /**
  * 文件生命周期监听器（可组合，支持多个实现按 {@code @Order} 执行）。

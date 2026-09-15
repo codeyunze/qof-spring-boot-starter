@@ -1,5 +1,6 @@
-package io.github.codeyunze.core;
+package io.github.codeyunze.utils;
 
+import io.github.codeyunze.core.QofFileOperationBase;
 import io.github.codeyunze.exception.StorageConfigurationException;
 import org.springframework.util.CollectionUtils;
 

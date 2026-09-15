@@ -1,8 +1,8 @@
 package io.github.codeyunze.persistence.mongo;
 
 import io.github.codeyunze.persistence.mongo.internal.SysFilesDocument;
-import io.github.codeyunze.spi.FileMetadataRepository;
-import io.github.codeyunze.spi.metadata.FileMetadata;
+import io.github.codeyunze.metadata.FileMetadataRepository;
+import io.github.codeyunze.metadata.FileMetadata;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

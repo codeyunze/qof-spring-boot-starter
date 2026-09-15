@@ -1,4 +1,4 @@
-package io.github.codeyunze.spi.metadata;
+package io.github.codeyunze.metadata;
 
 /**
  * 文件元数据分页查询条件。

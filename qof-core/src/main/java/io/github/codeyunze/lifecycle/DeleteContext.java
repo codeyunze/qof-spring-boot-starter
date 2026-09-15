@@ -1,6 +1,6 @@
-package io.github.codeyunze.spi.lifecycle;
+package io.github.codeyunze.lifecycle;
 
-import io.github.codeyunze.spi.metadata.FileMetadata;
+import io.github.codeyunze.metadata.FileMetadata;
 
 /**
  * 删除生命周期上下文。

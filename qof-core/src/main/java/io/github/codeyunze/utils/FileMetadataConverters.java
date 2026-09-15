@@ -1,8 +1,8 @@
-package io.github.codeyunze.metadata;
+package io.github.codeyunze.utils;
 
 import io.github.codeyunze.bo.QofFileInfoBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
-import io.github.codeyunze.spi.metadata.FileMetadata;
+import io.github.codeyunze.metadata.FileMetadata;
 import org.springframework.beans.BeanUtils;
 
 /**

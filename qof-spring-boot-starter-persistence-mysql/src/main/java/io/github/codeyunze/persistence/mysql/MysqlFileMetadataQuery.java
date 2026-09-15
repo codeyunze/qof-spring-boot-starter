@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.codeyunze.persistence.mysql.internal.SysFilesEntity;
 import io.github.codeyunze.persistence.mysql.internal.SysFilesMapper;
-import io.github.codeyunze.spi.FileMetadataQuery;
-import io.github.codeyunze.spi.metadata.FileMetadata;
-import io.github.codeyunze.spi.metadata.FileMetadataQueryCriteria;
-import io.github.codeyunze.spi.metadata.PageResult;
+import io.github.codeyunze.metadata.FileMetadataQuery;
+import io.github.codeyunze.metadata.FileMetadata;
+import io.github.codeyunze.metadata.FileMetadataQueryCriteria;
+import io.github.codeyunze.metadata.PageResult;
 import org.springframework.util.StringUtils;
 
 import java.util.stream.Collectors;

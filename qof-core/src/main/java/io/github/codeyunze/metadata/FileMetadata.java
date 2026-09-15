@@ -1,4 +1,4 @@
-package io.github.codeyunze.spi.metadata;
+package io.github.codeyunze.metadata;
 
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonFormat;

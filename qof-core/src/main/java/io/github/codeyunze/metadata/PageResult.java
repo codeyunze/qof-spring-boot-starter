@@ -1,4 +1,4 @@
-package io.github.codeyunze.spi.metadata;
+package io.github.codeyunze.metadata;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package io.github.codeyunze.spi;
+package io.github.codeyunze.provider;
 
 /**
  * 对象存储提供者 SPI。

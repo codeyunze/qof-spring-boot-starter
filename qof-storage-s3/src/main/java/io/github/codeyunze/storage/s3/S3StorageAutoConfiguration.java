@@ -2,8 +2,8 @@ package io.github.codeyunze.storage.s3;
 
 import cn.hutool.core.text.CharPool;
 import io.github.codeyunze.config.QofConstant;
-import io.github.codeyunze.spi.FileLifecycleListener;
-import io.github.codeyunze.spi.FileMetadataRepository;
+import io.github.codeyunze.lifecycle.FileLifecycleListener;
+import io.github.codeyunze.metadata.FileMetadataRepository;
 import io.github.codeyunze.utils.StrUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
