@@ -28,9 +28,13 @@
             <groupId>io.github.codeyunze</groupId>
             <artifactId>qof-storage-s3</artifactId>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>io.github.codeyunze</groupId>
             <artifactId>qof-persistence-mysql</artifactId>
+        </dependency> -->
+        <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-persistence-mongo</artifactId>
         </dependency>
     </dependencies>
     <build>

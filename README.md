@@ -69,6 +69,51 @@ qof:
     # ...
 ```
 
+**需要 RustFS（S3 兼容）+ MongoDB 元数据 + HTTP：**
+
+MongoDB 与 MySQL 元数据不要同时引入。调用时 `fileStorageMode` 传 `s3`。
+
+```xml
+<dependency>
+  <groupId>io.github.codeyunze</groupId>
+  <artifactId>qof-storage-s3</artifactId>
+  <version>17.3.0-SNAPSHOT</version>
+</dependency>
+<dependency>
+  <groupId>io.github.codeyunze</groupId>
+  <artifactId>qof-persistence-mongo</artifactId>
+  <version>17.3.0-SNAPSHOT</version>
+</dependency>
+<dependency>
+  <groupId>io.github.codeyunze</groupId>
+  <artifactId>qof-spring-boot-starter-web</artifactId>
+  <version>17.3.0-SNAPSHOT</version>
+</dependency>
+```
+
+```yaml
+spring:
+  data:
+    mongodb:
+      uri: mongodb://user:pass@127.0.0.1:27017/qof?authSource=admin
+qof:
+  web:
+    enabled: true
+    expose-advice: true
+  s3:
+    enable: true
+    default-storage-station: c-station
+    multiple:
+      c-station:
+        endpoint: http://127.0.0.1:9000
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
+        bucket-name: qof
+        filepath: /qof-c
+```
+
+MinIO 等其它 S3 兼容存储同样走 `qof-storage-s3` / `qof.s3`。集合 `sys_files` 启动时自动建索引，无需手写 DDL。
+
 ## SDK 调用
 
 ```java

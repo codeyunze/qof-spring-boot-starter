@@ -8,13 +8,16 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-  datasource:
-    # 默认使用 Spring Boot 内置 HikariCP，无需指定 type
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST}/mall?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF8&useSSL=false&allowMultiQueries=true
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
-    
+#  datasource:
+#    # 默认使用 Spring Boot 内置 HikariCP，无需指定 type
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://${MYSQL_HOST}/mall?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF8&useSSL=false&allowMultiQueries=true
+#    username: ${MYSQL_USERNAME}
+#    password: ${MYSQL_PASSWORD}
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:27017/qof?authSource=admin
+
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
