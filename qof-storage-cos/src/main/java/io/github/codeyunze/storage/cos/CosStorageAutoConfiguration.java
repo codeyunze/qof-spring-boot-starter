@@ -87,7 +87,7 @@ public class CosStorageAutoConfiguration implements DisposableBean {
      * @return 客户端
      */
     private COSClient createCosClient(CosQofConfig config) {
-        COSCredentials cred = new BasicCOSCredentials(config.getSecretId(), config.getSecretKey());
+        COSCredentials cred = new BasicCOSCredentials(config.getAccessKey(), config.getSecretKey());
         ClientConfig clientConfig = new ClientConfig(new Region(config.getRegion()));
         return new COSClient(cred, clientConfig);
     }

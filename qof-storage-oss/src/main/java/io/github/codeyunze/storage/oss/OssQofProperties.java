@@ -67,40 +67,40 @@ public class OssQofProperties extends OssQofConfig implements InitializingBean {
 
         // 检查/补全配置信息是否齐全
         if (CollectionUtils.isEmpty(this.multiple)) {
-            if (!StringUtils.hasText(this.getAccessKeyId())) {
-                throw new StorageConfigurationException("缺少OSS访问密钥配置信息[qof.oss.access-key-id]");
-            } else if (!StringUtils.hasText(this.getAccessKeySecret())) {
-                throw new StorageConfigurationException("缺少OSS访问密钥配置信息[qof.oss.access-key-secret]");
+            if (!StringUtils.hasText(this.getAccessKey())) {
+                throw new StorageConfigurationException("缺少OSS访问密钥配置信息[qof.oss.access-key]");
+            } else if (!StringUtils.hasText(this.getSecretKey())) {
+                throw new StorageConfigurationException("缺少OSS密钥配置信息[qof.oss.secret-key]");
             } else if (!StringUtils.hasText(this.getBucketName())) {
                 throw new StorageConfigurationException("缺少OSS存储桶配置信息[qof.oss.bucket-name]");
             } else if (!StringUtils.hasText(this.getEndpoint())) {
                 throw new StorageConfigurationException("缺少OSS地域节点配置信息[qof.oss.endpoint]");
             }
         } else {
-            if (!StringUtils.hasText(this.getAccessKeyId())) {
+            if (!StringUtils.hasText(this.getAccessKey())) {
                 for (Map.Entry<String, OssQofConfig> entry : this.multiple.entrySet()) {
-                    if (!StringUtils.hasText(entry.getValue().getAccessKeyId())) {
-                        throw new StorageConfigurationException("缺少OSS访问密钥配置信息[qof.oss.multiple." + entry.getKey() + ".access-key-id]");
+                    if (!StringUtils.hasText(entry.getValue().getAccessKey())) {
+                        throw new StorageConfigurationException("缺少OSS访问密钥配置信息[qof.oss.multiple." + entry.getKey() + ".access-key]");
                     }
                 }
             } else {
                 for (Map.Entry<String, OssQofConfig> entry : this.multiple.entrySet()) {
-                    if (!StringUtils.hasText(entry.getValue().getAccessKeyId())) {
-                        entry.getValue().setAccessKeyId(this.getAccessKeyId());
+                    if (!StringUtils.hasText(entry.getValue().getAccessKey())) {
+                        entry.getValue().setAccessKey(this.getAccessKey());
                     }
                 }
             }
 
-            if (!StringUtils.hasText(this.getAccessKeySecret())) {
+            if (!StringUtils.hasText(this.getSecretKey())) {
                 for (Map.Entry<String, OssQofConfig> entry : this.multiple.entrySet()) {
-                    if (!StringUtils.hasText(entry.getValue().getAccessKeySecret())) {
-                        throw new StorageConfigurationException("缺少OSS访问密钥配置信息[qof.oss.multiple." + entry.getKey() + ".access-key-secret]");
+                    if (!StringUtils.hasText(entry.getValue().getSecretKey())) {
+                        throw new StorageConfigurationException("缺少OSS密钥配置信息[qof.oss.multiple." + entry.getKey() + ".secret-key]");
                     }
                 }
             } else {
                 for (Map.Entry<String, OssQofConfig> entry : this.multiple.entrySet()) {
-                    if (!StringUtils.hasText(entry.getValue().getAccessKeySecret())) {
-                        entry.getValue().setAccessKeySecret(this.getAccessKeySecret());
+                    if (!StringUtils.hasText(entry.getValue().getSecretKey())) {
+                        entry.getValue().setSecretKey(this.getSecretKey());
                     }
                 }
             }

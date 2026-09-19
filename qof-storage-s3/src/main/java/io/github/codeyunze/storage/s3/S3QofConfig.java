@@ -1,12 +1,12 @@
 package io.github.codeyunze.storage.s3;
 
 /**
- * RustFS-对象存储的属性配置信息
+ * S3 兼容对象存储的属性配置信息（RustFS / MinIO 等）。
  *
  * @author 高晗
  * @since 2025/1/12
  */
-public class RustfsQofConfig {
+public class S3QofConfig {
 
     /**
      * 文件存储路径
@@ -14,12 +14,12 @@ public class RustfsQofConfig {
     private String filepath;
 
     /**
-     * RustFS访问密钥
+     * 访问密钥。YAML 可写 {@code access-key} 或 {@code secret-id}。
      */
     private String accessKey;
 
     /**
-     * RustFS密钥Secret
+     * 密钥。YAML 写 {@code secret-key}。
      */
     private String secretKey;
 
@@ -29,14 +29,16 @@ public class RustfsQofConfig {
     private String bucketName;
 
     /**
-     * RustFS服务端点（Endpoint）
+     * S3 兼容服务端点（Endpoint）
      * 例如：http://localhost:9000
      */
     private String endpoint;
 
     /**
-     * 区域（Region）
-     * 例如：us-east-1
+     * 区域（Region）。
+     * <p>
+     * RustFS / MinIO 等兼容存储通常无需配置；未填写时默认 {@code us-east-1}，
+     * 仅用于满足 AWS SDK 构建客户端的必填约束。
      */
     private String region;
 
@@ -65,6 +67,19 @@ public class RustfsQofConfig {
 
     public void setAccessKey(String accessKey) {
         this.accessKey = accessKey;
+    }
+
+    /**
+     * {@code secret-id} 作为 {@code access-key} 的别名。
+     */
+    public String getSecretId() {
+        return accessKey;
+    }
+
+    public void setSecretId(String secretId) {
+        if (this.accessKey == null || this.accessKey.isBlank()) {
+            this.accessKey = secretId;
+        }
     }
 
     public String getSecretKey() {

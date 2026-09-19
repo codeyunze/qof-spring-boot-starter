@@ -86,8 +86,8 @@ public class OssStorageAutoConfiguration implements DisposableBean {
     private OSS createOssClient(OssQofConfig config) {
         return new OSSClientBuilder().build(
                 config.getEndpoint(),
-                config.getAccessKeyId(),
-                config.getAccessKeySecret()
+                config.getAccessKey(),
+                config.getSecretKey()
         );
     }
 

@@ -20,6 +20,7 @@ qof:
   oss:
     enable: true
     # endpoint / access-key / secret-key / bucket 等按实际配置
+    # secret-id 可作为 access-key 的别名
 ```
 
 ## 依赖

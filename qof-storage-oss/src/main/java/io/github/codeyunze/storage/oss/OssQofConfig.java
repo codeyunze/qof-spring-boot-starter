@@ -14,14 +14,14 @@ public class OssQofConfig {
     private String filepath;
 
     /**
-     * OSS访问密钥Id（AccessKeyId）
+     * 访问密钥。YAML 可写 {@code access-key} 或 {@code secret-id}。
      */
-    private String accessKeyId;
+    private String accessKey;
 
     /**
-     * OSS访问密钥Secret（AccessKeySecret）
+     * 密钥。YAML 写 {@code secret-key}。
      */
-    private String accessKeySecret;
+    private String secretKey;
 
     /**
      * 存储桶名称（Bucket）
@@ -53,20 +53,33 @@ public class OssQofConfig {
         this.filepath = filepath;
     }
 
-    public String getAccessKeyId() {
-        return accessKeyId;
+    public String getAccessKey() {
+        return accessKey;
     }
 
-    public void setAccessKeyId(String accessKeyId) {
-        this.accessKeyId = accessKeyId;
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
     }
 
-    public String getAccessKeySecret() {
-        return accessKeySecret;
+    /**
+     * {@code secret-id} 作为 {@code access-key} 的别名。
+     */
+    public String getSecretId() {
+        return accessKey;
     }
 
-    public void setAccessKeySecret(String accessKeySecret) {
-        this.accessKeySecret = accessKeySecret;
+    public void setSecretId(String secretId) {
+        if (this.accessKey == null || this.accessKey.isBlank()) {
+            this.accessKey = secretId;
+        }
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 
     public String getBucketName() {

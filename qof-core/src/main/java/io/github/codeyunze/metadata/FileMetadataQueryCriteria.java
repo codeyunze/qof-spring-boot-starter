@@ -24,7 +24,7 @@ public class FileMetadataQueryCriteria {
     private String fileName;
 
     /**
-     * 存储模式精确匹配（local / cos / oss / rustfs 等），可选。
+     * 存储模式精确匹配（local / cos / oss / s3 等），可选。
      */
     private String fileStorageMode;
 

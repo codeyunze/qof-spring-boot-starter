@@ -14,12 +14,12 @@ public class CosQofConfig {
     private String filepath;
 
     /**
-     * COS秘钥Id
+     * 访问密钥。YAML 可写 {@code access-key} 或 {@code secret-id}。
      */
-    private String secretId;
+    private String accessKey;
 
     /**
-     * COS秘钥Key
+     * 密钥。YAML 写 {@code secret-key}。
      */
     private String secretKey;
 
@@ -60,12 +60,25 @@ public class CosQofConfig {
         this.filepath = filepath;
     }
 
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    /**
+     * {@code secret-id} 作为 {@code access-key} 的别名。
+     */
     public String getSecretId() {
-        return secretId;
+        return accessKey;
     }
 
     public void setSecretId(String secretId) {
-        this.secretId = secretId;
+        if (this.accessKey == null || this.accessKey.isBlank()) {
+            this.accessKey = secretId;
+        }
     }
 
     public String getSecretKey() {

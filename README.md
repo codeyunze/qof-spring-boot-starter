@@ -16,8 +16,8 @@
 | [`qof-storage-oss`](qof-storage-oss/README.md) | 阿里云 OSS（含自动配置） |
 | [`qof-storage-s3`](qof-storage-s3/README.md) | S3 兼容（RustFS / MinIO，含自动配置） |
 | [`qof-spring-boot-starter-web`](qof-spring-boot-starter-web/README.md) | 内置 HTTP（**不**传递 storage / persistence） |
-| [`qof-spring-boot-starter-persistence-mysql`](qof-spring-boot-starter-persistence-mysql/README.md) | MySQL 元数据（实现 + 自动配置） |
-| [`qof-spring-boot-starter-persistence-mongo`](qof-spring-boot-starter-persistence-mongo/examples/README.md) | MongoDB 元数据（实现 + 自动配置） |
+| [`qof-persistence-mysql`](qof-persistence-mysql/README.md) | MySQL 元数据（实现 + 自动配置） |
+| [`qof-persistence-mongo`](qof-persistence-mongo/README.md) | MongoDB 元数据（实现 + 自动配置） |
 | [`qof-examples`](qof-examples/README.md) | 演示工程，**禁止**业务依赖 |
 
 ## 推荐接入
@@ -28,7 +28,7 @@
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-storage-local</artifactId>
-  <version>17.2.2-SNAPSHOT</version>
+  <version>17.3.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -45,17 +45,17 @@ qof:
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-storage-cos</artifactId>
-  <version>17.2.2-SNAPSHOT</version>
+  <version>17.3.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-persistence-mysql</artifactId>
-  <version>17.2.2-SNAPSHOT</version>
+  <version>17.3.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-web</artifactId>
-  <version>17.2.2-SNAPSHOT</version>
+  <version>17.3.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -94,7 +94,7 @@ Long id = qofClientFactory.buildClient("local").upload(in, info);
 2. 信任项目后等待 Maven 导入完成，Project 中应出现全部子模块（`qof-core`、`qof-examples` 等）
 3. 设置 Project SDK = **17**
 4. 运行 `qof-examples` 中的 `io.github.codeyunze.examples.QofApplication`  
-   - 先按 `qof-spring-boot-starter-persistence-mysql/examples/schema.sql` 建表，并改好 `qof-examples` 的数据源配置
+   - 先按 `qof-persistence-mysql` 建表，并改好 `qof-examples` 的数据源配置
 
 若出现「程序包 io.github.codeyunze.xxx 不存在」：多为未正确导入多模块。处理顺序：
 

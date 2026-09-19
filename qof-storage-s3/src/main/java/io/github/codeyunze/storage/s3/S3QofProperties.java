@@ -9,16 +9,16 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 /**
- * RustFS-对象存储属性配置信息
+ * S3 兼容对象存储属性配置信息。
  *
  * @author 高晗
  * @since 2025/1/12
  */
-@ConfigurationProperties(prefix = "qof.rustfs")
-public class RustfsQofProperties extends RustfsQofConfig implements InitializingBean {
+@ConfigurationProperties(prefix = "qof.s3")
+public class S3QofProperties extends S3QofConfig implements InitializingBean {
 
     /**
-     * 是否启用RustFS对象存储
+     * 是否启用 S3 兼容对象存储
      */
     private boolean enable;
 
@@ -30,10 +30,10 @@ public class RustfsQofProperties extends RustfsQofConfig implements Initializing
     private String defaultStorageStation;
 
     /**
-     * 多个RustFS配置信息
-     * Map<文件存储站名, RustFS配置信息>
+     * 多个 S3 配置信息
+     * Map&lt;文件存储站名, S3配置信息&gt;
      */
-    Map<String, RustfsQofConfig> multiple;
+    Map<String, S3QofConfig> multiple;
 
     public boolean isEnable() {
         return enable;
@@ -43,11 +43,11 @@ public class RustfsQofProperties extends RustfsQofConfig implements Initializing
         this.enable = enable;
     }
 
-    public Map<String, RustfsQofConfig> getMultiple() {
+    public Map<String, S3QofConfig> getMultiple() {
         return multiple;
     }
 
-    public void setMultiple(Map<String, RustfsQofConfig> multiple) {
+    public void setMultiple(Map<String, S3QofConfig> multiple) {
         this.multiple = multiple;
     }
 
@@ -65,26 +65,25 @@ public class RustfsQofProperties extends RustfsQofConfig implements Initializing
             return;
         }
 
-        // 检查/补全配置信息是否齐全
         if (CollectionUtils.isEmpty(this.multiple)) {
             if (!StringUtils.hasText(this.getAccessKey())) {
-                throw new StorageConfigurationException("缺少RustFS访问密钥配置信息[qof.rustfs.access-key-id]");
+                throw new StorageConfigurationException("缺少S3访问密钥配置信息[qof.s3.access-key]");
             } else if (!StringUtils.hasText(this.getSecretKey())) {
-                throw new StorageConfigurationException("缺少RustFS访问密钥配置信息[qof.rustfs.secret-access-key]");
+                throw new StorageConfigurationException("缺少S3密钥配置信息[qof.s3.secret-key]");
             } else if (!StringUtils.hasText(this.getBucketName())) {
-                throw new StorageConfigurationException("缺少RustFS存储桶配置信息[qof.rustfs.bucket-name]");
+                throw new StorageConfigurationException("缺少S3存储桶配置信息[qof.s3.bucket-name]");
             } else if (!StringUtils.hasText(this.getEndpoint())) {
-                throw new StorageConfigurationException("缺少RustFS服务端点配置信息[qof.rustfs.endpoint]");
+                throw new StorageConfigurationException("缺少S3服务端点配置信息[qof.s3.endpoint]");
             }
         } else {
             if (!StringUtils.hasText(this.getAccessKey())) {
-                for (Map.Entry<String, RustfsQofConfig> entry : this.multiple.entrySet()) {
+                for (Map.Entry<String, S3QofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getAccessKey())) {
-                        throw new StorageConfigurationException("缺少RustFS访问密钥配置信息[qof.rustfs.multiple." + entry.getKey() + ".access-key-id]");
+                        throw new StorageConfigurationException("缺少S3访问密钥配置信息[qof.s3.multiple." + entry.getKey() + ".access-key]");
                     }
                 }
             } else {
-                for (Map.Entry<String, RustfsQofConfig> entry : this.multiple.entrySet()) {
+                for (Map.Entry<String, S3QofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getAccessKey())) {
                         entry.getValue().setAccessKey(this.getAccessKey());
                     }
@@ -92,13 +91,13 @@ public class RustfsQofProperties extends RustfsQofConfig implements Initializing
             }
 
             if (!StringUtils.hasText(this.getSecretKey())) {
-                for (Map.Entry<String, RustfsQofConfig> entry : this.multiple.entrySet()) {
+                for (Map.Entry<String, S3QofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getSecretKey())) {
-                        throw new StorageConfigurationException("缺少RustFS访问密钥配置信息[qof.rustfs.multiple." + entry.getKey() + ".secret-access-key]");
+                        throw new StorageConfigurationException("缺少S3密钥配置信息[qof.s3.multiple." + entry.getKey() + ".secret-key]");
                     }
                 }
             } else {
-                for (Map.Entry<String, RustfsQofConfig> entry : this.multiple.entrySet()) {
+                for (Map.Entry<String, S3QofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getSecretKey())) {
                         entry.getValue().setSecretKey(this.getSecretKey());
                     }
@@ -106,22 +105,22 @@ public class RustfsQofProperties extends RustfsQofConfig implements Initializing
             }
 
             if (!StringUtils.hasText(this.getEndpoint())) {
-                for (Map.Entry<String, RustfsQofConfig> entry : this.multiple.entrySet()) {
+                for (Map.Entry<String, S3QofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getEndpoint())) {
-                        throw new StorageConfigurationException("缺少RustFS服务端点配置信息[qof.rustfs.multiple." + entry.getKey() + ".endpoint]");
+                        throw new StorageConfigurationException("缺少S3服务端点配置信息[qof.s3.multiple." + entry.getKey() + ".endpoint]");
                     }
                 }
             } else {
-                for (Map.Entry<String, RustfsQofConfig> entry : this.multiple.entrySet()) {
+                for (Map.Entry<String, S3QofConfig> entry : this.multiple.entrySet()) {
                     if (!StringUtils.hasText(entry.getValue().getEndpoint())) {
                         entry.getValue().setEndpoint(this.getEndpoint());
                     }
                 }
             }
 
-            for (Map.Entry<String, RustfsQofConfig> entry : this.multiple.entrySet()) {
+            for (Map.Entry<String, S3QofConfig> entry : this.multiple.entrySet()) {
                 if (!StringUtils.hasText(entry.getValue().getBucketName())) {
-                    throw new StorageConfigurationException("缺少RustFS存储桶配置信息[qof.rustfs.multiple." + entry.getKey() + ".bucket-name]");
+                    throw new StorageConfigurationException("缺少S3存储桶配置信息[qof.s3.multiple." + entry.getKey() + ".bucket-name]");
                 }
             }
         }

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `sys_files` (
     `file_type`            varchar(64)           DEFAULT NULL COMMENT '文件类型(image/png、image/jpeg)',
     `file_label`           varchar(64)           DEFAULT NULL COMMENT '文件标签（证件照、报告等）',
     `file_size`            bigint                DEFAULT NULL COMMENT '文件大小(单位byte)',
-    `file_storage_mode`    varchar(16)  NOT NULL COMMENT '存储模式(local/cos/oss/rustfs)',
+    `file_storage_mode`    varchar(16)  NOT NULL COMMENT '存储模式(local/cos/oss/s3)',
     `file_storage_station` varchar(64)           DEFAULT NULL COMMENT '文件存储站',
     `public_access`        int                   DEFAULT 0 COMMENT '是否公开访问：1-公开，0-不公开',
     `create_id`            bigint                DEFAULT NULL COMMENT '创建者ID',

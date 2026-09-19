@@ -19,7 +19,8 @@
 qof:
   cos:
     enable: true
-    # secret-id / secret-key / region / bucket 等按实际配置
+    # access-key / secret-key / region / bucket 等按实际配置
+    # secret-id 可作为 access-key 的别名
 ```
 
 ## 依赖

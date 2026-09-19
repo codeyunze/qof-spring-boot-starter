@@ -50,7 +50,6 @@ public class QofConstant {
         String LOCAL = "local";
         String COS = "cos";
         String OSS = "oss";
-        String minio = "minio";
-        String RUSTFS = "rustfs";
+        String S3 = "s3";
     }
 }

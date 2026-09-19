@@ -18,6 +18,6 @@ qof-spring-boot-starter-persistence-mysql
 
 ## 运行前
 
-1. 按 `qof-spring-boot-starter-persistence-mysql/examples/schema.sql` 建表  
+1. 按 `../qof-persistence-mysql` 建表  
 2. 修改 `application.yaml` 中的数据源  
 3. `mvn -pl qof-examples spring-boot:run`

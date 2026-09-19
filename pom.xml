@@ -7,7 +7,7 @@
     <name>qof-parent</name>
     <groupId>io.github.codeyunze</groupId>
     <artifactId>qof-parent</artifactId>
-    <version>17.2.2-SNAPSHOT</version>
+    <version>17.3.0-SNAPSHOT</version>
     <description>快联文件桥（QOF）父工程：统一文件对象存储门面，面向第三方可裁剪接入。</description>
     <url>https://github.com/codeyunze/qof-spring-boot-starter</url>
     <packaging>pom</packaging>
@@ -39,8 +39,8 @@
         <module>qof-storage-oss</module>
         <module>qof-storage-s3</module>
         <module>qof-spring-boot-starter-web</module>
-        <module>qof-spring-boot-starter-persistence-mysql</module>
-        <module>qof-spring-boot-starter-persistence-mongo</module>
+        <module>qof-persistence-mysql</module>
+        <module>qof-persistence-mongo</module>
         <module>qof-examples</module>
     </modules>
 
@@ -109,12 +109,12 @@
             </dependency>
             <dependency>
                 <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-spring-boot-starter-persistence-mysql</artifactId>
+                <artifactId>qof-persistence-mysql</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.codeyunze</groupId>
-                <artifactId>qof-spring-boot-starter-persistence-mongo</artifactId>
+                <artifactId>qof-persistence-mongo</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -77,7 +77,7 @@ public class SysFilesDocument {
     private Long fileSize;
 
     /**
-     * 存储模式（local/cos/oss/rustfs）
+     * 存储模式（local/cos/oss/s3）
      */
     @Field("file_storage_mode")
     private String fileStorageMode;

@@ -11,9 +11,9 @@ spring:
   datasource:
     # 默认使用 Spring Boot 内置 HikariCP，无需指定 type
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://gz-cynosdbmysql-grp-jbtgtckx.sql.tencentcdb.com:21012/mall?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF8&useSSL=false&allowMultiQueries=true
-    username: mall
-    password: asdL7*U!
+    url: jdbc:mysql://${MYSQL_HOST}/mall?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF8&useSSL=false&allowMultiQueries=true
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
     
 mybatis-plus:
   configuration:
@@ -35,3 +35,29 @@ qof:
         filepath: ./files/c
       d-station:
         filepath: ./files/d
+  cos:
+    enable: true
+    default-storage-station: c-station
+    multiple:
+      c-station:
+        region: ap-guangzhou
+        bucket-name: qof-1306969108
+        access-key: ${COS_SECRET_ID}
+        secret-key: ${COS_SECRET_KEY}
+        filepath: /qof-c
+      d-station:
+        region: ap-guangzhou
+        bucket-name: qof-1306969108
+        access-key: ${COS_SECRET_ID}
+        secret-key: ${COS_SECRET_KEY}
+        filepath: /qof-d
+  s3:
+    enable: true
+    multiple:
+      c-station:
+        endpoint: ${S3_ENDPOINT}
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
+        bucket-name: qof
+        filepath: /qof-c
+        

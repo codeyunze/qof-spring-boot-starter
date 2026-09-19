@@ -46,9 +46,9 @@
       "description": "是否启用阿里云 OSS."
     },
     {
-      "name": "qof.rustfs.enable",
+      "name": "qof.s3.enable",
       "type": "java.lang.Boolean",
-      "description": "是否启用 RustFS（S3 兼容）."
+      "description": "是否启用 S3 兼容对象存储（RustFS / MinIO 等）."
     }
   ],
   "hints": []

@@ -52,7 +52,7 @@ public class FileMetadata {
     private Long fileSize;
 
     /**
-     * 存储模式：local / cos / oss / rustfs 等。
+     * 存储模式：local / cos / oss / s3 等。
      */
     private String fileStorageMode;
 

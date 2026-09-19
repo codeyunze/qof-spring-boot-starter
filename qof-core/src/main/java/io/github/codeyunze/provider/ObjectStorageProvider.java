@@ -12,7 +12,7 @@ package io.github.codeyunze.provider;
 public interface ObjectStorageProvider {
 
     /**
-     * 稳定的存储模式标识，如 {@code local} / {@code cos} / {@code oss} / {@code rustfs}。
+     * 稳定的存储模式标识，如 {@code local} / {@code cos} / {@code oss} / {@code s3}。
      *
      * @return 模式标识（小写）
      */

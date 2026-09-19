@@ -23,13 +23,9 @@ public enum QofStorageModeEnum {
      */
     OSS(QofConstant.StorageMode.OSS),
     /**
-     * Minio-对象存储模式
+     * S3 兼容对象存储模式（RustFS / MinIO 等）
      */
-    MINIO(QofConstant.StorageMode.minio),
-    /**
-     * RustFS-对象存储模式
-     */
-    RUSTFS(QofConstant.StorageMode.RUSTFS);
+    S3(QofConstant.StorageMode.S3);
 
     /**
      * 文件存储模式
