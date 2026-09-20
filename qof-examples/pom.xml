@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.github.codeyunze</groupId>
         <artifactId>qof-parent</artifactId>
-        <version>17.3.0-SNAPSHOT</version>
+        <version>17.3.1</version>
     </parent>
     <artifactId>qof-examples</artifactId>
     <name>qof-examples</name>
@@ -18,24 +18,20 @@
         </dependency>
         <dependency>
             <groupId>io.github.codeyunze</groupId>
-            <artifactId>qof-storage-local</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.codeyunze</groupId>
             <artifactId>qof-storage-cos</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.codeyunze</groupId>
             <artifactId>qof-storage-s3</artifactId>
         </dependency>
-        <!-- <dependency>
-            <groupId>io.github.codeyunze</groupId>
-            <artifactId>qof-persistence-mysql</artifactId>
-        </dependency> -->
         <dependency>
             <groupId>io.github.codeyunze</groupId>
-            <artifactId>qof-persistence-mongo</artifactId>
+            <artifactId>qof-persistence-mysql</artifactId>
         </dependency>
+        <!-- <dependency>
+            <groupId>io.github.codeyunze</groupId>
+            <artifactId>qof-persistence-mongo</artifactId>
+        </dependency> -->
     </dependencies>
     <build>
         <plugins>

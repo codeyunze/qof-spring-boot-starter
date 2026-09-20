@@ -28,7 +28,7 @@
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-storage-local</artifactId>
-  <version>17.3.0-SNAPSHOT</version>
+  <version>17.3.1</version>
 </dependency>
 ```
 
@@ -45,17 +45,17 @@ qof:
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-storage-cos</artifactId>
-  <version>17.3.0-SNAPSHOT</version>
+  <version>17.3.1</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-persistence-mysql</artifactId>
-  <version>17.3.0-SNAPSHOT</version>
+  <version>17.3.1</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-web</artifactId>
-  <version>17.3.0-SNAPSHOT</version>
+  <version>17.3.1</version>
 </dependency>
 ```
 
@@ -77,17 +77,17 @@ MongoDB 与 MySQL 元数据不要同时引入。调用时 `fileStorageMode` 传 
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-storage-s3</artifactId>
-  <version>17.3.0-SNAPSHOT</version>
+  <version>17.3.1</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-persistence-mongo</artifactId>
-  <version>17.3.0-SNAPSHOT</version>
+  <version>17.3.1</version>
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
   <artifactId>qof-spring-boot-starter-web</artifactId>
-  <version>17.3.0-SNAPSHOT</version>
+  <version>17.3.1</version>
 </dependency>
 ```
 
