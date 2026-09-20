@@ -26,6 +26,9 @@
 hs_err_pid*
 replay_pid*
 
+# 本机 GPG 路径，勿提交
+.mvn/maven.config
+
 # Java files
 .svn
 .idea
