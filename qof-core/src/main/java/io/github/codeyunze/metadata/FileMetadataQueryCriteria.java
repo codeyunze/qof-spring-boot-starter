@@ -1,5 +1,11 @@
 package io.github.codeyunze.metadata;
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+
 /**
  * 文件元数据分页查询条件。
  *
@@ -32,6 +38,20 @@ public class FileMetadataQueryCriteria {
      * 存储站别名精确匹配，可选。
      */
     private String fileStorageStation;
+
+    /**
+     * 创建时间-开始
+     */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+    private LocalDateTime createTimeFrom;
+
+    /**
+     * 创建时间-结束
+     */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+    private LocalDateTime createTimeTo;
 
     public long getPageNum() {
         return pageNum;
@@ -71,5 +91,21 @@ public class FileMetadataQueryCriteria {
 
     public void setFileStorageStation(String fileStorageStation) {
         this.fileStorageStation = fileStorageStation;
+    }
+
+    public LocalDateTime getCreateTimeFrom() {
+        return createTimeFrom;
+    }
+
+    public void setCreateTimeFrom(LocalDateTime createTimeFrom) {
+        this.createTimeFrom = createTimeFrom;
+    }
+
+    public LocalDateTime getCreateTimeTo() {
+        return createTimeTo;
+    }
+
+    public void setCreateTimeTo(LocalDateTime createTimeTo) {
+        this.createTimeTo = createTimeTo;
     }
 }

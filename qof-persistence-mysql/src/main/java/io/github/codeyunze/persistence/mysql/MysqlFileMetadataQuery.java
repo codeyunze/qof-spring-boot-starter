@@ -58,6 +58,12 @@ public class MysqlFileMetadataQuery implements FileMetadataQuery {
         if (StringUtils.hasText(criteria.getFileStorageStation())) {
             wrapper.eq(SysFilesEntity::getFileStorageStation, criteria.getFileStorageStation().trim());
         }
+        if (criteria.getCreateTimeFrom() != null) {
+            wrapper.ge(SysFilesEntity::getCreateTime, criteria.getCreateTimeFrom());
+        }
+        if (criteria.getCreateTimeTo() != null) {
+            wrapper.le(SysFilesEntity::getCreateTime, criteria.getCreateTimeTo());
+        }
 
         IPage<SysFilesEntity> entityPage = mapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
         return new PageResult<>(

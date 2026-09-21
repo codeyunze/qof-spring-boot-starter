@@ -71,24 +71,12 @@ public class FileController {
     }
 
     @GetMapping("page")
-    public Result<ResultTable<FileMetadata>> page(
-            @RequestParam(value = "pageNum", defaultValue = "1") long pageNum,
-            @RequestParam(value = "pageSize", defaultValue = "10") long pageSize,
-            @RequestParam(value = "fileName", required = false) String fileName,
-            @RequestParam(value = "fileStorageMode", required = false) String fileStorageMode,
-            @RequestParam(value = "fileStorageStation", required = false) String fileStorageStation
-    ) {
+    public Result<ResultTable<FileMetadata>> page(FileMetadataQueryCriteria criteria) {
         FileMetadataQuery query = metadataQueryProvider.getIfAvailable();
         if (query == null) {
             return new Result<>(HttpStatus.NOT_IMPLEMENTED.value(), null,
                     "未提供 FileMetadataQuery，列表能力不可用。请引入 qof-persistence-mysql 或自行实现 FileMetadataQuery");
         }
-        FileMetadataQueryCriteria criteria = new FileMetadataQueryCriteria();
-        criteria.setPageNum(pageNum);
-        criteria.setPageSize(pageSize);
-        criteria.setFileName(fileName);
-        criteria.setFileStorageMode(fileStorageMode);
-        criteria.setFileStorageStation(fileStorageStation);
         PageResult<FileMetadata> page = query.page(criteria);
         return new Result<>(HttpStatus.OK.value(), new ResultTable<>(page.getRecords(), page.getTotal()), "查询成功");
     }

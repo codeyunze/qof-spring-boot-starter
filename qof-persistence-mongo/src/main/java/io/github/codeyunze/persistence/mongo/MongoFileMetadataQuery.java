@@ -44,6 +44,12 @@ public class MongoFileMetadataQuery implements FileMetadataQuery {
         if (StringUtils.hasText(criteria.getFileStorageStation())) {
             andList.add(Criteria.where("file_storage_station").is(criteria.getFileStorageStation().trim()));
         }
+        if (criteria.getCreateTimeFrom() != null) {
+            andList.add(Criteria.where("create_time").gte(criteria.getCreateTimeFrom()));
+        }
+        if (criteria.getCreateTimeTo() != null) {
+            andList.add(Criteria.where("create_time").lte(criteria.getCreateTimeTo()));
+        }
 
         Query query = new Query(new Criteria().andOperator(andList.toArray(new Criteria[0])));
         long total = mongoTemplate.count(query, SysFilesDocument.class);
