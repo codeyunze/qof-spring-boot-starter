@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 760" width="1120" height="760">
+  <defs>
+    <marker id="arrowA" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowB" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowC" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowE" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowF" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#9ca3af"/>
+    </marker>
+    <marker id="arrowG" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#9ca3af"/>
+    </marker>
+    <marker id="arrowH" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#d1d5db"/>
+    </marker>
+    <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; }
+    .title { font-size: 18px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; font-weight: 500; fill: #9ca3af; }
+    .section { font-size: 13px; font-weight: 700; fill: #9ca3af; letter-spacing: 1.4px; }
+    .section-sub { font-size: 12px; font-weight: 500; fill: #d1d5db; }
+    .node-title { font-size: 14px; font-weight: 700; fill: #111827; }
+    .node-sub { font-size: 12px; font-weight: 500; fill: #374151; }
+    .node-type { font-size: 11px; font-weight: 700; fill: #9ca3af; letter-spacing: 0.08em; }
+    .arrow-label { font-size: 12px; font-weight: 600; fill: #6b7280; }
+    .legend { font-size: 12px; font-weight: 500; fill: #6b7280; }
+    .footnote { font-size: 12px; font-weight: 500; fill: #9ca3af; }
+    </style>
+  </defs>
+  <rect width="1120.0" height="760.0" fill="#ffffff"/>
+  <text x="48.0" y="48" text-anchor="start" class="title">QOF 架构</text>
+  <text x="48.0" y="72" text-anchor="start" class="subtitle">17.3.1  ·  按依赖裁剪的文件对象存储门面</text>
+  <rect x="40.0" y="84.0" width="1040.0" height="96.0" rx="4.0" fill="none" stroke="#e5e7eb" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="58.0" y="108.0" class="section">01 // ACCESS</text>
+  <rect x="40.0" y="220.0" width="1040.0" height="120.0" rx="4.0" fill="none" stroke="#e5e7eb" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="58.0" y="244.0" class="section">02 // CORE</text>
+  <rect x="40.0" y="392.0" width="1040.0" height="104.0" rx="4.0" fill="none" stroke="#e5e7eb" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="58.0" y="416.0" class="section">03 // STORAGE</text>
+  <rect x="40.0" y="544.0" width="1040.0" height="120.0" rx="4.0" fill="none" stroke="#e5e7eb" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="58.0" y="568.0" class="section">04 // METADATA</text>
+  <path d="M 168.0,164.0 L 168.0,260.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)"/>
+  <path d="M 432.0,164.0 L 432.0,260.0" fill="none" stroke="#9ca3af" stroke-width="1.8" marker-end="url(#arrowF)" stroke-dasharray="6,4"/>
+  <path d="M 256.0,288.0 L 344.0,288.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)"/>
+  <path d="M 520.0,288.0 L 608.0,288.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)"/>
+  <path d="M 520.0,288.0 L 560.0,288.0 L 560.0,240.0 L 960.0,240.0 L 960.0,260.0 L 872.0,288.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)"/>
+  <path d="M 696.0,316.0 L 696.0,356.0 L 168.0,356.0 L 168.0,432.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)"/>
+  <path d="M 696.0,316.0 L 696.0,356.0 L 432.0,356.0 L 432.0,432.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)"/>
+  <path d="M 696.0,316.0 L 696.0,432.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)"/>
+  <path d="M 696.0,316.0 L 696.0,356.0 L 960.0,356.0 L 960.0,432.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)"/>
+  <path d="M 960.0,316.0 L 1064.0,316.0 L 1064.0,524.0 L 168.0,524.0 L 168.0,576.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)" stroke-dasharray="6,4"/>
+  <path d="M 960.0,316.0 L 1064.0,316.0 L 1064.0,524.0 L 432.0,524.0 L 432.0,576.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)" stroke-dasharray="6,4"/>
+  <path d="M 960.0,316.0 L 1064.0,316.0 L 1064.0,524.0 L 696.0,524.0 L 696.0,588.0" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)" stroke-dasharray="6,4"/>
+  <rect x="80.0" y="116.0" width="176.0" height="48.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.8"/>
+  <text x="168.0" y="134.0" text-anchor="middle" class="node-type">HOST</text>
+  <text x="168.0" y="146.0" text-anchor="middle" class="node-title">业务 SDK</text>
+  <rect x="344.0" y="116.0" width="176.0" height="48.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.8"/>
+  <text x="432.0" y="134.0" text-anchor="middle" class="node-type">OPTIONAL</text>
+  <text x="432.0" y="146.0" text-anchor="middle" class="node-title">FileController</text>
+  <rect x="80.0" y="260.0" width="176.0" height="56.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="2.0"/>
+  <rect x="86.0" y="266.0" width="164.0" height="44.0" rx="4" fill="none" stroke="#e5e7eb" stroke-width="1.2" opacity="0.65"/>
+  <text x="168.0" y="278.0" text-anchor="middle" class="node-type">FACADE</text>
+  <text x="168.0" y="294.0" text-anchor="middle" class="node-title">ClientFactory</text>
+  <rect x="344.0" y="260.0" width="176.0" height="56.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="2.0"/>
+  <rect x="350.0" y="266.0" width="164.0" height="44.0" rx="4" fill="none" stroke="#e5e7eb" stroke-width="1.2" opacity="0.65"/>
+  <text x="432.0" y="278.0" text-anchor="middle" class="node-type">FACADE</text>
+  <text x="432.0" y="294.0" text-anchor="middle" class="node-title">QofClient</text>
+  <rect x="608.0" y="260.0" width="176.0" height="56.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.8"/>
+  <text x="696.0" y="278.0" text-anchor="middle" class="node-type">SPI</text>
+  <text x="696.0" y="294.0" text-anchor="middle" class="node-title">StorageProvider</text>
+  <rect x="872.0" y="260.0" width="176.0" height="56.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.8"/>
+  <text x="960.0" y="278.0" text-anchor="middle" class="node-type">SPI</text>
+  <text x="960.0" y="294.0" text-anchor="middle" class="node-title">MetadataRepo</text>
+  <rect x="80.0" y="432.0" width="176.0" height="48.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.8"/>
+  <text x="168.0" y="450.0" text-anchor="middle" class="node-type">LOCAL</text>
+  <text x="168.0" y="462.0" text-anchor="middle" class="node-title">storage-local</text>
+  <rect x="344.0" y="432.0" width="176.0" height="48.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.8"/>
+  <text x="432.0" y="450.0" text-anchor="middle" class="node-type">COS</text>
+  <text x="432.0" y="462.0" text-anchor="middle" class="node-title">storage-cos</text>
+  <rect x="608.0" y="432.0" width="176.0" height="48.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.8"/>
+  <text x="696.0" y="450.0" text-anchor="middle" class="node-type">OSS</text>
+  <text x="696.0" y="462.0" text-anchor="middle" class="node-title">storage-oss</text>
+  <rect x="872.0" y="432.0" width="176.0" height="48.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.8"/>
+  <text x="960.0" y="450.0" text-anchor="middle" class="node-type">S3</text>
+  <text x="960.0" y="462.0" text-anchor="middle" class="node-title">storage-s3</text>
+  <ellipse cx="168.0" cy="584.5" rx="32.0" ry="8.5" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.2"/>
+  <rect x="104.0" y="584.5" width="128.0" height="51.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.2"/>
+  <ellipse cx="168.0" cy="635.5" rx="32.0" ry="8.5" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.2"/>
+  <ellipse cx="168.0" cy="601.84" rx="32.0" ry="8.5" fill="none" stroke="#e5e7eb" stroke-opacity="0.45" stroke-width="1.2"/>
+  <ellipse cx="168.0" cy="616.8" rx="32.0" ry="8.5" fill="none" stroke="#e5e7eb" stroke-opacity="0.25" stroke-width="1.2"/>
+  <text x="168.0" y="604.0" text-anchor="middle" class="node-title">MySQL</text>
+  <ellipse cx="432.0" cy="584.5" rx="32.0" ry="8.5" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.2"/>
+  <rect x="368.0" y="584.5" width="128.0" height="51.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.2"/>
+  <ellipse cx="432.0" cy="635.5" rx="32.0" ry="8.5" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.2"/>
+  <ellipse cx="432.0" cy="601.84" rx="32.0" ry="8.5" fill="none" stroke="#e5e7eb" stroke-opacity="0.45" stroke-width="1.2"/>
+  <ellipse cx="432.0" cy="616.8" rx="32.0" ry="8.5" fill="none" stroke="#e5e7eb" stroke-opacity="0.25" stroke-width="1.2"/>
+  <text x="432.0" y="604.0" text-anchor="middle" class="node-title">MongoDB</text>
+  <rect x="608.0" y="588.0" width="176.0" height="48.0" rx="4.0" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.8"/>
+  <text x="696.0" y="606.0" text-anchor="middle" class="node-type">SPI</text>
+  <text x="696.0" y="618.0" text-anchor="middle" class="node-title">自建仓储</text>
+  <rect x="132.0" y="198.0" width="36" height="20" rx="6" fill="#ffffff" opacity="0.96"/>
+  <text x="150.0" y="212.0" text-anchor="middle" class="arrow-label">SDK</text>
+  <rect x="382.5" y="198.0" width="63" height="20" rx="6" fill="#ffffff" opacity="0.96"/>
+  <text x="414.0" y="212.0" text-anchor="middle" class="arrow-label">可选 HTTP</text>
+  <rect x="272.0" y="298.0" width="56" height="20" rx="6" fill="#ffffff" opacity="0.96"/>
+  <text x="300.0" y="312.0" text-anchor="middle" class="arrow-label">mode()</text>
+  <rect x="732.0" y="198.0" width="56" height="20" rx="6" fill="#ffffff" opacity="0.96"/>
+  <text x="760.0" y="212.0" text-anchor="middle" class="arrow-label">fileId</text>
+  <line x1="40.0" y1="686.0" x2="70.0" y2="686.0" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)"/>
+  <text x="80.0" y="690.0" class="legend">主调用 / 存储选型</text>
+  <line x1="40.0" y1="708.0" x2="70.0" y2="708.0" stroke="#9ca3af" stroke-width="1.8" marker-end="url(#arrowF)"/>
+  <text x="80.0" y="712.0" class="legend">可选 HTTP</text>
+  <line x1="40.0" y1="730.0" x2="70.0" y2="730.0" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrowA)" stroke-dasharray="6,4"/>
+  <text x="80.0" y="734.0" class="legend">元数据落库</text>
+</svg>

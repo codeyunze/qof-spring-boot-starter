@@ -1,0 +1,307 @@
+{
+  "template_type": "architecture",
+  "style": 4,
+  "width": 1120,
+  "height": 760,
+  "title": "QOF 架构",
+  "subtitle": "17.3.1  ·  按依赖裁剪的文件对象存储门面",
+  "style_overrides": {
+    "title_divider": false,
+    "section_dash": "4 3"
+  },
+  "containers": [
+    {
+      "x": 40,
+      "y": 84,
+      "width": 1040,
+      "height": 96,
+      "label": "ACCESS",
+      "header_prefix": "01",
+      "stroke_dasharray": "4 3"
+    },
+    {
+      "x": 40,
+      "y": 220,
+      "width": 1040,
+      "height": 120,
+      "label": "CORE",
+      "header_prefix": "02",
+      "stroke_dasharray": "4 3"
+    },
+    {
+      "x": 40,
+      "y": 392,
+      "width": 1040,
+      "height": 104,
+      "label": "STORAGE",
+      "header_prefix": "03",
+      "stroke_dasharray": "4 3"
+    },
+    {
+      "x": 40,
+      "y": 544,
+      "width": 1040,
+      "height": 120,
+      "label": "METADATA",
+      "header_prefix": "04",
+      "stroke_dasharray": "4 3"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "host",
+      "kind": "rect",
+      "x": 80,
+      "y": 116,
+      "width": 176,
+      "height": 48,
+      "label": "业务 SDK",
+      "type_label": "HOST",
+      "flat": true
+    },
+    {
+      "id": "http",
+      "kind": "rect",
+      "x": 344,
+      "y": 116,
+      "width": 176,
+      "height": 48,
+      "label": "FileController",
+      "type_label": "OPTIONAL",
+      "flat": true
+    },
+    {
+      "id": "factory",
+      "kind": "double_rect",
+      "x": 80,
+      "y": 260,
+      "width": 176,
+      "height": 56,
+      "label": "ClientFactory",
+      "type_label": "FACADE"
+    },
+    {
+      "id": "client",
+      "kind": "double_rect",
+      "x": 344,
+      "y": 260,
+      "width": 176,
+      "height": 56,
+      "label": "QofClient",
+      "type_label": "FACADE"
+    },
+    {
+      "id": "provider",
+      "kind": "rect",
+      "x": 608,
+      "y": 260,
+      "width": 176,
+      "height": 56,
+      "label": "StorageProvider",
+      "type_label": "SPI",
+      "flat": true
+    },
+    {
+      "id": "repo",
+      "kind": "rect",
+      "x": 872,
+      "y": 260,
+      "width": 176,
+      "height": 56,
+      "label": "MetadataRepo",
+      "type_label": "SPI",
+      "flat": true
+    },
+    {
+      "id": "local",
+      "kind": "rect",
+      "x": 80,
+      "y": 432,
+      "width": 176,
+      "height": 48,
+      "label": "storage-local",
+      "type_label": "LOCAL",
+      "flat": true
+    },
+    {
+      "id": "cos",
+      "kind": "rect",
+      "x": 344,
+      "y": 432,
+      "width": 176,
+      "height": 48,
+      "label": "storage-cos",
+      "type_label": "COS",
+      "flat": true
+    },
+    {
+      "id": "oss",
+      "kind": "rect",
+      "x": 608,
+      "y": 432,
+      "width": 176,
+      "height": 48,
+      "label": "storage-oss",
+      "type_label": "OSS",
+      "flat": true
+    },
+    {
+      "id": "s3",
+      "kind": "rect",
+      "x": 872,
+      "y": 432,
+      "width": 176,
+      "height": 48,
+      "label": "storage-s3",
+      "type_label": "S3",
+      "flat": true
+    },
+    {
+      "id": "mysql",
+      "kind": "cylinder",
+      "x": 104,
+      "y": 576,
+      "width": 128,
+      "height": 68,
+      "label": "MySQL",
+      "fill": "#f9fafb",
+      "stroke": "#e5e7eb",
+      "stroke_width": 1.2
+    },
+    {
+      "id": "mongo",
+      "kind": "cylinder",
+      "x": 368,
+      "y": 576,
+      "width": 128,
+      "height": 68,
+      "label": "MongoDB",
+      "fill": "#f9fafb",
+      "stroke": "#e5e7eb",
+      "stroke_width": 1.2
+    },
+    {
+      "id": "custom",
+      "kind": "rect",
+      "x": 608,
+      "y": 588,
+      "width": 176,
+      "height": 48,
+      "label": "自建仓储",
+      "type_label": "SPI",
+      "flat": true
+    }
+  ],
+  "arrows": [
+    {
+      "source": "host",
+      "target": "factory",
+      "source_port": "bottom",
+      "target_port": "top",
+      "flow": "read",
+      "label": "SDK"
+    },
+    {
+      "source": "http",
+      "target": "client",
+      "source_port": "bottom",
+      "target_port": "top",
+      "flow": "async",
+      "dashed": true,
+      "label": "可选 HTTP"
+    },
+    {
+      "source": "factory",
+      "target": "client",
+      "source_port": "right",
+      "target_port": "left",
+      "flow": "control",
+      "label": "mode()",
+      "label_dy": 36
+    },
+    {
+      "source": "client",
+      "target": "provider",
+      "source_port": "right",
+      "target_port": "left",
+      "flow": "control"
+    },
+    {
+      "source": "client",
+      "target": "repo",
+      "source_port": "right",
+      "target_port": "left",
+      "flow": "read",
+      "label": "fileId",
+      "route_points": [[560, 288], [560, 240], [960, 240], [960, 260]]
+    },
+    {
+      "source": "provider",
+      "target": "local",
+      "source_port": "bottom",
+      "target_port": "top",
+      "flow": "data",
+      "route_points": [[696, 356], [168, 356], [168, 432]]
+    },
+    {
+      "source": "provider",
+      "target": "cos",
+      "source_port": "bottom",
+      "target_port": "top",
+      "flow": "data",
+      "route_points": [[696, 356], [432, 356], [432, 432]]
+    },
+    {
+      "source": "provider",
+      "target": "oss",
+      "source_port": "bottom",
+      "target_port": "top",
+      "flow": "data"
+    },
+    {
+      "source": "provider",
+      "target": "s3",
+      "source_port": "bottom",
+      "target_port": "top",
+      "flow": "data",
+      "route_points": [[696, 356], [960, 356], [960, 432]]
+    },
+    {
+      "source": "repo",
+      "target": "mysql",
+      "source_port": "bottom",
+      "target_port": "top",
+      "flow": "write",
+      "dashed": true,
+      "route_points": [[1064, 316], [1064, 524], [168, 524], [168, 576]]
+    },
+    {
+      "source": "repo",
+      "target": "mongo",
+      "source_port": "bottom",
+      "target_port": "top",
+      "flow": "write",
+      "dashed": true,
+      "route_points": [[1064, 316], [1064, 524], [432, 524], [432, 576]]
+    },
+    {
+      "source": "repo",
+      "target": "custom",
+      "source_port": "bottom",
+      "target_port": "top",
+      "flow": "write",
+      "dashed": true,
+      "route_points": [[1064, 316], [1064, 524], [696, 524], [696, 588]]
+    }
+  ],
+  "legend": [
+    { "flow": "read", "label": "主调用 / 存储选型" },
+    { "flow": "async", "label": "可选 HTTP" },
+    { "flow": "write", "label": "元数据落库" }
+  ],
+  "legend_position": "bottom-left",
+  "legend_box": false,
+  "legend_x": 40,
+  "legend_y": 686,
+  "footer": ""
+}
