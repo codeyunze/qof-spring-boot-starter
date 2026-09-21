@@ -1,5 +1,18 @@
 ## 17.3.2 — 2026-09-21
 
+相对 17.3.1 的功能补全：批量预览地址与列表创建时间筛选。
+
+### Added
+- `QofClient.getFilePreviewByFileIds`：按文件 ID 批量拼接预览地址（`qof.preview-address` 或各存储站 `preview-address` + 文件路径）；返回列表与入参顺序、长度一致
+- `FileMetadataQuery.listByIds`：按 ID 批量查询完整元数据（含 `filePath`），供预览地址生成；无查询 SPI 时回落逐条 `findById`
+- 分页条件 `createTimeFrom` / `createTimeTo`（`yyyy-MM-dd HH:mm:ss`，闭区间）；MySQL / Mongo 列表查询均生效
+
+### Changed
+- `/file/page` 改为绑定 `FileMetadataQueryCriteria`，时间区间随查询参数自动解析
+- local / cos / oss / s3 客户端优先使用存储站 `preview-address`，未配置时回落全局前缀
+
+## 17.3.1 — 2026-09-20
+
 17.3.0 仅作为 SNAPSHOT 演进，未单独发版；本版本为 17.3.x 首个正式发布。
 
 ### Added
@@ -16,7 +29,7 @@
 - `qof-spring-boot-starter-web` 不传递 persistence；本版本起传递 `qof-storage-local`，便于本地盘开箱
 - 演示工程默认 **Local + MySQL + Web**；Mongo 依赖与配置以注释示例保留
 - 发布插件升级：`maven-gpg-plugin` 3.2.8、`central-publishing-maven-plugin` 0.11.0
-- 版本 **17.3.2**
+- 版本 **17.3.1**
 
 ### Removed
 - 独立模块 `qof-spi`、`qof-spring-boot-starter`、`qof-spring-boot-starter-cos` / `oss` / `s3` / `persistence`
