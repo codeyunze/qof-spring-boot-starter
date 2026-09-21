@@ -11,6 +11,9 @@ import io.github.codeyunze.metadata.FileMetadataQueryCriteria;
 import io.github.codeyunze.metadata.PageResult;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -45,6 +48,7 @@ public class MysqlFileMetadataQuery implements FileMetadataQuery {
                 SysFilesEntity::getCreateId
         );
 
+        // 条件参数会立即求值，空条件不能写在 like/eq 的第三个参数里
         if (StringUtils.hasText(criteria.getFileName())) {
             wrapper.like(SysFilesEntity::getFileName, criteria.getFileName().trim());
         }
@@ -62,5 +66,21 @@ public class MysqlFileMetadataQuery implements FileMetadataQuery {
                 entityPage.getCurrent(),
                 entityPage.getSize()
         );
+    }
+
+    @Override
+    public List<FileMetadata> listByIds(List<Long> fileIds) {
+        if (fileIds == null || fileIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Long> ids = fileIds.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<SysFilesEntity> entities = mapper.selectByIds(ids);
+        if (entities == null || entities.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return entities.stream().map(MysqlFileMetadataRepository::toMetadata).collect(Collectors.toList());
     }
 }

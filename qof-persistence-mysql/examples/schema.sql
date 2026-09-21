@@ -1,5 +1,5 @@
 -- QOF 文件元数据表
--- 引入 qof-spring-boot-starter-persistence-mysql 后使用
+-- 引入 qof-persistence-mysql 后使用
 
 CREATE TABLE IF NOT EXISTS `sys_files` (
     `id`                   bigint       NOT NULL COMMENT '主键标识',

@@ -4,6 +4,7 @@ import io.github.codeyunze.bo.QofFileDownloadBo;
 import io.github.codeyunze.dto.QofFileInfoDto;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * QOF 客户端操作接口
@@ -47,4 +48,15 @@ public interface QofClient {
      * @return true: 删除成功；  false: 删除失败；
      */
     boolean delete(Long fileId);
+
+    /**
+     * 批量获取文件预览地址。
+     * <p>
+     * 由 {@code qof.preview-address} 或各存储站 {@code preview-address} 与文件路径拼接而成。
+     * 返回列表与入参顺序、长度一致；文件不存在或未配置预览地址时对应元素为 {@code null}。
+     *
+     * @param fileIds 文件 ID
+     * @return 文件预览地址
+     */
+    List<String> getFilePreviewByFileIds(List<Long> fileIds);
 }

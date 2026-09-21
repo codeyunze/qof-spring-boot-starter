@@ -6,10 +6,10 @@
     <parent>
         <groupId>io.github.codeyunze</groupId>
         <artifactId>qof-parent</artifactId>
-        <version>17.3.1</version>
+        <version>17.3.2-SNAPSHOT</version>
     </parent>
     <artifactId>qof-persistence-mysql</artifactId>
-    <name>qof-spring-boot-starter-persistence-mysql</name>
+    <name>qof-persistence-mysql</name>
     <description>QOF MySQL 元数据持久化 Starter（实现 + 自动配置）</description>
     <dependencies>
         <dependency>

@@ -12,6 +12,7 @@ import io.github.codeyunze.exception.FileUploadException;
 import io.github.codeyunze.exception.TypeNotSupportedException;
 import io.github.codeyunze.utils.FileMetadataConverters;
 import io.github.codeyunze.lifecycle.FileLifecycleListener;
+import io.github.codeyunze.metadata.FileMetadataQuery;
 import io.github.codeyunze.metadata.FileMetadataRepository;
 import io.github.codeyunze.lifecycle.DeleteContext;
 import io.github.codeyunze.lifecycle.DownloadContext;
@@ -19,6 +20,8 @@ import io.github.codeyunze.lifecycle.UploadContext;
 import io.github.codeyunze.metadata.FileMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.util.StringUtils;
 
 import jakarta.annotation.Resource;
 import java.io.BufferedInputStream;
@@ -26,7 +29,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -47,6 +52,9 @@ public abstract class AbstractQofClient implements QofClient {
 
     @Resource
     private CoreFileValidationService coreFileValidationService;
+
+    @Resource
+    private ObjectProvider<FileMetadataQuery> metadataQueryProvider;
 
     public AbstractQofClient(FileMetadataRepository metadataRepository,
                              List<FileLifecycleListener> lifecycleListeners) {
@@ -181,15 +189,120 @@ public abstract class AbstractQofClient implements QofClient {
         return true;
     }
 
+    /**
+     * 批量获取文件预览地址。
+     * <p>
+     * 优先通过 {@link FileMetadataQuery#listByIds(List)} 一次查出元数据，未提供查询 SPI 时回落逐条 {@code findById}。
+     * 返回列表与入参顺序、长度一致；文件不存在或未配置预览地址时对应元素为 {@code null}。
+     */
+    @Override
+    public List<String> getFilePreviewByFileIds(List<Long> fileIds) {
+        if (fileIds == null || fileIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Map<Long, FileMetadata> metadataMap = loadMetadataByIds(fileIds);
+        List<String> previewUrls = new ArrayList<>(fileIds.size());
+        for (Long fileId : fileIds) {
+            previewUrls.add(buildPreviewUrl(fileId == null ? null : metadataMap.get(fileId)));
+        }
+        return previewUrls;
+    }
+
+    /**
+     * 批量加载元数据；有 {@link FileMetadataQuery} 时走 {@code listByIds}，否则逐条查询。
+     */
+    private Map<Long, FileMetadata> loadMetadataByIds(List<Long> fileIds) {
+        FileMetadataQuery query = metadataQueryProvider != null ? metadataQueryProvider.getIfAvailable() : null;
+        if (query != null) {
+            List<FileMetadata> records = query.listByIds(fileIds);
+            Map<Long, FileMetadata> metadataMap = new HashMap<>();
+            if (records != null) {
+                for (FileMetadata metadata : records) {
+                    if (metadata != null && metadata.getFileId() != null) {
+                        metadataMap.put(metadata.getFileId(), metadata);
+                    }
+                }
+            }
+            return metadataMap;
+        }
+
+        Map<Long, FileMetadata> metadataMap = new HashMap<>();
+        for (Long fileId : fileIds) {
+            if (fileId == null || metadataMap.containsKey(fileId)) {
+                continue;
+            }
+            metadataRepository.findById(fileId).ifPresent(metadata -> metadataMap.put(fileId, metadata));
+        }
+        return metadataMap;
+    }
+
+    /**
+     * 按配置的预览地址前缀拼接文件路径。
+     * <p>
+     * 元数据不存在、路径为空或未配置预览地址时返回 {@code null}。
+     */
+    private String buildPreviewUrl(FileMetadata metadata) {
+        if (metadata == null || !StringUtils.hasText(metadata.getFilePath())) {
+            return null;
+        }
+        QofFileInfoBo<?> fileBo = FileMetadataConverters.toBo(metadata);
+        String previewAddress = resolvePreviewAddress(fileBo);
+        if (!StringUtils.hasText(previewAddress)) {
+            log.warn("未配置文件预览地址，无法生成预览链接, fileId={}", metadata.getFileId());
+            return null;
+        }
+        return joinPreviewUrl(previewAddress, metadata.getFilePath());
+    }
+
+    /**
+     * 解析预览地址前缀。默认使用 {@code qof.preview-address}，存储实现可覆盖为存储站配置。
+     */
+    protected String resolvePreviewAddress(QofFileInfoBo<?> fileBo) {
+        return qofProperties != null ? qofProperties.getPreviewAddress() : null;
+    }
+
+    private String joinPreviewUrl(String previewAddress, String filePath) {
+        String prefix = previewAddress.endsWith("/")
+                ? previewAddress.substring(0, previewAddress.length() - 1)
+                : previewAddress;
+        String path = filePath.startsWith("/") ? filePath : "/" + filePath;
+        return prefix + path;
+    }
+
     private QofFileInfoBo<?> requireFileBo(Long fileId) {
         FileMetadata metadata = metadataRepository.findById(fileId)
                 .orElseThrow(() -> new DataNotExistException("文件信息不存在"));
         return FileMetadataConverters.toBo(metadata);
     }
 
+    /**
+     * 将文件写入具体对象存储。
+     * <p>
+     * 模板方法 {@link #upload} 已完成校验、路径生成与生命周期回调，实现类只需负责落盘 / 上传。
+     *
+     * @param fis  已完成前置校验的文件流
+     * @param info 上传文件信息（含 fileId、filePath、存储站等）
+     * @return 文件唯一 id
+     */
     protected abstract Long doUpload(InputStream fis, QofFileInfoDto<?> info);
 
+    /**
+     * 从具体对象存储读取文件流。
+     * <p>
+     * {@link #download} 与 {@link #preview} 共用本方法；调用方负责关闭返回的输入流。
+     *
+     * @param fileBo 已从元数据加载的文件信息
+     * @return 下载结果（含输入流、文件名、大小、类型）
+     */
     protected abstract QofFileDownloadBo doDownload(QofFileInfoBo<?> fileBo);
 
+    /**
+     * 从具体对象存储删除文件对象。
+     * <p>
+     * 模板方法 {@link #delete} 负责元数据与生命周期；对象删除失败时由模板方法记录日志，实现类无需补偿元数据。
+     *
+     * @param fileBo 已从元数据加载的文件信息
+     * @return {@code true} 对象删除成功；{@code false} 对象删除失败
+     */
     protected abstract boolean doDelete(QofFileInfoBo<?> fileBo);
 }

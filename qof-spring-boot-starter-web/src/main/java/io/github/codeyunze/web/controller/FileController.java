@@ -81,7 +81,7 @@ public class FileController {
         FileMetadataQuery query = metadataQueryProvider.getIfAvailable();
         if (query == null) {
             return new Result<>(HttpStatus.NOT_IMPLEMENTED.value(), null,
-                    "未提供 FileMetadataQuery，列表能力不可用。请引入 qof-spring-boot-starter-persistence-mysql 或自行实现 FileMetadataQuery");
+                    "未提供 FileMetadataQuery，列表能力不可用。请引入 qof-persistence-mysql 或自行实现 FileMetadataQuery");
         }
         FileMetadataQueryCriteria criteria = new FileMetadataQueryCriteria();
         criteria.setPageNum(pageNum);

@@ -24,7 +24,7 @@ mybatis-plus:
 #    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 
 # 主路径演示：Local + MySQL 元数据 + 内置 HTTP
-# 建表见 qof-spring-boot-starter-persistence-mysql/examples/schema.sql
+# 建表见 qof-persistence-mysql/examples/schema.sql
 qof:
   web:
     enabled: true

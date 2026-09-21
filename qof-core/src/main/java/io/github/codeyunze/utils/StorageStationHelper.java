@@ -95,5 +95,25 @@ public class StorageStationHelper {
 
         return value;
     }
+
+    /**
+     * 读取可选配置（如预览地址）。存储站缺失时回落父配置，不抛异常。
+     */
+    public static <T, R> R getOptionalConfigValue(QofFileOperationBase fileOperationBase,
+                                                  Map<String, T> multiple,
+                                                  String defaultStation,
+                                                  Function<Void, R> parentValueGetter,
+                                                  Function<T, R> configValueGetter) {
+        if (CollectionUtils.isEmpty(multiple)) {
+            return parentValueGetter.apply(null);
+        }
+        String storageStation = getStorageStation(fileOperationBase, multiple, defaultStation);
+        T config = multiple.get(storageStation);
+        if (config == null) {
+            return parentValueGetter.apply(null);
+        }
+        R value = configValueGetter.apply(config);
+        return value != null ? value : parentValueGetter.apply(null);
+    }
 }
 

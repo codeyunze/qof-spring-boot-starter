@@ -1,4 +1,4 @@
-## 17.3.1 — 2026-09-21
+## 17.3.2 — 2026-09-21
 
 17.3.0 仅作为 SNAPSHOT 演进，未单独发版；本版本为 17.3.x 首个正式发布。
 
@@ -16,7 +16,7 @@
 - `qof-spring-boot-starter-web` 不传递 persistence；本版本起传递 `qof-storage-local`，便于本地盘开箱
 - 演示工程默认 **Local + MySQL + Web**；Mongo 依赖与配置以注释示例保留
 - 发布插件升级：`maven-gpg-plugin` 3.2.8、`central-publishing-maven-plugin` 0.11.0
-- 版本 **17.3.1**
+- 版本 **17.3.2**
 
 ### Removed
 - 独立模块 `qof-spi`、`qof-spring-boot-starter`、`qof-spring-boot-starter-cos` / `oss` / `s3` / `persistence`

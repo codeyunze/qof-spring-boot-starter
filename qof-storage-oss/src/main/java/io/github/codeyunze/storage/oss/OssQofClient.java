@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.util.StringUtils;
 
 import jakarta.annotation.Resource;
 import java.io.IOException;
@@ -62,6 +63,18 @@ public class OssQofClient extends AbstractQofClient implements ObjectStorageProv
     public OssQofClient(FileMetadataRepository metadataRepository,
                         java.util.List<FileLifecycleListener> lifecycleListeners) {
         super(metadataRepository, lifecycleListeners);
+    }
+
+    @Override
+    protected String resolvePreviewAddress(QofFileInfoBo<?> fileBo) {
+        String address = StorageStationHelper.getOptionalConfigValue(
+                fileBo,
+                fileProperties.getMultiple(),
+                fileProperties.getDefaultStorageStation(),
+                (v) -> fileProperties.getPreviewAddress(),
+                OssQofConfig::getPreviewAddress
+        );
+        return StringUtils.hasText(address) ? address : super.resolvePreviewAddress(fileBo);
     }
 
     private OSS getClient(QofFileOperationBase fileOperationBase) {

@@ -1,4 +1,4 @@
-# qof-spring-boot-starter-persistence-mysql
+# qof-persistence-mysql
 
 MySQL 元数据持久化（实现 + 自动配置同模块）。
 
@@ -14,7 +14,7 @@ MySQL 元数据持久化（实现 + 自动配置同模块）。
 </dependency>
 <dependency>
   <groupId>io.github.codeyunze</groupId>
-  <artifactId>qof-spring-boot-starter-persistence-mysql</artifactId>
+  <artifactId>qof-persistence-mysql</artifactId>
   <version>${qof.version}</version>
 </dependency>
 ```

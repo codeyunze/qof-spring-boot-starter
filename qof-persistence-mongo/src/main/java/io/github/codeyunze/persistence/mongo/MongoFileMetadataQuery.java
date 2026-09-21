@@ -12,7 +12,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -66,6 +68,21 @@ public class MongoFileMetadataQuery implements FileMetadataQuery {
                 .map(MongoFileMetadataRepository::toMetadata)
                 .collect(Collectors.toList());
         return new PageResult<>(records, total, pageNum, pageSize);
+    }
+
+    @Override
+    public List<FileMetadata> listByIds(List<Long> fileIds) {
+        if (fileIds == null || fileIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Long> ids = fileIds.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Query query = Query.query(Criteria.where("id").in(ids).and("invalid").is(0L));
+        return mongoTemplate.find(query, SysFilesDocument.class).stream()
+                .map(MongoFileMetadataRepository::toMetadata)
+                .collect(Collectors.toList());
     }
 
     private static String escapeRegex(String raw) {

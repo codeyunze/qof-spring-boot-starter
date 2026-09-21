@@ -44,7 +44,7 @@ public class QofConfiguration {
     public FileMetadataRepository missingFileMetadataRepository() {
         throw new BeanCreationException(
                 "未找到 FileMetadataRepository。"
-                        + "请引入 qof-spring-boot-starter-persistence-mysql，或自行实现并注册 FileMetadataRepository Bean。"
+                        + "请引入 qof-persistence-mysql，或自行实现并注册 FileMetadataRepository Bean。"
         );
     }
 

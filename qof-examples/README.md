@@ -7,7 +7,7 @@
 ```text
 qof-spring-boot-starter-web
 qof-storage-local
-qof-spring-boot-starter-persistence-mysql
+qof-persistence-mysql
 ```
 
 **不要**在本模块堆叠 cos / oss / s3；云存储请在业务工程按需引入对应 `qof-storage-*`。

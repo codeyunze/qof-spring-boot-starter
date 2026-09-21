@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.util.StringUtils;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
@@ -62,6 +63,18 @@ public class S3QofClient extends AbstractQofClient implements ObjectStorageProvi
     public S3QofClient(FileMetadataRepository metadataRepository,
                        java.util.List<FileLifecycleListener> lifecycleListeners) {
         super(metadataRepository, lifecycleListeners);
+    }
+
+    @Override
+    protected String resolvePreviewAddress(QofFileInfoBo<?> fileBo) {
+        String address = StorageStationHelper.getOptionalConfigValue(
+                fileBo,
+                fileProperties.getMultiple(),
+                fileProperties.getDefaultStorageStation(),
+                (v) -> fileProperties.getPreviewAddress(),
+                S3QofConfig::getPreviewAddress
+        );
+        return StringUtils.hasText(address) ? address : super.resolvePreviewAddress(fileBo);
     }
 
     private S3Client getClient(QofFileOperationBase fileOperationBase) {
